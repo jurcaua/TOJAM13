@@ -15,12 +15,8 @@ public class PlayerMovement : MonoBehaviour {
 	void Start () {
 		speed = speed / 100;
 	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
 
-		//moving
-
+	void Update () {
 		bool moving = false;
 
 		if (Input.GetKey (KeyCode.D)) {
@@ -55,10 +51,6 @@ public class PlayerMovement : MonoBehaviour {
 			}
 		}
 
-		transform.position += new Vector3 (xAcceleration, 0, 0);
-
-		//jumping
-
 		if (grounded) {
 			if (Input.GetKeyDown (KeyCode.W)) {
 				//GetComponent<Rigidbody2D> ().AddForce (Vector2.up * jumpForce);
@@ -72,29 +64,35 @@ public class PlayerMovement : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter2D(Collision2D coll) {
-		if (coll.gameObject.tag == "Ground") {
-			//grounded = true;
-			GetComponent<Rigidbody2D> ().mass = 1;
+	// Update is called once per frame
+	void FixedUpdate () {
 
-		}
+		//moving
+
+
+
+		transform.position += new Vector3 (xAcceleration, 0, 0);
+
+		//jumping
+
+
 	}
 
 	IEnumerator Jump() {
 		float x = 0;
-		float max = 10;
 		float originY = transform.position.y;
 
-		GetComponent<Rigidbody2D> ().simulated = false;
+		//GetComponent<Rigidbody2D> ().bodyType = RigidbodyType2D.Static;
 
 		while (!grounded) {
-			float y = 2 * x + (-1 / 2) * x * x;
-			x += 1f;
+			float y = (2.5f * x) - 0.5f * x * x;
+			x += 0.1f;
 
 			Debug.Log (y);
-			transform.position += new Vector3(0, y, 0);
-			//yield return new WaitForFixedUpdate ();
-			yield return new WaitForSeconds (1);
+			Vector3 t = transform.position;
+			transform.position = new Vector3(t.x, originY + y, t.z);
+			yield return new WaitForFixedUpdate ();
+			//yield return new WaitForSeconds (1);
 		}
 	}
 }
