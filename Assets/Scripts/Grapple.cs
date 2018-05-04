@@ -6,6 +6,8 @@ public class Grapple : MonoBehaviour {
 
     public float grapplePosInc = 0.5f;
     public float grappleSpeed = 0.05f;
+    public float grapplePullInc = 0.5f;
+    public float grapplePullSpeed = 0.05f;
 
     public LayerMask grappleIgnoreLayer;
 
@@ -13,8 +15,10 @@ public class Grapple : MonoBehaviour {
     private Vector2 arrowDirection;
 
     private Coroutine currentGrappleThrow = null;
+    private Coroutine currentGrapplePull = null;
     private DistanceJoint2D currentHook = null;
 
+    private Transform player;
     private Rigidbody2D playerR;
 
     private bool isSwinging { get { return currentHook != null && currentGrappleThrow == null; } }
@@ -23,6 +27,7 @@ public class Grapple : MonoBehaviour {
         grapple = GetComponent<LineRenderer>();
         grapple.positionCount = 2;
 
+        player = transform.parent;
         playerR = GetComponentInParent<Rigidbody2D>();
     }
 	
@@ -35,6 +40,14 @@ public class Grapple : MonoBehaviour {
         } else if (Input.GetMouseButtonUp(0)) {
             grapple.enabled = false;
             UnGrapple();
+        }
+
+        if (Input.GetMouseButton(0) && Input.GetMouseButtonDown(1)) {
+            currentGrapplePull = StartCoroutine(PullTo(currentHook.transform.position));
+
+        } else if (Input.GetMouseButtonUp(1) && currentGrapplePull != null) {
+            StopCoroutine(currentGrapplePull);
+            currentGrapplePull = null;
         }
 
         if (isSwinging) {
@@ -89,6 +102,18 @@ public class Grapple : MonoBehaviour {
         currentGrappleThrow = null;
 
         SecureHook(to);
+    }
+
+    IEnumerator PullTo(Vector2 pos) {
+        while (currentHook != null && currentHook.distance > 0.5f) {
+
+            player.position = player.position + (currentHook.transform.position - player.position) * grapplePullInc;
+            grapple.SetPosition(0, player.position);
+
+            yield return new WaitForSeconds(grapplePullSpeed);
+        }
+
+        currentGrapplePull = null;
     }
 
     void SecureHook(Vector2 at) {

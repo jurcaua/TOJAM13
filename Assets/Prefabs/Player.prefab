@@ -218,6 +218,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grapplePosInc: 0.5
   grappleSpeed: 0.01
+  grapplePullInc: 0.05
+  grapplePullSpeed: 0.05
   grappleIgnoreLayer:
     serializedVersion: 2
     m_Bits: 4294967039

@@ -523,6 +523,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grapplePosInc: 0.5
   grappleSpeed: 0.01
+  grapplePullInc: 0.5
+  grapplePullSpeed: 0.05
   grappleIgnoreLayer:
     serializedVersion: 2
     m_Bits: 4294967039
@@ -1033,6 +1035,16 @@ Prefab:
     - target: {fileID: 4021510432953132, guid: 36dfeca85f6c1714abcb8117316ad873, type: 2}
       propertyPath: m_RootOrder
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114053913960896776, guid: 36dfeca85f6c1714abcb8117316ad873,
+        type: 2}
+      propertyPath: grapplePullSpeed
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 114053913960896776, guid: 36dfeca85f6c1714abcb8117316ad873,
+        type: 2}
+      propertyPath: grapplePullInc
+      value: 0.02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 36dfeca85f6c1714abcb8117316ad873, type: 2}
