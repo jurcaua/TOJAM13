@@ -17,7 +17,7 @@ public class Grapple : MonoBehaviour {
 
     private Rigidbody2D playerR;
 
-    private bool isSwinging { get { return currentHook != null; } }
+    private bool isSwinging { get { return currentHook != null && currentGrappleThrow == null; } }
 
 	void Start () {
         grapple = GetComponent<LineRenderer>();
@@ -33,6 +33,7 @@ public class Grapple : MonoBehaviour {
             GrappleTo(arrowDirection);
 
         } else if (Input.GetMouseButtonUp(0)) {
+            grapple.enabled = false;
             UnGrapple();
         }
 
@@ -48,9 +49,10 @@ public class Grapple : MonoBehaviour {
     }
 
     void GrappleTo(Vector2 grappleDir) {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, grappleDir, 100, grappleIgnoreLayer);
+        grapple.enabled = true;
 
-        grapple.positionCount = 2;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, grappleDir, 100, grappleIgnoreLayer);
+        
         grapple.SetPosition(0, transform.position);
         grapple.SetPosition(1, hit.point);
 
@@ -69,8 +71,6 @@ public class Grapple : MonoBehaviour {
             StopCoroutine(currentGrappleThrow);
             currentGrappleThrow = null;
         }
-
-        grapple.positionCount = 0;
     }
 
     IEnumerator ThrowGrapple(Vector2 from, Vector2 to) {
