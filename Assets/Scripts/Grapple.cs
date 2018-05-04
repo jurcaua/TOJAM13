@@ -11,6 +11,8 @@ public class Grapple : MonoBehaviour {
 
     public LayerMask grappleIgnoreLayer;
 
+    public Transform arrow;
+
     private LineRenderer grapple;
     private Vector2 arrowDirection;
 
@@ -22,6 +24,7 @@ public class Grapple : MonoBehaviour {
     private Rigidbody2D playerR;
 
     private bool isSwinging { get { return currentHook != null && currentGrappleThrow == null; } }
+    private bool playerGrapple = false;
 
 	void Start () {
         grapple = GetComponent<LineRenderer>();
@@ -42,18 +45,28 @@ public class Grapple : MonoBehaviour {
             UnGrapple();
         }
 
-        if (Input.GetMouseButton(0) && Input.GetMouseButtonDown(1)) {
+        if (!playerGrapple && Input.GetMouseButton(0) && Input.GetMouseButtonDown(1) && currentHook != null) {
             currentGrapplePull = StartCoroutine(PullTo(currentHook.transform.position));
 
-        } else if (Input.GetMouseButtonUp(1) && currentGrapplePull != null) {
+        } else if (!playerGrapple && Input.GetMouseButtonUp(1) && currentGrapplePull != null) {
             StopCoroutine(currentGrapplePull);
             currentGrapplePull = null;
+        }
+
+        if (playerGrapple && Input.GetMouseButtonUp(1) && currentGrapplePull != null) {
+            StopCoroutine(currentGrapplePull);
+            currentGrapplePull = null;
+            //playerR.isKinematic = false;
+            //playerR.gravityScale = 1f;
+            playerR.simulated = true;
         }
 
         if (isSwinging) {
             grapple.SetPosition(0, currentHook.connectedBody.position);
             grapple.SetPosition(1, currentHook.transform.position);
         }
+
+        Debug.Log(playerGrapple);
     }
 
     void DirectionArrow() {
@@ -64,14 +77,17 @@ public class Grapple : MonoBehaviour {
     void GrappleTo(Vector2 grappleDir) {
         grapple.enabled = true;
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, grappleDir, 100, grappleIgnoreLayer);
-        
+        RaycastHit2D hit = Physics2D.Raycast(arrow.position, grappleDir, 100, grappleIgnoreLayer);
+
         grapple.SetPosition(0, transform.position);
         grapple.SetPosition(1, hit.point);
 
         UnGrapple();
 
         currentGrappleThrow = StartCoroutine(ThrowGrapple(transform.position, hit.point));
+        playerR.simulated = false;
+
+        playerGrapple = hit.collider.gameObject.tag == "Player";
     }
 
     void UnGrapple() {
@@ -101,19 +117,25 @@ public class Grapple : MonoBehaviour {
 
         currentGrappleThrow = null;
 
+        playerR.simulated = true;
+
         SecureHook(to);
     }
 
-    IEnumerator PullTo(Vector2 pos) {
+    IEnumerator PullTo(Vector2 pos, float speedMult = 1f) {
         while (currentHook != null && currentHook.distance > 0.5f) {
 
-            player.position = player.position + (currentHook.transform.position - player.position) * grapplePullInc;
+            player.position = player.position + (currentHook.transform.position - player.position) * grapplePullInc * speedMult;
             grapple.SetPosition(0, player.position);
 
             yield return new WaitForSeconds(grapplePullSpeed);
         }
 
         currentGrapplePull = null;
+        //playerR.isKinematic = false;
+        //playerR.gravityScale = 1f;
+        //playerR.mass = 1f;
+        playerR.simulated = true;
     }
 
     void SecureHook(Vector2 at) {
@@ -126,5 +148,13 @@ public class Grapple : MonoBehaviour {
         joint.maxDistanceOnly = false;
 
         currentHook = joint;
+
+        if (playerGrapple) {
+            //playerR.isKinematic = true;
+            //playerR.gravityScale = 0f;
+            //playerR.mass = 0f;
+            playerR.simulated = false;
+            currentGrapplePull = StartCoroutine(PullTo(currentHook.transform.position, 2f));
+        }
     }
 }
