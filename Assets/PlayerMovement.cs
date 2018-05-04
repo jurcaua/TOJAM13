@@ -11,6 +11,12 @@ public class PlayerMovement : MonoBehaviour {
 	public float maxAcceleration;
 
 	public bool grounded;
+	public bool falling;
+
+	public float fallMultipler;
+	public float lowJumpMultipler;
+	public KeyCode jumpButton;
+
 	// Use this for initialization
 	void Start () {
 		speed = speed / 100;
@@ -51,48 +57,42 @@ public class PlayerMovement : MonoBehaviour {
 			}
 		}
 
-		if (grounded) {
+		if (grounded & !falling) {
 			if (Input.GetKeyDown (KeyCode.W)) {
-				//GetComponent<Rigidbody2D> ().AddForce (Vector2.up * jumpForce);
 				grounded = false;
-				StartCoroutine (Jump());
+				GetComponent<Rigidbody2D> ().AddForce (Vector2.up * jumpForce);
 			}
-		} else if (GetComponent<Rigidbody2D> ().velocity.y < 0) {
-			//GetComponent<Rigidbody2D> ().mass = 10;
-			//GetComponent<Rigidbody2D> ().AddForce (Vector2.down * 100);
-
 		}
 	}
 
 	// Update is called once per frame
 	void FixedUpdate () {
-
-		//moving
-
-
-
 		transform.position += new Vector3 (xAcceleration, 0, 0);
+		Rigidbody2D r = GetComponent<Rigidbody2D> ();
 
-		//jumping
+		if (r.velocity.y < 0) {
+			r.velocity += Vector2.up * Physics2D.gravity.y * (fallMultipler - 1) * Time.fixedDeltaTime;
+		} 
 
-
-	}
-
-	IEnumerator Jump() {
-		float x = 0;
-		float originY = transform.position.y;
-
-		//GetComponent<Rigidbody2D> ().bodyType = RigidbodyType2D.Static;
-
-		while (!grounded) {
-			float y = (2.5f * x) - 0.5f * x * x;
-			x += 0.1f;
-
-			Debug.Log (y);
-			Vector3 t = transform.position;
-			transform.position = new Vector3(t.x, originY + y, t.z);
-			yield return new WaitForFixedUpdate ();
-			//yield return new WaitForSeconds (1);
+		// if we are going upwards and are no longer holding "Jump", then lessen the amount we jump for
+		else if (r.velocity.y > 0 && !Input.GetKey(jumpButton)) {
+			r.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultipler - 1) * Time.deltaTime;
 		}
 	}
+
+	//IEnumerator Jump() {
+	//	float x = 0;
+	//	float originY = transform.position.y;
+	//
+	//	while (!grounded) {
+	//		float y = (2.5f * x) - 0.5f * x * x;
+	//		x += 0.1f;
+	//
+	//		Debug.Log (y);
+	//		Vector3 t = transform.position;
+	//		transform.position = new Vector3(t.x, originY + y, t.z);
+	//		yield return new WaitForFixedUpdate ();
+	//		//yield return new WaitForSeconds (1);
+	//	}
+	//}
 }
