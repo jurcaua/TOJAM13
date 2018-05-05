@@ -25,6 +25,8 @@ public class FishingLine : MonoBehaviour {
 	void FixedUpdate () {
 		//SimulatePath ();
 		if (Input.GetKeyDown (KeyCode.Q)) {
+			sightLine.positionCount = 0;
+			sightLine.enabled = true;
 			StartCoroutine (Shoot ());
 		}
 
@@ -35,9 +37,9 @@ public class FishingLine : MonoBehaviour {
 		int throwing = 0;
 
 		Vector3[] segments = new Vector3[segmentCount];
-		SimulatePath (segments);
+		int k = SimulatePath (segments);
 
-		while (throwing < segmentCount + 1) {
+		while (throwing < k + 1) {
 			for (int i = 0; i < throwing; i++) {
 				sightLine.positionCount = throwing;
 				sightLine.SetPosition (i, segments [i]);
@@ -45,9 +47,13 @@ public class FishingLine : MonoBehaviour {
 			throwing++;
 			yield return new WaitForFixedUpdate();
 		}
+
+		sightLine.enabled = false;
+		straightLine.SetPosition (0, fire.position);
+		straightLine.SetPosition (1, segments [k]);
 	}
 
-	public void SimulatePath(Vector3[] segments) {
+	public int SimulatePath(Vector3[] segments) {
 		//Vector3[] segments = new Vector3[segmentCount];
 		segments [0] = fire.position;
 		Vector3 segVelocity = -fire.transform.up * fireStrength * Time.deltaTime;
@@ -58,22 +64,21 @@ public class FishingLine : MonoBehaviour {
 			segVelocity = segVelocity + Physics.gravity * segTime;
 
 			//Bounce shit
-						RaycastHit2D hit;
-			if (hit = Physics2D.Raycast(segments[i-1], segVelocity, segmentScale)) {
-			//			if (Physics2D.Raycast (segments [i - 1], segVelocity, out hit, segmentScale)) {
-			//				_hitObject = hit.collider;
-			//
-							segments [i] = segments [i - 1] + segVelocity.normalized * hit.distance;
-							segVelocity = segVelocity - Physics.gravity * (segmentScale - hit.distance) / segVelocity.magnitude;
-							segVelocity = Vector3.Reflect (segVelocity, hit.normal);
+			RaycastHit2D hit;
+			if (hit = Physics2D.Raycast (segments [i - 1], segVelocity, segmentScale)) {
+				//			if (Physics2D.Raycast (segments [i - 1], segVelocity, out hit, segmentScale)) {
+				//				_hitObject = hit.collider;
+				//
+				segments [i] = segments [i - 1] + segVelocity.normalized * hit.distance;
+				segVelocity = segVelocity - Physics.gravity * (segmentScale - hit.distance) / segVelocity.magnitude;
+				segVelocity = Vector3.Reflect (segVelocity, hit.normal);
 
-				straightLine.SetPosition (0, fire.position);
-				straightLine.SetPosition (1, segments[i]);
 
-						} else {
+				return i;
+			} else {
 
-			segments [i] = segments [i - 1] + segVelocity * segTime;
-						}
+				segments [i] = segments [i - 1] + segVelocity * segTime;
+			}
 		}
 
 		//color and transparency
@@ -85,6 +90,6 @@ public class FishingLine : MonoBehaviour {
 		sightLine.endColor = endColor;
 
 		sightLine.positionCount = segmentCount;
-
+		return segmentCount;
 	}
 }
