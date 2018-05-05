@@ -18,7 +18,8 @@ public class PlayerMovement : MonoBehaviour {
 	public KeyCode jumpButton;
 
 	public FishingLine line;
-	bool frozen = false;
+    public Grapple grapple;
+	[HideInInspector] public bool frozen = false;
 
 	// Use this for initialization
 	void Start () {
@@ -68,7 +69,7 @@ public class PlayerMovement : MonoBehaviour {
 				}
 			}
 
-			if (Input.GetKeyDown (KeyCode.Q)) {
+			if (Input.GetMouseButtonDown(0)) {
 				StartCoroutine (Shoot (GetComponent<Rigidbody2D> ()));
 			}
 		}
@@ -154,5 +155,8 @@ public class PlayerMovement : MonoBehaviour {
 		frozen = false;
 		player.constraints = RigidbodyConstraints2D.FreezeRotation;
 
+        grapple.SecureHook(lr.GetPosition(1));
+        lr.enabled = false;
+        line.straightLine.enabled = false;
 	}
 }

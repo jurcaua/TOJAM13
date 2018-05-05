@@ -21,9 +21,10 @@ public class Grapple : MonoBehaviour {
     private Coroutine currentGrappleThrow = null;
     private Coroutine currentGrapplePull = null;
     private DistanceJoint2D currentHook = null;
-    private GameObject grappledObject = null;
+    [HideInInspector] public GameObject grappledObject = null;
 
     private Transform player;
+    private PlayerMovement playerMovement;
     private Rigidbody2D playerR;
 
     private bool isSwinging { get { return currentHook != null && currentGrappleThrow == null; } }
@@ -34,21 +35,27 @@ public class Grapple : MonoBehaviour {
         grapple.positionCount = 2;
 
         player = transform.parent;
+        playerMovement = GetComponentInParent<PlayerMovement>();
         playerR = GetComponentInParent<Rigidbody2D>();
     }
 	
 	void Update () {
         DirectionArrow();
 
-        if (Input.GetMouseButtonDown(0)) {
-            GrappleTo(arrowDirection);
+        //if (Input.GetMouseButtonDown(0)) {
+        //    GrappleTo(arrowDirection);
 
-        } else if (Input.GetMouseButtonUp(0)) {
+        //} else if (Input.GetMouseButtonUp(0)) {
+        //    grapple.enabled = false;
+        //    UnGrapple();
+        //}
+
+        if (!playerMovement.frozen && Input.GetMouseButtonUp(0)) {
             grapple.enabled = false;
             UnGrapple();
         }
 
-        if (!playerGrapple && Input.GetMouseButton(0) && Input.GetMouseButtonDown(1) && currentHook != null) {
+            if (!playerGrapple && Input.GetMouseButton(0) && Input.GetMouseButtonDown(1) && currentHook != null) {
             currentGrapplePull = StartCoroutine(PullTo(currentHook.transform.position));
 
         } else if (!playerGrapple && Input.GetMouseButtonUp(1) && currentGrapplePull != null) {
@@ -65,8 +72,12 @@ public class Grapple : MonoBehaviour {
         }
 
         if (isSwinging) {
-            grapple.SetPosition(0, currentHook.connectedBody.position);
-            grapple.SetPosition(1, currentHook.transform.position);
+
+            Vector3 playerPosition = new Vector3(currentHook.connectedBody.position.x, currentHook.connectedBody.position.y, -1);
+            Vector3 hookPosition = new Vector3(currentHook.transform.position.x, currentHook.transform.position.y, -1);
+
+            grapple.SetPosition(0, playerPosition);
+            grapple.SetPosition(1, hookPosition);
         }
 
 //        Debug.Log(playerGrapple);
@@ -150,7 +161,9 @@ public class Grapple : MonoBehaviour {
         
     }
 
-    void SecureHook(Vector2 at) {
+    public void SecureHook(Vector2 at) {
+        grapple.enabled = true;
+
         GameObject hookPoint = new GameObject("HookJoint");
         hookPoint.transform.position = at;
         Rigidbody2D hookPointR = hookPoint.AddComponent<Rigidbody2D>();

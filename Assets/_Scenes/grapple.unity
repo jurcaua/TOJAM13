@@ -525,6 +525,7 @@ MonoBehaviour:
   grappleSpeed: 0.01
   grapplePullInc: 0.5
   grapplePullSpeed: 0.05
+  playerPushDelay: 0.4
   grappleIgnoreLayer:
     serializedVersion: 2
     m_Bits: 4294967039
@@ -1206,26 +1207,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 50768010067749062, guid: 36dfeca85f6c1714abcb8117316ad873,
-        type: 2}
-      propertyPath: m_UseAutoMass
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114797801266954170, guid: 36dfeca85f6c1714abcb8117316ad873,
-        type: 2}
-      propertyPath: fallMultipler
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114797801266954170, guid: 36dfeca85f6c1714abcb8117316ad873,
-        type: 2}
-      propertyPath: lowJumpMultipler
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114797801266954170, guid: 36dfeca85f6c1714abcb8117316ad873,
-        type: 2}
-      propertyPath: jumpButton
-      value: 119
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 36dfeca85f6c1714abcb8117316ad873, type: 2}
   m_IsPrefabParent: 0
@@ -1371,3 +1352,5 @@ MonoBehaviour:
   fallMultipler: 0
   lowJumpMultipler: 0
   jumpButton: 0
+  line: {fileID: 0}
+  grapple: {fileID: 0}

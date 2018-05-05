@@ -16,10 +16,14 @@ public class FishingLine : MonoBehaviour {
 
 	public LineRenderer straightLine;
 
+    private PlayerMovement player;
+
 	// Use this for initialization
 	void Start () {
 		sightLine = GetComponent<LineRenderer> ();
-	}
+
+        player = GetComponentInParent<PlayerMovement>();
+    }
 	
 	// Update is called once per frame
 	void FixedUpdate () {
@@ -87,8 +91,14 @@ public class FishingLine : MonoBehaviour {
 				segVelocity = segVelocity - Physics.gravity * (segmentScale - hit.distance) / segVelocity.magnitude;
 				segVelocity = Vector3.Reflect (segVelocity, hit.normal);
 
+                if (hit.collider.gameObject.tag == "Player") {
+                    player.grapple.grappledObject = hit.collider.gameObject;
+                } else {
+                    player.grapple.grappledObject = null;
+                }
 
-				return i;
+
+                return i;
 			} else {
 
 				segments [i] = segments [i - 1] + segVelocity * segTime;
