@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 61059221419280114}
   - component: {fileID: 50768010067749062}
   - component: {fileID: 114797801266954170}
+  - component: {fileID: 95462230905269734}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -232,7 +233,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.28, y: 1.28}
+    oldSize: {x: 1, y: 2}
     newSize: {x: 1.28, y: 1.28}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -266,6 +267,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.5}
   m_EdgeRadius: 0
+--- !u!95 &95462230905269734
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1974200256845638}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 935ef839206a2474c9aa1293a622f45e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114053913960896776
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -281,13 +299,15 @@ MonoBehaviour:
   grappleSpeed: 0.01
   grapplePullInc: 0.2
   grapplePullSpeed: 0.01
-  playerPushDelay: 0.4
-  swingForce: 15
+  playerPushDelay: 0.1
+  swingForce: 10
+  launchForce: 900
   grappleIgnoreLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294967257
   arrow: {fileID: 4023377406096762}
   grappledObject: {fileID: 0}
+  playerGrapple: 0
 --- !u!114 &114176669965823990
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -299,9 +319,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d75c3842c51a3f54c80fd06cfb15a973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  segmentCount: 25
+  segmentCount: 35
   fire: {fileID: 4023377406096762}
-  fireStrength: 1000
+  fireStrength: 1250
   segmentScale: 1
   sightLine: {fileID: 120307334529243740}
   straightLine: {fileID: 120950977184476570}
@@ -329,6 +349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerID: -1
   speed: 0.5
+  previousVel: {x: 0, y: 0}
   jumpForce: 500
   xAcceleration: 0
   maxAcceleration: 0.15
@@ -341,6 +362,7 @@ MonoBehaviour:
   grapple: {fileID: 114053913960896776}
   frozen: 0
   canMove: 1
+  maxVel: 18
 --- !u!120 &120164653031329808
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -380,7 +402,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 1
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -683,7 +705,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 15
-  m_Sprite: {fileID: 21300000, guid: 5b32c2d36abe44540bed74c1f787033b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a3e642f47d2dd184589887ee2793d138, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

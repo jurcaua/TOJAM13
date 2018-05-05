@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class SettingManager {
+
+    public static bool HasBeenSetUp = false;
     public static int NumberOfPlayers = 1;
     public static List<ControlType> ControlSchemes = new List<ControlType>();
+
+    public static bool DebugMode = true;
 
     public static KeyCode MoveLeft(int playerID) {
         if (playerID > 0 && ControlSchemes.Count >= playerID && ControlSchemes[playerID-1] == ControlType.Keyboard) {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public enum ControlType {Keyboard = 0, Controller = 1};
 
@@ -17,6 +18,7 @@ public class UIController : MonoBehaviour {
     [Header("Player Control Setting Scene")]
     public bool SettingMode = true;
     public Image continueButtonImage;
+    public TextMeshProUGUI debugModeButtonText;
 
     private bool canContinue = false;
 
@@ -56,8 +58,14 @@ public class UIController : MonoBehaviour {
         //PrintCurrentSettings();
     }
 
+    public void ToggleDebugMode() {
+        SettingManager.DebugMode = !SettingManager.DebugMode;
+        debugModeButtonText.text = "Debug Mode: " + (SettingManager.DebugMode ? "ON" : "OFF");
+    }
+
     public void FinalizeSettings(string nextScene) {
         if (canContinue) {
+            SettingManager.HasBeenSetUp = true;
             SettingManager.NumberOfPlayers = numPlayers;
             SettingManager.ControlSchemes = controlSchemes;
             GoTo(nextScene);
