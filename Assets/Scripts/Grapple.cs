@@ -9,6 +9,8 @@ public class Grapple : MonoBehaviour {
     public float grapplePullInc = 0.5f;
     public float grapplePullSpeed = 0.05f;
 
+    public float playerPushDelay = 0.4f;
+
     public LayerMask grappleIgnoreLayer;
 
     public Transform arrow;
@@ -19,6 +21,7 @@ public class Grapple : MonoBehaviour {
     private Coroutine currentGrappleThrow = null;
     private Coroutine currentGrapplePull = null;
     private DistanceJoint2D currentHook = null;
+    private GameObject grappledObject = null;
 
     private Transform player;
     private Rigidbody2D playerR;
@@ -51,13 +54,13 @@ public class Grapple : MonoBehaviour {
         } else if (!playerGrapple && Input.GetMouseButtonUp(1) && currentGrapplePull != null) {
             StopCoroutine(currentGrapplePull);
             currentGrapplePull = null;
+
+            playerR.simulated = true;
         }
 
-        if (playerGrapple && Input.GetMouseButtonUp(1) && currentGrapplePull != null) {
+        if (playerGrapple && Input.GetMouseButtonUp(0) && currentGrapplePull != null) {
             StopCoroutine(currentGrapplePull);
             currentGrapplePull = null;
-            //playerR.isKinematic = false;
-            //playerR.gravityScale = 1f;
             playerR.simulated = true;
         }
 
@@ -84,10 +87,16 @@ public class Grapple : MonoBehaviour {
 
         UnGrapple();
 
-        currentGrappleThrow = StartCoroutine(ThrowGrapple(transform.position, hit.point));
-        playerR.simulated = false;
-
         playerGrapple = hit.collider.gameObject.tag == "Player";
+
+        if (playerGrapple) {
+            grappledObject = hit.collider.gameObject;
+        } else {
+            grappledObject = null;
+        }
+        currentGrappleThrow = StartCoroutine(ThrowGrapple(transform.position, hit.point));
+
+        playerR.simulated = false;
     }
 
     void UnGrapple() {
@@ -132,10 +141,13 @@ public class Grapple : MonoBehaviour {
         }
 
         currentGrapplePull = null;
-        //playerR.isKinematic = false;
-        //playerR.gravityScale = 1f;
-        //playerR.mass = 1f;
-        playerR.simulated = true;
+
+        if (playerGrapple) {
+            yield return new WaitForSeconds(playerPushDelay);
+
+            LaunchEnemy(((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - pos).normalized);
+        }
+        
     }
 
     void SecureHook(Vector2 at) {
@@ -150,11 +162,20 @@ public class Grapple : MonoBehaviour {
         currentHook = joint;
 
         if (playerGrapple) {
-            //playerR.isKinematic = true;
-            //playerR.gravityScale = 0f;
-            //playerR.mass = 0f;
             playerR.simulated = false;
             currentGrapplePull = StartCoroutine(PullTo(currentHook.transform.position, 2f));
         }
+    }
+
+    void LaunchEnemy(Vector2 dir) {
+        Rigidbody2D otherR = grappledObject.GetComponent<Rigidbody2D>();
+        if (otherR == null) {
+            return;
+        }
+
+        otherR.velocity = Vector2.zero;
+        otherR.AddForce(dir * 1000f);
+
+        playerR.simulated = true;
     }
 }
