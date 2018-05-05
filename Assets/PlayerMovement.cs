@@ -25,13 +25,34 @@ public class PlayerMovement : MonoBehaviour {
 	[HideInInspector] public bool frozen = false;
     public bool canMove = true;
 
+    private Rigidbody2D r;
+    public float maxVel;
+
 	// Use this for initialization
 	void Start () {
+        r = GetComponent<Rigidbody2D>();
+
 		speed = speed / 100;
 	}
 
 	void Update () {
-		bool moving = false;
+
+        // Clamping Vel
+        if (r.velocity.x > maxVel) {
+            r.velocity = new Vector2(maxVel, r.velocity.y);
+        }
+        if (r.velocity.x < -maxVel) {
+            r.velocity = new Vector2(-maxVel, r.velocity.y);
+        }
+        if (r.velocity.y > maxVel) {
+            r.velocity = new Vector2(r.velocity.x, maxVel);
+        }
+        if (r.velocity.y < -maxVel) {
+            r.velocity = new Vector2(r.velocity.x, -maxVel);
+        }
+
+
+        bool moving = false;
 
 		if (!frozen) {
 			if (Input.GetKey (SettingManager.MoveRight(playerID))) {

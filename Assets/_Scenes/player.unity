@@ -978,7 +978,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 7
+  m_Constraints: 4
 --- !u!61 &641481988
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1335,7 +1335,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.41, y: 2.08}
+  m_Size: {x: 3.41, y: 0.51}
   m_EdgeRadius: 0
 --- !u!1 &1057063893
 GameObject:
@@ -2915,7 +2915,7 @@ Prefab:
     - target: {fileID: 114053913960896776, guid: 36dfeca85f6c1714abcb8117316ad873,
         type: 2}
       propertyPath: grappleIgnoreLayer.m_Bits
-      value: 4294967291
+      value: 4294967257
       objectReference: {fileID: 0}
     - target: {fileID: 114053913960896776, guid: 36dfeca85f6c1714abcb8117316ad873,
         type: 2}
@@ -2926,6 +2926,11 @@ Prefab:
         type: 2}
       propertyPath: segmentCount
       value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 114797801266954170, guid: 36dfeca85f6c1714abcb8117316ad873,
+        type: 2}
+      propertyPath: maxVel
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 36dfeca85f6c1714abcb8117316ad873, type: 2}

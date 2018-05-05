@@ -93,13 +93,17 @@ public class FishingLine : MonoBehaviour {
 
                 if (hit.collider.gameObject.tag == "Player") {
                     player.grapple.grappledObject = hit.collider.gameObject;
-				} else if (hit.collider.gameObject.tag == "Ground") {
-					player.grapple.grappledObject = hit.collider.gameObject;
+                    player.grapple.playerGrapple = true;
+                } else {
+                    player.grapple.playerGrapple = false;
+                    if (hit.collider.gameObject.tag == "Ground") {
+                        player.grapple.grappledObject = hit.collider.gameObject;
 
-				} else {
-					player.grapple.grappledObject = null;
+                    } else {
+                        player.grapple.grappledObject = null;
 
-				}
+                    }
+                }
 
 
                 return i;

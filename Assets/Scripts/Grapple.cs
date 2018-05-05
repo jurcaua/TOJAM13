@@ -31,7 +31,7 @@ public class Grapple : MonoBehaviour {
     private Rigidbody2D playerR;
 
     private bool isSwinging { get { return currentHook != null && currentGrappleThrow == null; } }
-    private bool playerGrapple = false;
+    [HideInInspector] public bool playerGrapple = false;
 
 	void Start () {
         grapple = GetComponent<LineRenderer>();
@@ -54,7 +54,6 @@ public class Grapple : MonoBehaviour {
         //}
 
         if (!playerMovement.frozen && (Input.GetKeyUp(SettingManager.Grapple(playerMovement.playerID)) || !Input.GetKey(SettingManager.Grapple(playerMovement.playerID)))) {
-            grapple.enabled = false;
             UnGrapple();
         }
 
@@ -88,7 +87,6 @@ public class Grapple : MonoBehaviour {
             if (Input.GetKey(SettingManager.MoveLeft(playerMovement.playerID))) {
                 playerR.AddForce(-playerR.transform.right * swingForce);
             }
-            print(Vector2.Dot(playerR.velocity, playerR.transform.up));
             float range = 0.1f;
             if (player.position.y > currentHook.transform.position.y && (Vector2.Dot(playerR.velocity, playerR.transform.up) < range && Vector2.Dot(playerR.velocity, playerR.transform.up) > -range)) {
                 Destroy(currentHook.gameObject);
@@ -96,7 +94,7 @@ public class Grapple : MonoBehaviour {
             }
         }
 
-//        Debug.Log(playerGrapple);
+        //Debug.Log(playerGrapple);
     }
 
     void DirectionArrow() {
@@ -127,6 +125,8 @@ public class Grapple : MonoBehaviour {
     }
 
     void UnGrapple() {
+        grapple.enabled = false;
+
         if (currentHook != null) {
             Destroy(currentHook.gameObject);
             currentHook = null;
@@ -137,6 +137,7 @@ public class Grapple : MonoBehaviour {
             currentGrappleThrow = null;
         }
 
+        playerR.simulated = true;
         playerMovement.canMove = true;
     }
 
@@ -174,9 +175,12 @@ public class Grapple : MonoBehaviour {
         if (playerGrapple) {
             yield return new WaitForSeconds(playerPushDelay);
 
+            UnGrapple();
+
             LaunchEnemy(((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - pos).normalized);
         } else {
             UnGrapple();
+
             playerR.AddForce(arrowDirection * launchForce);
         }
         
