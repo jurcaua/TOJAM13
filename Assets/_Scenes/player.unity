@@ -2928,7 +2928,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-<<<<<<< HEAD
     - target: {fileID: 212571476253060160, guid: 36dfeca85f6c1714abcb8117316ad873,
         type: 2}
       propertyPath: m_Sprite
@@ -2949,7 +2948,6 @@ Prefab:
         type: 2}
       propertyPath: swingForce
       value: 10
-=======
     - target: {fileID: 114053913960896776, guid: 36dfeca85f6c1714abcb8117316ad873,
         type: 2}
       propertyPath: launchForce
@@ -2959,7 +2957,6 @@ Prefab:
         type: 2}
       propertyPath: grappleIgnoreLayer.m_Bits
       value: 4294967291
->>>>>>> 4206b4246595846d5fa29f32979e7761ce19819c
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 36dfeca85f6c1714abcb8117316ad873, type: 2}
