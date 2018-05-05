@@ -25,15 +25,18 @@ public class FishingLine : MonoBehaviour {
 	void FixedUpdate () {
 		//SimulatePath ();
 		if (Input.GetKeyDown (KeyCode.Q)) {
-			sightLine.positionCount = 0;
-			sightLine.enabled = true;
-			StartCoroutine (Shoot ());
+
+			//StartCoroutine (Shoot ());
 		}
 
 	}
 
-	IEnumerator Shoot() {
+	public IEnumerator Shoot(Rigidbody2D player) {
 
+		player.constraints = RigidbodyConstraints2D.FreezeAll;
+
+		sightLine.positionCount = 0;
+		sightLine.enabled = true;
 		int throwing = 0;
 
 		Vector3[] segments = new Vector3[segmentCount];
@@ -46,6 +49,7 @@ public class FishingLine : MonoBehaviour {
 			}
 			throwing++;
 			yield return new WaitForFixedUpdate();
+
 		}
 
 		//sightLine.enabled = false;
@@ -59,13 +63,13 @@ public class FishingLine : MonoBehaviour {
 			yield return new WaitForSeconds (0.01f);
 		}
 
-
+		player.constraints = RigidbodyConstraints2D.FreezeRotation;
 
 	}
 
 	public int SimulatePath(Vector3[] segments) {
 		//Vector3[] segments = new Vector3[segmentCount];
-		segments [0] = fire.position;
+		segments [0] = fire.position + new Vector3 (0,0,-1);
 		Vector3 segVelocity = -fire.transform.up * fireStrength * Time.deltaTime;
 		_hitObject = null;
 
@@ -100,6 +104,6 @@ public class FishingLine : MonoBehaviour {
 		sightLine.endColor = endColor;
 
 		sightLine.positionCount = segmentCount;
-		return segmentCount;
+		return segmentCount - 1;
 	}
 }
