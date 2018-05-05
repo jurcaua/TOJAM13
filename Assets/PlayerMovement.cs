@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour {
     public int playerID = -1;
 
 	public float speed;
-    private Vector2 previousVel = Vector2.zero;
+    [HideInInspector] public Vector2 previousVel = Vector2.zero;
 	public float jumpForce;
 
 	public float xAcceleration;
