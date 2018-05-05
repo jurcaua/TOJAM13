@@ -783,7 +783,7 @@ GameObject:
   m_Component:
   - component: {fileID: 349046865}
   - component: {fileID: 349046864}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CM vcam1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -838,7 +838,7 @@ GameObject:
   m_Component:
   - component: {fileID: 402577291}
   - component: {fileID: 402577290}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: stormy sky
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -907,6 +907,79 @@ Transform:
   m_PrefabParentObject: {fileID: 4021510432953132, guid: 36dfeca85f6c1714abcb8117316ad873,
     type: 2}
   m_PrefabInternal: {fileID: 2008231875}
+--- !u!1 &477057858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 477057860}
+  - component: {fileID: 477057859}
+  m_Layer: 2
+  m_Name: hook
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &477057859
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 477057858}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 15
+  m_Sprite: {fileID: 21300000, guid: abf3afdaa9d73c84495c44eed8d824fe, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+--- !u!4 &477057860
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 477057858}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &499157599
 GameObject:
   m_ObjectHideFlags: 0
@@ -1220,7 +1293,7 @@ GameObject:
   - component: {fileID: 517942200}
   - component: {fileID: 517942199}
   - component: {fileID: 517942198}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1429,7 +1502,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &641481985
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2111,7 +2184,7 @@ GameObject:
   - component: {fileID: 941378483}
   - component: {fileID: 941378486}
   - component: {fileID: 941378485}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: boat (1)
   m_TagString: Boat
   m_Icon: {fileID: 0}
@@ -2353,7 +2426,7 @@ GameObject:
   - component: {fileID: 1072352592}
   m_Layer: 0
   m_Name: Border (2)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2406,7 +2479,7 @@ GameObject:
   - component: {fileID: 1093290701}
   - component: {fileID: 1093290700}
   - component: {fileID: 1093290699}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2922,7 +2995,7 @@ LineRenderer:
   - {x: 18, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 1
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -3105,7 +3178,7 @@ GameObject:
   - component: {fileID: 1499168641}
   m_Layer: 0
   m_Name: Border (1)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3850,7 +3923,7 @@ GameObject:
   - component: {fileID: 1845786983}
   m_Layer: 0
   m_Name: Border (4)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4209,6 +4282,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114797801266954170, guid: 36dfeca85f6c1714abcb8117316ad873,
+        type: 2}
+      propertyPath: hook
+      value: 
+      objectReference: {fileID: 477057858}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 36dfeca85f6c1714abcb8117316ad873, type: 2}
   m_IsPrefabParent: 0
@@ -4221,7 +4299,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2061647735}
   - component: {fileID: 2061647734}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: clear sky
   m_TagString: Untagged
   m_Icon: {fileID: 0}
