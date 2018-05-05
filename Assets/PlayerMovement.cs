@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour {
     public int playerID = -1;
 
 	public float speed;
+    private Vector2 previousVel = Vector2.zero;
 	public float jumpForce;
 
 	public float xAcceleration;
@@ -125,7 +126,9 @@ public class PlayerMovement : MonoBehaviour {
         frozen = true;
 		LineRenderer lr = line.GetComponent<LineRenderer> ();
 
-		player.constraints = RigidbodyConstraints2D.FreezeAll;
+        previousVel = player.velocity;
+
+        player.constraints = RigidbodyConstraints2D.FreezeAll;
 
 		lr.positionCount = 0;
 		lr.enabled = true;
@@ -162,5 +165,9 @@ public class PlayerMovement : MonoBehaviour {
         grapple.SecureHook(lr.GetPosition(1));
         lr.enabled = false;
         line.straightLine.enabled = false;
-	}
+
+        player.velocity = previousVel;
+        previousVel = Vector2.zero;
+
+    }
 }
