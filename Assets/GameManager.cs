@@ -21,9 +21,11 @@ public class GameManager : MonoBehaviour {
 	public Slider p2Slider;
 
 
+
+
 	// Use this for initialization
 	void Start () {
-		
+		//StartCoroutine (Stages ());
 	}
 	
 	// Update is called once per frame
@@ -62,9 +64,10 @@ public class GameManager : MonoBehaviour {
 		}
 
 		if (str != "tie") {
-			GetComponent<LineRenderer> ().SetPosition (0, new Vector3(-18, winnerY, 0));
-			GetComponent<LineRenderer> ().SetPosition (1, new Vector3(18, winnerY, 0));
+			GetComponent<LineRenderer> ().SetPosition (0, new Vector3(-18, winnerY, -1));
+			GetComponent<LineRenderer> ().SetPosition (1, new Vector3 (18, winnerY, -1));
 		}
 			
 	}
+		
 }

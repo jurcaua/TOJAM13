@@ -69,7 +69,7 @@ public class Grapple : MonoBehaviour {
             grapple.SetPosition(1, currentHook.transform.position);
         }
 
-        Debug.Log(playerGrapple);
+//        Debug.Log(playerGrapple);
     }
 
     void DirectionArrow() {

@@ -147,8 +147,9 @@ public class PlayerMovement : MonoBehaviour {
 
 		for (int i = lr.positionCount - 1; i > 0; i--) {
 			lr.SetPosition (i, line.straightLine.GetPosition(1));
-			yield return new WaitForSeconds (0.1f/k);
+			yield return new WaitForFixedUpdate ();
 		}
+		lr.positionCount = 2;
 
 		frozen = false;
 		player.constraints = RigidbodyConstraints2D.FreezeRotation;
