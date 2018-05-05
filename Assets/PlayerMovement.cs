@@ -187,6 +187,7 @@ public class PlayerMovement : MonoBehaviour {
 			player.constraints = RigidbodyConstraints2D.FreezeRotation;
 
 			grapple.SecureHook (lr.GetPosition (1));
+
 		}
 
 		frozen = false;

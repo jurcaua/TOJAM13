@@ -158,7 +158,7 @@ public class Grapple : MonoBehaviour {
 
         playerR.simulated = true;
 
-        SecureHook(to);
+       SecureHook(to);
     }
 
     IEnumerator PullTo(Vector2 pos, float speedMult = 1f) {

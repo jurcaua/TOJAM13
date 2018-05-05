@@ -154,7 +154,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1005907906889556, guid: b10ca84646460ab4ea44089d874e98c9, type: 2}
       propertyPath: m_Name
-      value: seagull_origin
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005907906889556, guid: b10ca84646460ab4ea44089d874e98c9, type: 2}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b10ca84646460ab4ea44089d874e98c9, type: 2}
@@ -1013,8 +1017,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 756257805}
-  m_Layer: 0
-  m_Name: Iceberg origin
+  m_Layer: 2
+  m_Name: 
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1114,7 +1118,7 @@ GameObject:
   - component: {fileID: 937467453}
   - component: {fileID: 937467452}
   - component: {fileID: 937467456}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -1851,7 +1855,7 @@ GameObject:
   - component: {fileID: 1421329360}
   - component: {fileID: 1421329359}
   - component: {fileID: 1421329361}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1989,7 +1993,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1458132655}
   - component: {fileID: 1458132656}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: StageManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2420,8 +2424,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1806644879}
-  m_Layer: 0
-  m_Name: seagull_origin
+  m_Layer: 2
+  m_Name: 
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2725,6 +2729,14 @@ Prefab:
     - target: {fileID: 4632375304990810, guid: b10ca84646460ab4ea44089d874e98c9, type: 2}
       propertyPath: m_RootOrder
       value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005907906889556, guid: b10ca84646460ab4ea44089d874e98c9, type: 2}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005907906889556, guid: b10ca84646460ab4ea44089d874e98c9, type: 2}
+      propertyPath: m_Name
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b10ca84646460ab4ea44089d874e98c9, type: 2}
