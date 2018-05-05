@@ -50,7 +50,7 @@ public class Grapple : MonoBehaviour {
         //    UnGrapple();
         //}
 
-        if (!playerMovement.frozen && Input.GetMouseButtonUp(0)) {
+        if (!playerMovement.frozen && (Input.GetMouseButtonUp(0) || !Input.GetMouseButton(0))) {
             grapple.enabled = false;
             UnGrapple();
         }
