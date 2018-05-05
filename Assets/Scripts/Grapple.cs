@@ -164,6 +164,11 @@ public class Grapple : MonoBehaviour {
     IEnumerator PullTo(Vector2 pos, float speedMult = 1f) {
         while (currentHook != null && currentHook.distance > 1f) {
 
+
+			if (playerGrapple) {
+				grappledObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
+			}
+
             player.position = player.position + (currentHook.transform.position - player.position).normalized * grapplePullInc * speedMult;
             grapple.SetPosition(0, player.position);
 
@@ -177,6 +182,8 @@ public class Grapple : MonoBehaviour {
 
             UnGrapple();
 
+			grappledObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeRotation;
+
             LaunchEnemy(((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - pos).normalized);
         } else {
             UnGrapple();
@@ -186,7 +193,7 @@ public class Grapple : MonoBehaviour {
         
     }
 
-    public void SecureHook(Vector2 at) {
+    public GameObject SecureHook(Vector2 at) {
         grapple.enabled = true;
 
         GameObject hookPoint = new GameObject("HookJoint");
@@ -208,6 +215,8 @@ public class Grapple : MonoBehaviour {
             playerR.simulated = false;
             currentGrapplePull = StartCoroutine(PullTo(currentHook.transform.position, 2f));
         }
+
+		return hookPoint;
     }
 
     void LaunchEnemy(Vector2 dir) {

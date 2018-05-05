@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour {
 
     private Rigidbody2D r;
     public float maxVel;
+	public GameObject hook;
+	public GameObject hookPoint;
 
 	// Use this for initialization
 	void Start () {
@@ -115,6 +117,13 @@ public class PlayerMovement : MonoBehaviour {
 				r.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultipler - 1) * Time.deltaTime;
 			}
 		}
+
+		if (hookPoint == null && !frozen) {
+			hook.SetActive (false);
+		} else if (hookPoint != null){
+			hook.transform.position = hookPoint.transform.position;
+
+		}
 	}
 
 	IEnumerator Freeze(bool condition) {
@@ -146,6 +155,8 @@ public class PlayerMovement : MonoBehaviour {
         canMove = false;
         frozen = true;
 		LineRenderer lr = line.GetComponent<LineRenderer> ();
+		hook.SetActive (true);
+
 
         previousVel = player.velocity;
 
@@ -153,29 +164,48 @@ public class PlayerMovement : MonoBehaviour {
 
 		lr.positionCount = 0;
 		lr.enabled = true;
-		int throwing = 0;
 
 		grapple.grappledObject = null;
 
 		Vector3[] segments = new Vector3[line.segmentCount];
 		int k = line.SimulatePath (segments);
 
-		while (throwing < k + 1) {
-			for (int i = 0; i < throwing; i++) {
-				lr.positionCount = throwing;
-				lr.SetPosition (i, segments [i]);
-			}
-			throwing++;
-			yield return new WaitForFixedUpdate();
+		Debug.Log (segments);
+		//lr.positionCount = k + 2;
 
+		for (int i = 0; i < k + 1; i++) {
+			lr.positionCount = i + 1;
+			lr.SetPosition (i, segments [i]);
+			hook.transform.position = segments [i];
+			yield return new WaitForFixedUpdate();
 		}
+
+
+		//yield return new WaitForSeconds(10);
+
+		//while (throwing < k + 1) {
+		//	throwing++;
+
+
+
+		//	lr.SetPosition (throwing, segments [throwing-1]);
+
+			//for (int i = 0; i < throwing; i++) {
+			//	lr.positionCount = throwing;
+			//	lr.SetPosition (i, segments [i]);
+			//}
+		//	hook.transform.position = segments [throwing-1];
+
+			//yield return new WaitForFixedUpdate();
+
+		//}
 
 		if (grapple.grappledObject != null) {
 			//sightLine.enabled = false;
 			line.straightLine.SetPosition (0, line.fire.position);
 			line.straightLine.SetPosition (1, segments [k]);
 
-			throwing = 0;
+			//throwing = 0;
 
 			for (int i = lr.positionCount - 1; i > 0; i--) {
 				lr.SetPosition (i, line.straightLine.GetPosition (1));
@@ -186,7 +216,7 @@ public class PlayerMovement : MonoBehaviour {
 			frozen = false;
 			player.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-			grapple.SecureHook (lr.GetPosition (1));
+			hookPoint = grapple.SecureHook (lr.GetPosition (1));
 
 		}
 

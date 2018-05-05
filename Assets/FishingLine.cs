@@ -84,6 +84,9 @@ public class FishingLine : MonoBehaviour {
 			//Bounce shit
 			RaycastHit2D hit;
 			if (hit = Physics2D.Raycast (segments [i - 1], segVelocity, segmentScale)) {
+
+				Debug.Log ("Hitting Something: " + i);
+
 				//			if (Physics2D.Raycast (segments [i - 1], segVelocity, out hit, segmentScale)) {
 				//				_hitObject = hit.collider;
 				//
@@ -108,7 +111,7 @@ public class FishingLine : MonoBehaviour {
 
                 return i;
 			} else {
-
+				Debug.Log ("Adding Segment");
 				segments [i] = segments [i - 1] + segVelocity * segTime;
 			}
 		}
@@ -122,6 +125,8 @@ public class FishingLine : MonoBehaviour {
 		sightLine.endColor = endColor;
 
 		sightLine.positionCount = segmentCount;
+
+		Debug.Log (segments);
 		return segmentCount - 1;
 	}
 }
