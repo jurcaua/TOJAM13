@@ -18,7 +18,7 @@ public class SmallIceberg : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D coll) {
-		Debug.Log ("hahahaahah");
+		//Debug.Log ("hahahaahah");
 		if (coll.tag == "Boat") {
 			coll.GetComponent<Animator> ().SetTrigger ("Hit");
 		}

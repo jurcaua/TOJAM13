@@ -134,6 +134,8 @@ public class PlayerMovement : MonoBehaviour {
 		lr.enabled = true;
 		int throwing = 0;
 
+		grapple.grappledObject = null;
+
 		Vector3[] segments = new Vector3[line.segmentCount];
 		int k = line.SimulatePath (segments);
 
@@ -147,25 +149,32 @@ public class PlayerMovement : MonoBehaviour {
 
 		}
 
-		//sightLine.enabled = false;
-		line.straightLine.SetPosition (0, line.fire.position);
-		line.straightLine.SetPosition (1, segments [k]);
+		if (grapple.grappledObject != null) {
+			//sightLine.enabled = false;
+			line.straightLine.SetPosition (0, line.fire.position);
+			line.straightLine.SetPosition (1, segments [k]);
 
-		throwing = 0;
+			throwing = 0;
 
-		for (int i = lr.positionCount - 1; i > 0; i--) {
-			lr.SetPosition (i, line.straightLine.GetPosition(1));
-			yield return new WaitForFixedUpdate ();
+			for (int i = lr.positionCount - 1; i > 0; i--) {
+				lr.SetPosition (i, line.straightLine.GetPosition (1));
+				yield return new WaitForFixedUpdate ();
+			}
+			lr.positionCount = 2;
+
+			frozen = false;
+			player.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+			grapple.SecureHook (lr.GetPosition (1));
 		}
-		lr.positionCount = 2;
 
 		frozen = false;
 		player.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-        grapple.SecureHook(lr.GetPosition(1));
-        lr.enabled = false;
-        line.straightLine.enabled = false;
+		lr.enabled = false;
+		line.straightLine.enabled = false;
 
+		
         player.velocity = previousVel;
         previousVel = Vector2.zero;
 

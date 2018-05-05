@@ -187,6 +187,11 @@ public class Grapple : MonoBehaviour {
 
         GameObject hookPoint = new GameObject("HookJoint");
         hookPoint.transform.position = at;
+
+		if (grappledObject != null) {
+			hookPoint.transform.parent = grappledObject.transform;
+		}
+
         Rigidbody2D hookPointR = hookPoint.AddComponent<Rigidbody2D>();
         hookPointR.isKinematic = true;
         DistanceJoint2D joint = hookPoint.AddComponent<DistanceJoint2D>();
