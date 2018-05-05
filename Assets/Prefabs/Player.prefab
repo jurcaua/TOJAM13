@@ -120,7 +120,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1974200256845638}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.3, y: -0.4, z: 0}
+  m_LocalPosition: {x: 0.64, y: -2.32, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4216305529021486}
@@ -279,13 +279,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grapplePosInc: 0.5
   grappleSpeed: 0.01
-  grapplePullInc: 0.02
+  grapplePullInc: 0.2
   grapplePullSpeed: 0.01
   playerPushDelay: 0.4
+  swingForce: 15
   grappleIgnoreLayer:
     serializedVersion: 2
     m_Bits: 4294967295
   arrow: {fileID: 4023377406096762}
+  grappledObject: {fileID: 0}
 --- !u!114 &114176669965823990
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -297,11 +299,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d75c3842c51a3f54c80fd06cfb15a973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  segmentCount: 50
+  segmentCount: 25
   fire: {fileID: 4023377406096762}
-  fireStrength: 1500
+  fireStrength: 1000
   segmentScale: 1
-  sightLine: {fileID: 0}
+  sightLine: {fileID: 120307334529243740}
   straightLine: {fileID: 120950977184476570}
 --- !u!114 &114667497975577284
 MonoBehaviour:
@@ -325,6 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13ce04e8110b808408e85c0f29a1adef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerID: -1
   speed: 0.5
   jumpForce: 500
   xAcceleration: 0
@@ -336,6 +339,8 @@ MonoBehaviour:
   jumpButton: 119
   line: {fileID: 114176669965823990}
   grapple: {fileID: 114053913960896776}
+  frozen: 0
+  canMove: 1
 --- !u!120 &120164653031329808
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -677,7 +682,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 15
   m_Sprite: {fileID: 21300000, guid: 5b32c2d36abe44540bed74c1f787033b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

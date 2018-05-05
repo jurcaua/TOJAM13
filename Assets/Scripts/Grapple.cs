@@ -11,6 +11,8 @@ public class Grapple : MonoBehaviour {
 
     public float playerPushDelay = 0.4f;
 
+    public float swingForce = 100f;
+
     public LayerMask grappleIgnoreLayer;
 
     public Transform arrow;
@@ -50,34 +52,40 @@ public class Grapple : MonoBehaviour {
         //    UnGrapple();
         //}
 
-        if (!playerMovement.frozen && (Input.GetMouseButtonUp(0) || !Input.GetMouseButton(0))) {
+        if (!playerMovement.frozen && (Input.GetKeyUp(SettingManager.Grapple(playerMovement.playerID)) || !Input.GetKey(SettingManager.Grapple(playerMovement.playerID)))) {
             grapple.enabled = false;
             UnGrapple();
         }
 
-            if (!playerGrapple && Input.GetMouseButton(0) && Input.GetMouseButtonDown(1) && currentHook != null) {
+            if (!playerGrapple && Input.GetKey(SettingManager.Grapple(playerMovement.playerID)) && Input.GetKeyDown(SettingManager.Pull(playerMovement.playerID)) && currentHook != null) {
             currentGrapplePull = StartCoroutine(PullTo(currentHook.transform.position));
 
-        } else if (!playerGrapple && Input.GetMouseButtonUp(1) && currentGrapplePull != null) {
+        } else if (!playerGrapple && Input.GetKeyUp(SettingManager.Pull(playerMovement.playerID)) && currentGrapplePull != null) {
             StopCoroutine(currentGrapplePull);
             currentGrapplePull = null;
 
             playerR.simulated = true;
         }
 
-        if (playerGrapple && Input.GetMouseButtonUp(0) && currentGrapplePull != null) {
+        if (playerGrapple && Input.GetKeyUp(SettingManager.Grapple(playerMovement.playerID)) && currentGrapplePull != null) {
             StopCoroutine(currentGrapplePull);
             currentGrapplePull = null;
             playerR.simulated = true;
         }
 
         if (isSwinging) {
-
             Vector3 playerPosition = new Vector3(currentHook.connectedBody.position.x, currentHook.connectedBody.position.y, -1);
             Vector3 hookPosition = new Vector3(currentHook.transform.position.x, currentHook.transform.position.y, -1);
 
             grapple.SetPosition(0, playerPosition);
             grapple.SetPosition(1, hookPosition);
+
+            if (Input.GetKey(SettingManager.MoveRight(playerMovement.playerID))) {
+                playerR.AddForce(playerR.transform.right * swingForce);
+            }
+            if (Input.GetKey(SettingManager.MoveLeft(playerMovement.playerID))) {
+                playerR.AddForce(-playerR.transform.right * swingForce);
+            }
         }
 
 //        Debug.Log(playerGrapple);
@@ -120,6 +128,8 @@ public class Grapple : MonoBehaviour {
             StopCoroutine(currentGrappleThrow);
             currentGrappleThrow = null;
         }
+
+        playerMovement.canMove = true;
     }
 
     IEnumerator ThrowGrapple(Vector2 from, Vector2 to) {
@@ -145,7 +155,7 @@ public class Grapple : MonoBehaviour {
     IEnumerator PullTo(Vector2 pos, float speedMult = 1f) {
         while (currentHook != null && currentHook.distance > 0.5f) {
 
-            player.position = player.position + (currentHook.transform.position - player.position) * grapplePullInc * speedMult;
+            player.position = player.position + (currentHook.transform.position - player.position).normalized * grapplePullInc * speedMult;
             grapple.SetPosition(0, player.position);
 
             yield return new WaitForSeconds(grapplePullSpeed);

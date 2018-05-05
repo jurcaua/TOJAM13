@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
+    public int playerID = -1;
+
 	public float speed;
 	public float jumpForce;
 
@@ -20,6 +22,7 @@ public class PlayerMovement : MonoBehaviour {
 	public FishingLine line;
     public Grapple grapple;
 	[HideInInspector] public bool frozen = false;
+    public bool canMove = true;
 
 	// Use this for initialization
 	void Start () {
@@ -30,7 +33,7 @@ public class PlayerMovement : MonoBehaviour {
 		bool moving = false;
 
 		if (!frozen) {
-			if (Input.GetKey (KeyCode.D)) {
+			if (Input.GetKey (SettingManager.MoveRight(playerID))) {
 				if (xAcceleration >= 0) {
 					xAcceleration = Mathf.Min (maxAcceleration, xAcceleration + speed);
 				} else {
@@ -39,7 +42,7 @@ public class PlayerMovement : MonoBehaviour {
 				moving = true;
 			}
 
-			if (Input.GetKey (KeyCode.A)) {
+			if (Input.GetKey (SettingManager.MoveLeft(playerID))) {
 				if (xAcceleration <= 0) {
 					xAcceleration = Mathf.Max (-maxAcceleration, xAcceleration - speed);
 				} else {
@@ -63,13 +66,13 @@ public class PlayerMovement : MonoBehaviour {
 			}
 
 			if (grounded & !falling) {
-				if (Input.GetKeyDown (KeyCode.W)) {
+				if (Input.GetKeyDown (SettingManager.Jump(playerID))) {
 					grounded = false;
 					GetComponent<Rigidbody2D> ().AddForce (Vector2.up * jumpForce);
 				}
 			}
 
-			if (Input.GetMouseButtonDown(0)) {
+			if (Input.GetKeyDown(SettingManager.Grapple(playerID))) {
 				StartCoroutine (Shoot (GetComponent<Rigidbody2D> ()));
 			}
 		}
@@ -77,7 +80,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	// Update is called once per frame
 	void FixedUpdate () {
-		if (!frozen) {
+		if (!frozen && canMove) {
 			transform.position += new Vector3 (xAcceleration, 0, 0);
 
 			Rigidbody2D r = GetComponent<Rigidbody2D> ();
@@ -118,7 +121,8 @@ public class PlayerMovement : MonoBehaviour {
 
 	public IEnumerator Shoot(Rigidbody2D player) {
 
-		frozen = true;
+        canMove = false;
+        frozen = true;
 		LineRenderer lr = line.GetComponent<LineRenderer> ();
 
 		player.constraints = RigidbodyConstraints2D.FreezeAll;
