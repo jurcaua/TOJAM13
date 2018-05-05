@@ -11,7 +11,8 @@ public class Grapple : MonoBehaviour {
 
     public float playerPushDelay = 0.4f;
 
-    public float swingForce = 100f;
+    public float swingForce = 10f;
+    public float launchForce = 100f;
 
     public LayerMask grappleIgnoreLayer;
 
@@ -74,7 +75,8 @@ public class Grapple : MonoBehaviour {
         }
 
         if (isSwinging) {
-            Vector3 playerPosition = new Vector3(currentHook.connectedBody.position.x, currentHook.connectedBody.position.y, -1);
+
+            Vector3 playerPosition = new Vector3(player.position.x, player.position.y, -1);
             Vector3 hookPosition = new Vector3(currentHook.transform.position.x, currentHook.transform.position.y, -1);
 
             grapple.SetPosition(0, playerPosition);
@@ -85,6 +87,12 @@ public class Grapple : MonoBehaviour {
             }
             if (Input.GetKey(SettingManager.MoveLeft(playerMovement.playerID))) {
                 playerR.AddForce(-playerR.transform.right * swingForce);
+            }
+            print(Vector2.Dot(playerR.velocity, playerR.transform.up));
+            float range = 0.1f;
+            if (player.position.y > currentHook.transform.position.y && (Vector2.Dot(playerR.velocity, playerR.transform.up) < range && Vector2.Dot(playerR.velocity, playerR.transform.up) > -range)) {
+                Destroy(currentHook.gameObject);
+                currentHook = null;
             }
         }
 
@@ -153,7 +161,7 @@ public class Grapple : MonoBehaviour {
     }
 
     IEnumerator PullTo(Vector2 pos, float speedMult = 1f) {
-        while (currentHook != null && currentHook.distance > 0.5f) {
+        while (currentHook != null && currentHook.distance > 1f) {
 
             player.position = player.position + (currentHook.transform.position - player.position).normalized * grapplePullInc * speedMult;
             grapple.SetPosition(0, player.position);
@@ -167,6 +175,9 @@ public class Grapple : MonoBehaviour {
             yield return new WaitForSeconds(playerPushDelay);
 
             LaunchEnemy(((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - pos).normalized);
+        } else {
+            UnGrapple();
+            playerR.AddForce(arrowDirection * launchForce);
         }
         
     }
@@ -179,8 +190,8 @@ public class Grapple : MonoBehaviour {
         Rigidbody2D hookPointR = hookPoint.AddComponent<Rigidbody2D>();
         hookPointR.isKinematic = true;
         DistanceJoint2D joint = hookPoint.AddComponent<DistanceJoint2D>();
-        joint.connectedBody = playerR;
         joint.maxDistanceOnly = false;
+        joint.connectedBody = playerR;
 
         currentHook = joint;
 

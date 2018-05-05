@@ -2744,6 +2744,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114053913960896776, guid: 36dfeca85f6c1714abcb8117316ad873,
+        type: 2}
+      propertyPath: launchForce
+      value: 900
+      objectReference: {fileID: 0}
+    - target: {fileID: 114053913960896776, guid: 36dfeca85f6c1714abcb8117316ad873,
+        type: 2}
+      propertyPath: grappleIgnoreLayer.m_Bits
+      value: 4294967291
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 36dfeca85f6c1714abcb8117316ad873, type: 2}
   m_IsPrefabParent: 0
