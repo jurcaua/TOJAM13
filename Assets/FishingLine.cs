@@ -48,9 +48,19 @@ public class FishingLine : MonoBehaviour {
 			yield return new WaitForFixedUpdate();
 		}
 
-		sightLine.enabled = false;
+		//sightLine.enabled = false;
 		straightLine.SetPosition (0, fire.position);
 		straightLine.SetPosition (1, segments [k]);
+
+		throwing = 0;
+
+		for (int i = sightLine.positionCount - 1; i > 0; i--) {
+			sightLine.SetPosition (i, straightLine.GetPosition(1));
+			yield return new WaitForSeconds (0.01f);
+		}
+
+
+
 	}
 
 	public int SimulatePath(Vector3[] segments) {
