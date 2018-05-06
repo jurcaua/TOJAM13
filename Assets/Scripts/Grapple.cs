@@ -88,11 +88,13 @@ public class Grapple : MonoBehaviour {
             if (SettingManager.Left(playerMovement.playerID)) {
                 playerR.AddForce(-playerR.transform.right * swingForce);
             }
+            /*
             float range = 0.1f;
 			if (player.position.y > currentHook.transform.position.y && (Vector2.Dot(playerR.velocity, playerR.transform.up) < range && Vector2.Dot(playerR.velocity, playerR.transform.up) > -range) && !playerGrapple) {
                 Destroy(currentHook.gameObject);
                 currentHook = null;
             }
+            */
         }
 
         //Debug.Log(playerGrapple);
