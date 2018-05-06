@@ -18,7 +18,7 @@ public class Boundary : MonoBehaviour {
             StartCoroutine(DeathIndicator(collison.gameObject.GetComponentInParent<PlayerMovement>().playerID));
             gm.Respawn(collison.transform);
 
-        } else if (collison.transform.parent.gameObject.CompareTag("Player")) {
+        } else if (collison.transform.parent != null && collison.transform.parent.gameObject.CompareTag("Player")) {
             StartCoroutine(DeathIndicator(collison.transform.parent.gameObject.GetComponentInParent<PlayerMovement>().playerID));
             gm.Respawn(collison.transform.parent);
         }
