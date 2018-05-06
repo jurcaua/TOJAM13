@@ -17,6 +17,7 @@ public class FishingLine : MonoBehaviour {
 	public LineRenderer straightLine;
 
     private PlayerMovement player;
+    public bool RemoveFromTargets = false;
 
 	// Use this for initialization
 	void Start () {
@@ -33,6 +34,11 @@ public class FishingLine : MonoBehaviour {
 			//StartCoroutine (Shoot ());
 		}
 
+        if (RemoveFromTargets) {
+            RemoveFromTargets = false;
+
+            GameObject.Find("GameManager").GetComponent<GameManager>().RemoveCameraTarget(transform.parent);
+        }
 	}
 
 	public IEnumerator Shoot(Rigidbody2D player) {

@@ -3,37 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour {
 
     private List<GameObject> players;
-    //public GameObject player1;
-    //public GameObject player2;
-
-    //public string str;
-    //public float winnerY;
-
     private List<int> scores;
-    //public int p1Score;
-    //public int p2Score;
-
     public List<TextMeshProUGUI> texts;
-    //public Text p1Text;
-    //public Text p2Text;
-
     public List<Slider> sliders;
-    //public Slider p1Slider;
-    //public Slider p2Slider;
 
     public GameObject playerPrefab;
 
     private int curHighestPlayerIndex = 0;
     private LineRenderer highestPlayerLine;
 
-
-    // Use this for initialization
+    [Header("Camera Following")]
+    public CinemachineTargetGroup cameraTargetGroup;
+    private List<CinemachineTargetGroup.Target> cameraTargets;
+    public float playerTargetRadius = 4f;
+    public float playerTargetWeight = 1f;
+    public float hookTargetRadius = 2f;
+    public float hookTargetWeight = 0.5f;
+    
     void Start() {
-        //StartCoroutine (Stages ());
         highestPlayerLine = GetComponent<LineRenderer>();
 
         players = new List<GameObject>();
@@ -44,6 +36,45 @@ public class GameManager : MonoBehaviour {
         } else {
             LoadPlayersFromScene();
         }
+        InitCameraFollowing();
+    }
+
+    void InitCameraFollowing() {
+        cameraTargets = new List<CinemachineTargetGroup.Target>();
+
+        cameraTargetGroup.m_Targets = new CinemachineTargetGroup.Target[players.Count];
+        for (int i = 0; i < players.Count; i++) {
+            AddCameraPlayerTarget(players[i].transform);
+        }
+    }
+
+    public void AddCameraPlayerTarget(Transform toAdd) {
+        CinemachineTargetGroup.Target curTarget = new CinemachineTargetGroup.Target();
+        curTarget.target = toAdd;
+        curTarget.weight = playerTargetWeight;
+        curTarget.radius = playerTargetRadius;
+        cameraTargets.Add(curTarget);
+        cameraTargetGroup.m_Targets = cameraTargets.ToArray();
+    }
+
+    public void AddCameraHookTarget(Transform toAdd) {
+        CinemachineTargetGroup.Target curTarget = new CinemachineTargetGroup.Target();
+        curTarget.target = toAdd;
+        curTarget.weight = hookTargetWeight;
+        curTarget.radius = hookTargetRadius;
+        cameraTargets.Add(curTarget);
+        cameraTargetGroup.m_Targets = cameraTargets.ToArray();
+    }
+
+    public void RemoveCameraTarget(Transform toRemove) {
+        for (int i = 0; i < cameraTargets.Count; i++) {
+            if (cameraTargets[i].target == toRemove) {
+                cameraTargets.RemoveAt(i);
+                cameraTargetGroup.m_Targets = cameraTargets.ToArray();
+                return;
+            }
+        }
+        Debug.Log(string.Format("Object with name \"{0}\" not found in camera targets.", toRemove.name));
     }
 
     void LoadPlayersFromScene() {
