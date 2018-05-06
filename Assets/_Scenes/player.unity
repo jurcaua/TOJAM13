@@ -395,7 +395,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &204699782
 Transform:
   m_ObjectHideFlags: 0
@@ -2359,7 +2359,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &941378483
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2885,6 +2885,30 @@ Prefab:
     - target: {fileID: 4757485970903182, guid: 166140668c5cc2f4b95333db8cb979ad, type: 2}
       propertyPath: m_RootOrder
       value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 61956256786001976, guid: 166140668c5cc2f4b95333db8cb979ad,
+        type: 2}
+      propertyPath: m_Offset.y
+      value: -0.09458256
+      objectReference: {fileID: 0}
+    - target: {fileID: 61956256786001976, guid: 166140668c5cc2f4b95333db8cb979ad,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 1.8074102
+      objectReference: {fileID: 0}
+    - target: {fileID: 61675555198274226, guid: 166140668c5cc2f4b95333db8cb979ad,
+        type: 2}
+      propertyPath: m_Offset.y
+      value: -0.99136734
+      objectReference: {fileID: 0}
+    - target: {fileID: 61675555198274226, guid: 166140668c5cc2f4b95333db8cb979ad,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.11705685
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915871673114266, guid: 166140668c5cc2f4b95333db8cb979ad, type: 2}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166140668c5cc2f4b95333db8cb979ad, type: 2}
@@ -3576,7 +3600,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  gameDuration: 180
+  gameDuration: 30
   seagull: {fileID: 1610648397948304, guid: 0b6b269f2c0574648aadd07c576144a8, type: 2}
   seagull_origin: {fileID: 1806644879}
   iceberg_small: {fileID: 1797879950839538, guid: b6ec7230276ecfa4085fbf8109e0fbda,
@@ -3584,6 +3608,8 @@ MonoBehaviour:
   iceberg_origin: {fileID: 756257805}
   sky_clear: {fileID: 2061647733}
   sky_stormy: {fileID: 402577289}
+  boat: {fileID: 941378485}
+  iceberg: {fileID: 204699781}
 --- !u!1 &1488902970
 GameObject:
   m_ObjectHideFlags: 0

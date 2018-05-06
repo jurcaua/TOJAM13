@@ -17,6 +17,10 @@ public class StageManager : MonoBehaviour {
 	public GameObject sky_clear;
 	public GameObject sky_stormy;
 
+
+	public Animator boat;
+	public GameObject iceberg;
+
 	// Use this for initialization
 	void Start () {
 		StartCoroutine (Stages ());
@@ -53,6 +57,8 @@ public class StageManager : MonoBehaviour {
 		while (state == GameState.Iceberg) {
 			//do the whole shizzle
 			yield return new WaitForSeconds(1f);
+			iceberg.SetActive (true);
+			boat.SetTrigger ("Iceberg");
 		}
 	}
 
