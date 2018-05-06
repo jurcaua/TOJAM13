@@ -17,3 +17,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/player.unity
     guid: a4537002acabc2446b6bc2b2135d80e4
+  - enabled: 1
+    path: Assets/_Scenes/game-setup.unity
+    guid: ff404a8a2d161c441993f30a5595b24f
+  - enabled: 1
+    path: Assets/_Scenes/controller-support.unity
+    guid: 4876a5fac89bb1443a639da985ca1b91
+  - enabled: 1
+    path: Assets/_Scenes/controller-support 1.unity
+    guid: 823716708f1b2e0448b6efb6ac064a37

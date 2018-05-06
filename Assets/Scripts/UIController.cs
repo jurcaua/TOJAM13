@@ -26,7 +26,6 @@ public class UIController : MonoBehaviour {
     private List<ControlType> controlSchemes;
 
     void Start() {
-
         if (SettingMode) {
             ResetControls();
             continueButtonImage.color = new Color(1f, 1f, 1f, 0.5f);
@@ -68,6 +67,9 @@ public class UIController : MonoBehaviour {
             SettingManager.HasBeenSetUp = true;
             SettingManager.NumberOfPlayers = numPlayers;
             SettingManager.ControlSchemes = controlSchemes;
+
+            PrintCurrentSettings();
+
             GoTo(nextScene);
         }
     }
