@@ -203,7 +203,7 @@ public class Grapple : MonoBehaviour {
         while (currentHook != null && currentHook.distance > 1f) {
 
 
-			Debug.Log (currentHook.distance);
+			//Debug.Log (currentHook.distance);
 
 			if (playerGrapple) {
 				//grappledObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
