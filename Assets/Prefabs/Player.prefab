@@ -113,7 +113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4021510432953132
 Transform:
   m_ObjectHideFlags: 1
@@ -325,6 +325,7 @@ MonoBehaviour:
   segmentScale: 1
   sightLine: {fileID: 120307334529243740}
   straightLine: {fileID: 120950977184476570}
+  RemoveFromTargets: 0
 --- !u!114 &114667497975577284
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -359,6 +360,7 @@ MonoBehaviour:
   lowJumpMultipler: 2
   jumpButton: 119
   line: {fileID: 114176669965823990}
+  newLine: {fileID: 0}
   grapple: {fileID: 114053913960896776}
   frozen: 0
   canMove: 1

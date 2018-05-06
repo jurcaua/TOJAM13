@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GroundCheck : MonoBehaviour {
-
-    bool jumped = false;
-    PlayerMovement pm;
+    
+    private PlayerMovement pm;
 
     void Start() {
         pm = GetComponentInParent<PlayerMovement>();

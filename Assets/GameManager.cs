@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour {
 
     private StageManager stageManager;
     
-    void Start() {
+    void Awake() {
         highestPlayerLine = GetComponent<LineRenderer>();
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
 
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour {
 
         InitCameraFollowing();
 
-        SetBoundaries();
+        //SetBoundaries();
     }
 
     public void SetBoundaries() {
@@ -170,13 +170,24 @@ public class GameManager : MonoBehaviour {
         // Get all currently placed players in the scene
         GameObject[] foundPlayers = GameObject.FindGameObjectsWithTag("Player");
 
+        for (int i = 0; i < foundPlayers.Length; i++) {
+            Destroy(foundPlayers[i]);
+        }
+        for (int i = 0; i < SettingManager.NumberOfPlayers; i++) {
+            GameObject newPlayer = Instantiate(playerPrefab);
+            newPlayer.GetComponent<PlayerMovement>().playerID = i + 1;
+            players.Add(newPlayer);
+        }
+
+        /*
         // Set the player IDs
         for (int i = 0; i < foundPlayers.Length; i++) {
             PlayerMovement tempMovement = foundPlayers[i].GetComponent<PlayerMovement>();
             if (tempMovement == null) {
                 Destroy(foundPlayers[i]);
-                players.Add(Instantiate(playerPrefab));
-                players[players.Count - 1].GetComponent<PlayerMovement>().playerID = i + 1;
+                GameObject newPlayer = Instantiate(playerPrefab);
+                newPlayer.GetComponent<PlayerMovement>().playerID = i + 1;
+                players.Add(newPlayer);
             } else {
                 foundPlayers[i].GetComponent<PlayerMovement>().playerID = i + 1;
                 players.Add(foundPlayers[i]);
@@ -199,10 +210,14 @@ public class GameManager : MonoBehaviour {
                 texts[i].transform.parent.gameObject.SetActive(false);
             }
         }
+        */
 
         for (int i = 0; i < players.Count; i++) {
             players[i].name = "Player" + (i + 1);
             scores.Add(0);
+        }
+        for (int i = players.Count; i < 4; i++) {
+            texts[i].transform.parent.gameObject.SetActive(false);
         }
 
         if (SettingManager.DebugMode) {
