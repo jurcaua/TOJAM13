@@ -167,55 +167,27 @@ public class GameManager : MonoBehaviour {
     }
 
     void LoadPlayersFromSettings() {
-        // Get all currently placed players in the scene
+        // all current players in the scene
         GameObject[] foundPlayers = GameObject.FindGameObjectsWithTag("Player");
 
+        // destroy them all
         for (int i = 0; i < foundPlayers.Length; i++) {
             Destroy(foundPlayers[i]);
         }
+
+        // create the amount we need
         for (int i = 0; i < SettingManager.NumberOfPlayers; i++) {
             GameObject newPlayer = Instantiate(playerPrefab);
             newPlayer.GetComponent<PlayerMovement>().playerID = i + 1;
             players.Add(newPlayer);
         }
 
-        /*
-        // Set the player IDs
-        for (int i = 0; i < foundPlayers.Length; i++) {
-            PlayerMovement tempMovement = foundPlayers[i].GetComponent<PlayerMovement>();
-            if (tempMovement == null) {
-                Destroy(foundPlayers[i]);
-                GameObject newPlayer = Instantiate(playerPrefab);
-                newPlayer.GetComponent<PlayerMovement>().playerID = i + 1;
-                players.Add(newPlayer);
-            } else {
-                foundPlayers[i].GetComponent<PlayerMovement>().playerID = i + 1;
-                players.Add(foundPlayers[i]);
-            }
-        }
-
-        if (foundPlayers.Length < SettingManager.NumberOfPlayers) {
-            // create the rest if there are not enough
-            for (int i = foundPlayers.Length; i < SettingManager.NumberOfPlayers; i++) {
-                players.Add(Instantiate(playerPrefab));
-                players[players.Count - 1].GetComponent<PlayerMovement>().playerID = i + 1;
-            }
-        } else {
-            // destroy the remaining if there are extra
-            for (int i = SettingManager.NumberOfPlayers; i < foundPlayers.Length; i++) {
-                Destroy(foundPlayers[i]);
-            }
-
-            for (int i = players.Count; i < 4; i++) {
-                texts[i].transform.parent.gameObject.SetActive(false);
-            }
-        }
-        */
-
+        // set the names and scores
         for (int i = 0; i < players.Count; i++) {
             players[i].name = "Player" + (i + 1);
             scores.Add(0);
         }
+        // deactivate the texts of the non-used players
         for (int i = players.Count; i < 4; i++) {
             texts[i].transform.parent.gameObject.SetActive(false);
         }
