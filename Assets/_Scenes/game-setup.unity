@@ -1323,7 +1323,7 @@ MonoBehaviour:
         m_MethodName: SetPlayer
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: c5649a8ecd350584192ebf553031be06,
+          m_ObjectArgument: {fileID: 11400000, guid: c11d3cdcdb1fb5147984642a58a392bf,
             type: 2}
           m_ObjectArgumentAssemblyTypeName: PlayerControl, Assembly-CSharp
           m_IntArgument: 0
@@ -1668,7 +1668,7 @@ MonoBehaviour:
         m_MethodName: SetPlayer
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 2486d3ccb1678e84495497d1781d37cb,
+          m_ObjectArgument: {fileID: 11400000, guid: f0e65af19103be6439b9c1a58ad6c827,
             type: 2}
           m_ObjectArgumentAssemblyTypeName: PlayerControl, Assembly-CSharp
           m_IntArgument: 0
@@ -1813,7 +1813,7 @@ MonoBehaviour:
         m_MethodName: SetPlayer
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 6da21cc92d894004798b8f454655b334,
+          m_ObjectArgument: {fileID: 11400000, guid: 4b73c1d063a8d2140947f48be6d78470,
             type: 2}
           m_ObjectArgumentAssemblyTypeName: PlayerControl, Assembly-CSharp
           m_IntArgument: 0
@@ -2862,7 +2862,7 @@ MonoBehaviour:
         m_MethodName: SetPlayer
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: db9ea6ecc4c02fd4ba83c7cd8874c836,
+          m_ObjectArgument: {fileID: 11400000, guid: da4a8f3a7afe71340ac5c3c3349bc39f,
             type: 2}
           m_ObjectArgumentAssemblyTypeName: PlayerControl, Assembly-CSharp
           m_IntArgument: 0
@@ -3685,7 +3685,7 @@ MonoBehaviour:
         m_MethodName: SetPlayer
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: b815a0875285c4c47a10aea880b088f7,
+          m_ObjectArgument: {fileID: 11400000, guid: a425050bbfb4baa41ae2474e967a1402,
             type: 2}
           m_ObjectArgumentAssemblyTypeName: PlayerControl, Assembly-CSharp
           m_IntArgument: 0
@@ -4577,7 +4577,7 @@ MonoBehaviour:
         m_MethodName: SetPlayer
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 006577caa2db2c24a99c35582f52306c,
+          m_ObjectArgument: {fileID: 11400000, guid: 64ef07c0a2adfed478c5bcf59486fe4b,
             type: 2}
           m_ObjectArgumentAssemblyTypeName: PlayerControl, Assembly-CSharp
           m_IntArgument: 0
@@ -5028,7 +5028,7 @@ MonoBehaviour:
         m_MethodName: SetPlayer
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: abb8d511944e38e4da77b03688e7be8b,
+          m_ObjectArgument: {fileID: 11400000, guid: bcdc8899c84815a429f1f6442122259a,
             type: 2}
           m_ObjectArgumentAssemblyTypeName: PlayerControl, Assembly-CSharp
           m_IntArgument: 0
@@ -7019,7 +7019,7 @@ MonoBehaviour:
         m_MethodName: SetPlayer
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 316d854a5e7b95d4eb61bdddaef4a699,
+          m_ObjectArgument: {fileID: 11400000, guid: 0e06169c7259acb42bc1ddd3212abe99,
             type: 2}
           m_ObjectArgumentAssemblyTypeName: PlayerControl, Assembly-CSharp
           m_IntArgument: 0

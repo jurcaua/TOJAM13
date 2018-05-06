@@ -96,9 +96,6 @@ public class StageManager : MonoBehaviour {
 		state = GameState.Iceberg;
 		StartCoroutine (Iceberg ());
 		yield return new WaitForSeconds (gameDuration / 3);
-
-		//gameover
-
 	}
 
 	void OnTriggerEnter2D(Collider2D coll) {

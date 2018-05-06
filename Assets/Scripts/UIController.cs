@@ -7,12 +7,6 @@ using TMPro;
 
 public enum ControlType {Keyboard = 0, Controller = 1};
 
-[CreateAssetMenu()]
-public class PlayerControl : ScriptableObject {
-    public int playerNum;
-    public ControlType controlType;
-}
-
 public class UIController : MonoBehaviour {
 
     [Header("Player Control Setting Scene")]
@@ -24,6 +18,7 @@ public class UIController : MonoBehaviour {
 
     private int numPlayers = 1;
     private List<ControlType> controlSchemes;
+    private List<bool> isSet;
 
     void Start() {
         if (SettingMode) {
@@ -43,16 +38,28 @@ public class UIController : MonoBehaviour {
 
     public void SetPlayer(PlayerControl toSet) {
         controlSchemes[toSet.playerNum - 1] = toSet.controlType;
+        isSet[toSet.playerNum - 1] = true;
         if (toSet.controlType == ControlType.Keyboard) {
             for (int i = 0; i < numPlayers; i++) {
                 if (i != toSet.playerNum - 1) {
                     controlSchemes[i] = ControlType.Controller;
+                    isSet[i] = true;
                 }
             }
         }
 
-        canContinue = true;
-        continueButtonImage.color = Color.white;
+        bool allTrue = true;
+        for (int i = 0; i < numPlayers; i++) {
+            if (!isSet[i]) {
+                allTrue = false;
+                break;
+            }
+        }
+        
+        if (allTrue) {
+            canContinue = true;
+            continueButtonImage.color = Color.white;
+        }
 
         //PrintCurrentSettings();
     }
@@ -76,8 +83,10 @@ public class UIController : MonoBehaviour {
 
     void ResetControls() {
         controlSchemes = new List<ControlType>();
+        isSet = new List<bool>();
         for (int i = 0; i < numPlayers; i++) {
             controlSchemes.Add(ControlType.Controller);
+            isSet.Add(false);
         }
     }
 

@@ -99,7 +99,7 @@ public class Grapple : MonoBehaviour {
             }
             */
 
-			player.GetComponent<SpriteRenderer> ().sortingOrder = 16;
+			player.GetComponent<SpriteRenderer> ().sortingOrder = 17;
 		} else {
 			player.GetComponent<SpriteRenderer> ().sortingOrder = 14;
 
