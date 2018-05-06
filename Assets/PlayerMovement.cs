@@ -31,6 +31,12 @@ public class PlayerMovement : MonoBehaviour {
 	public GameObject hook;
 	public GameObject hookPoint;
 
+	public bool hit;
+	public int hitBy;
+	public bool paralized;
+
+	public bool disabled = false;
+	public float disabledTime;
 	// Use this for initialization
 	void Start () {
         r = GetComponent<Rigidbody2D>();
@@ -97,7 +103,7 @@ public class PlayerMovement : MonoBehaviour {
 				}
 			}
 
-			if (SettingManager.GrappleDown(playerID)) {
+			if (SettingManager.GrappleDown(playerID) && !disabled) {
 				//StartCoroutine (Shoot (GetComponent<Rigidbody2D> ()));
 				StartCoroutine (ShootImproved (GetComponent<Rigidbody2D> ()));
 			}
@@ -293,4 +299,17 @@ public class PlayerMovement : MonoBehaviour {
         previousVel = Vector2.zero;
 
     }
+
+	public IEnumerator Disable() {
+		disabled = true;
+		//change color
+		GetComponent<SpriteRenderer>().color = Color.red;
+
+		yield return new WaitForSeconds (disabledTime);
+
+		disabled = false;
+		//change color back
+		GetComponent<SpriteRenderer>().color = Color.white;
+
+	}
 }

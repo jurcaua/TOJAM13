@@ -8,7 +8,7 @@ using Cinemachine;
 public class GameManager : MonoBehaviour {
 
     public List<GameObject> players;
-    private List<int> scores;
+	public List<int> scores;
     public List<TextMeshProUGUI> texts;
     public List<Slider> sliders;
 

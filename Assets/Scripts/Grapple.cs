@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEditor;
 
 public class Grapple : MonoBehaviour {
@@ -34,6 +35,9 @@ public class Grapple : MonoBehaviour {
     private bool isSwinging { get { return currentHook != null && currentGrappleThrow == null; } }
     public bool playerGrapple = false;
 
+	private GameManager GM;
+	public Image loading;
+
 	void Start () {
         grapple = GetComponent<LineRenderer>();
         grapple.positionCount = 2;
@@ -41,6 +45,7 @@ public class Grapple : MonoBehaviour {
         player = transform.parent;
         playerMovement = GetComponentInParent<PlayerMovement>();
         playerR = GetComponentInParent<Rigidbody2D>();
+		GM = GameObject.Find ("GameManager").GetComponent<GameManager>();
     }
 	
 	void Update () {
@@ -99,7 +104,7 @@ public class Grapple : MonoBehaviour {
             }
             */
 
-			player.GetComponent<SpriteRenderer> ().sortingOrder = 16;
+			player.GetComponent<SpriteRenderer> ().sortingOrder = 17;
 		} else {
 			player.GetComponent<SpriteRenderer> ().sortingOrder = 14;
 
@@ -195,19 +200,76 @@ public class Grapple : MonoBehaviour {
         currentGrapplePull = null;
 
         if (playerGrapple) {
-			grappledObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
-			grappledObject.GetComponent<PlayerMovement> ().frozen = true;
 
-            yield return new WaitForSeconds(playerPushDelay);
+			//player with the least score wins
+			if (playerMovement.hit && playerMovement.playerID == grappledObject.GetComponent<PlayerMovement> ().hitBy) {
+				//both hit
+				if (GM.scores [playerMovement.playerID-1] >= GM.scores [grappledObject.GetComponent<PlayerMovement> ().playerID-1]) {
+					//player loses
+					Debug.Log("enemy wins");
+					UnGrapple ();
+				} else {
+					//player wins
+					Debug.Log("player wins");
 
-            UnGrapple();
+					grappledObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
+					grappledObject.GetComponent<PlayerMovement> ().frozen = true;
 
-			grappledObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeRotation;
-			grappledObject.GetComponent<PlayerMovement> ().frozen = false;
-			//TODO ADD THE VELOCITY CHANGES TO THE TARGET
+					grappledObject.GetComponent<PlayerMovement> ().paralized = true;
+
+					//do the loading thing
+
+					yield return new WaitForSeconds (playerPushDelay);
+
+					UnGrapple ();
+
+					grappledObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeRotation;
+					grappledObject.GetComponent<PlayerMovement> ().frozen = false;
+
+					//TODO ADD THE VELOCITY CHANGES TO THE TARGET
+					grappledObject.GetComponent<PlayerMovement> ().hit = false;
+					grappledObject.GetComponent<PlayerMovement> ().paralized = false;
 
 
-            LaunchEnemy(((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - pos).normalized);
+					//LaunchEnemy (((Vector2)Camera.main.ScreenToWorldPoint (Input.mousePosition) - pos).normalized);
+					grappledObject.GetComponent<PlayerMovement>().grapple.UnGrapple();
+					LaunchEnemy (SettingManager.GetAimVector(playerMovement.playerID,playerR.position));
+					StartCoroutine (grappledObject.GetComponent<PlayerMovement> ().Disable ());
+				}
+			} else {
+				//only enemy hit
+				grappledObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
+				grappledObject.GetComponent<PlayerMovement> ().frozen = true;
+
+				grappledObject.GetComponent<PlayerMovement> ().paralized = true;
+
+				//do the loading thing
+
+				//yield return new WaitForSeconds (playerPushDelay);
+				while (loading.fillAmount < 1) {
+					loading.fillAmount += 0.1f;
+					yield return new WaitForSeconds (playerPushDelay/10);
+				}
+				loading.fillAmount = 0;
+
+				UnGrapple ();
+
+				grappledObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeRotation;
+				grappledObject.GetComponent<PlayerMovement> ().frozen = false;
+
+				//TODO ADD THE VELOCITY CHANGES TO THE TARGET
+				grappledObject.GetComponent<PlayerMovement> ().hit = false;
+				grappledObject.GetComponent<PlayerMovement> ().paralized = false;
+
+
+				//LaunchEnemy (((Vector2)Camera.main.ScreenToWorldPoint (Input.mousePosition) - pos).normalized);
+				grappledObject.GetComponent<PlayerMovement>().grapple.UnGrapple();
+				LaunchEnemy (SettingManager.GetAimVector(playerMovement.playerID,playerR.position));
+				StartCoroutine (grappledObject.GetComponent<PlayerMovement> ().Disable ());
+			
+			}
+
+
         } else {
             UnGrapple();
 
@@ -233,6 +295,8 @@ public class Grapple : MonoBehaviour {
 
 		if (hookPoint.transform.parent.tag == "Player") {
 			playerGrapple = true;
+			grappledObject.GetComponent<PlayerMovement> ().hit = true;
+			grappledObject.GetComponent<PlayerMovement> ().hitBy = playerMovement.playerID;
 			currentGrapplePull = StartCoroutine(PullTo(currentHook.transform.position, 2f));
 		} else {
 			playerGrapple = false;
@@ -259,7 +323,7 @@ public class Grapple : MonoBehaviour {
         currentHook = joint;
 
         if (playerGrapple) {
-            playerR.simulated = false;
+            //playerR.simulated = false;
             currentGrapplePull = StartCoroutine(PullTo(currentHook.transform.position, 2f));
         }
 
@@ -273,7 +337,7 @@ public class Grapple : MonoBehaviour {
         }
 
         otherR.velocity = Vector2.zero;
-        otherR.AddForce(dir * 1000f);
+        otherR.AddForce(dir.normalized * 1000f);
 
         playerR.simulated = true;
 		playerGrapple = false;

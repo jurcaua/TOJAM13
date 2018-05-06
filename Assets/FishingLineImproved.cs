@@ -32,7 +32,7 @@ public class FishingLineImproved : MonoBehaviour {
 			//StartCoroutine (SimulatePath ());
 		}
 
-		if (!done) {
+		if (!done && hook != null) {
 			hook.position = sightLine.GetPosition (sightLine.positionCount - 1);
 		}
 	}
@@ -55,6 +55,7 @@ public class FishingLineImproved : MonoBehaviour {
 
 				//contact shit
 				if (hit = Physics2D.Raycast (segments [i - 1], segVelocity, segmentScale)) {
+					
 
 					//Debug.Log ("Hitting Something: " + i);
 
@@ -66,7 +67,10 @@ public class FishingLineImproved : MonoBehaviour {
 
 					sightLine.positionCount++;
 					sightLine.SetPosition (i, segments [i]);
+					if (hit.transform.gameObject.tag == "Player" && hit.transform.gameObject.GetComponent<PlayerMovement>().disabled) {
+					} else {
 					break;
+					}
 				} else {
 					//Debug.Log ("Adding Segment");
 					sightLine.positionCount++;
