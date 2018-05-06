@@ -170,7 +170,7 @@ public class PlayerMovement : MonoBehaviour {
 			yield return new WaitForFixedUpdate ();
 		}
 
-		Debug.Log ("done");
+		//Debug.Log ("done");
 
 		if (newLine.hit) {
 			//Destroy (newLine.hit.collider.gameObject);
@@ -196,16 +196,19 @@ public class PlayerMovement : MonoBehaviour {
 			//	yield return new WaitForFixedUpdate ();
 
 			//}
+			grapple.grappledObject = contactObject;
 			grapple.SecureHookImproved (_hook);
 		}
 			
 		newLine.sightLine.enabled = false;
 
-		frozen = false;
-		player.constraints = RigidbodyConstraints2D.FreezeRotation;
+		if (!grapple.playerGrapple) {
+			frozen = false;
+			player.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-		player.velocity = previousVel;
-		previousVel = Vector2.zero;
+			player.velocity = previousVel;
+			previousVel = Vector2.zero;
+		}
 
 	}
 

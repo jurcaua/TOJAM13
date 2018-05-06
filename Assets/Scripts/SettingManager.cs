@@ -63,7 +63,7 @@ public class SettingManager : MonoBehaviour {
     public static bool Jump(int playerID) {
         if (playerID > 0 && ControlSchemes.Count >= playerID) {
             if (ControlSchemes[playerID - 1] == ControlType.Keyboard) {
-                return Input.GetKey(KeyCode.W);
+                return Input.GetKeyDown(KeyCode.W);
             } else {
                 Vector2 leftStickAxis = GamePad.GetAxis(GamePad.Axis.LeftStick, GetIndex(playerID));
 
@@ -114,6 +114,18 @@ public class SettingManager : MonoBehaviour {
             return Input.GetKeyUp(KeyCode.Mouse0);
         }
     }
+
+	public static bool Pull(int playerID) {
+		if (playerID > 0 && ControlSchemes.Count >= playerID) {
+			if (ControlSchemes[playerID - 1] == ControlType.Keyboard) {
+				return Input.GetKey(KeyCode.Mouse1);
+			} else {
+				return GamePad.GetButton(GamePad.Button.RightShoulder, GetIndex(playerID));
+			}
+		} else {
+			return Input.GetKey(KeyCode.Mouse1);
+		}
+	}
 
     public static bool PullDown(int playerID) {
         if (playerID > 0 && ControlSchemes.Count >= playerID) {

@@ -25,14 +25,14 @@ public class Grapple : MonoBehaviour {
     private Coroutine currentGrappleThrow = null;
     private Coroutine currentGrapplePull = null;
     private DistanceJoint2D currentHook = null;
-    [HideInInspector] public GameObject grappledObject = null;
+    public GameObject grappledObject = null;
 
     private Transform player;
     private PlayerMovement playerMovement;
     private Rigidbody2D playerR;
 
     private bool isSwinging { get { return currentHook != null && currentGrappleThrow == null; } }
-    [HideInInspector] public bool playerGrapple = false;
+    public bool playerGrapple = false;
 
 	void Start () {
         grapple = GetComponent<LineRenderer>();
@@ -54,12 +54,15 @@ public class Grapple : MonoBehaviour {
         //    UnGrapple();
         //}
 
-        if (!playerMovement.frozen && (SettingManager.GrappleUp(playerMovement.playerID)) || !SettingManager.Grapple(playerMovement.playerID)) {
+        if (!playerMovement.frozen && (SettingManager.GrappleUp(playerMovement.playerID)) && !playerGrapple || !SettingManager.Grapple(playerMovement.playerID) && !playerGrapple) {
             UnGrapple();
         }
 
-            if (!playerGrapple && SettingManager.Grapple(playerMovement.playerID) && SettingManager.PullDown(playerMovement.playerID) && currentHook != null) {
-            currentGrapplePull = StartCoroutine(PullTo(currentHook.transform.position));
+          //  if (!playerGrapple && SettingManager.Grapple(playerMovement.playerID) && SettingManager.PullDown(playerMovement.playerID) && currentHook != null) {
+		if (!playerGrapple && SettingManager.Grapple(playerMovement.playerID) && SettingManager.Pull(playerMovement.playerID) && currentHook != null) {
+			if (currentGrapplePull == null) {
+				currentGrapplePull = StartCoroutine (PullTo (currentHook.transform.position));
+			}
 
         } else if (!playerGrapple && SettingManager.PullUp(playerMovement.playerID) && currentGrapplePull != null) {
             StopCoroutine(currentGrapplePull);
@@ -68,34 +71,39 @@ public class Grapple : MonoBehaviour {
             playerR.simulated = true;
         }
 
-        if (playerGrapple && SettingManager.GrappleUp(playerMovement.playerID) && currentGrapplePull != null) {
+        if (playerGrapple && SettingManager.GrappleUp(playerMovement.playerID) && currentGrapplePull != null && !playerGrapple) {
             StopCoroutine(currentGrapplePull);
             currentGrapplePull = null;
             playerR.simulated = true;
         }
 
-        if (isSwinging) {
+		if (isSwinging) {
 
-            Vector3 playerPosition = new Vector3(player.position.x, player.position.y, -1);
-            Vector3 hookPosition = new Vector3(currentHook.transform.position.x, currentHook.transform.position.y, -1);
+			Vector3 playerPosition = new Vector3 (player.position.x, player.position.y, -1);
+			Vector3 hookPosition = new Vector3 (currentHook.transform.position.x, currentHook.transform.position.y, -1);
 
-            grapple.SetPosition(0, playerPosition);
-            grapple.SetPosition(1, hookPosition);
+			grapple.SetPosition (0, playerPosition);
+			grapple.SetPosition (1, hookPosition);
 
-            if (SettingManager.Right(playerMovement.playerID)) {
-                playerR.AddForce(playerR.transform.right * swingForce);
-            }
-            if (SettingManager.Left(playerMovement.playerID)) {
-                playerR.AddForce(-playerR.transform.right * swingForce);
-            }
-            /*
+			if (SettingManager.Right (playerMovement.playerID)) {
+				playerR.AddForce (playerR.transform.right * swingForce);
+			}
+			if (SettingManager.Left (playerMovement.playerID)) {
+				playerR.AddForce (-playerR.transform.right * swingForce);
+			}
+			/*
             float range = 0.1f;
 			if (player.position.y > currentHook.transform.position.y && (Vector2.Dot(playerR.velocity, playerR.transform.up) < range && Vector2.Dot(playerR.velocity, playerR.transform.up) > -range) && !playerGrapple) {
                 Destroy(currentHook.gameObject);
                 currentHook = null;
             }
             */
-        }
+
+			player.GetComponent<SpriteRenderer> ().sortingOrder = 16;
+		} else {
+			player.GetComponent<SpriteRenderer> ().sortingOrder = 14;
+
+		}
 
         //Debug.Log(playerGrapple);
     }
@@ -171,10 +179,12 @@ public class Grapple : MonoBehaviour {
 			Debug.Log (currentHook.distance);
 
 			if (playerGrapple) {
-				grappledObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
+				//grappledObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
 			}
 
-            player.position = player.position + (currentHook.transform.position - player.position).normalized * grapplePullInc * speedMult;
+			Vector3 hookPosFixed = new Vector3 (currentHook.transform.position.x, currentHook.transform.position.y, 0);
+			player.position = player.position + (hookPosFixed - player.position).normalized * grapplePullInc * speedMult;
+			//player.position = player.position + (currentHook.transform.position - Vector3.back - player.position).normalized * grapplePullInc * speedMult;
             grapple.SetPosition(0, player.position);
 
             yield return new WaitForSeconds(grapplePullSpeed);
@@ -185,11 +195,17 @@ public class Grapple : MonoBehaviour {
         currentGrapplePull = null;
 
         if (playerGrapple) {
+			grappledObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
+			grappledObject.GetComponent<PlayerMovement> ().frozen = true;
+
             yield return new WaitForSeconds(playerPushDelay);
 
             UnGrapple();
 
 			grappledObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeRotation;
+			grappledObject.GetComponent<PlayerMovement> ().frozen = false;
+			//TODO ADD THE VELOCITY CHANGES TO THE TARGET
+
 
             LaunchEnemy(((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - pos).normalized);
         } else {
@@ -214,6 +230,13 @@ public class Grapple : MonoBehaviour {
 		//EditorApplication.isPaused = true;
 
 		//add player grapple
+
+		if (hookPoint.transform.parent.tag == "Player") {
+			playerGrapple = true;
+			currentGrapplePull = StartCoroutine(PullTo(currentHook.transform.position, 2f));
+		} else {
+			playerGrapple = false;
+		}
 	}
 
 
@@ -253,5 +276,13 @@ public class Grapple : MonoBehaviour {
         otherR.AddForce(dir * 1000f);
 
         playerR.simulated = true;
+		playerGrapple = false;
+
+
+		playerMovement.frozen = false;
+		playerR.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+		playerR.velocity = playerMovement.previousVel;
+		playerMovement.previousVel = Vector2.zero;
     }
 }

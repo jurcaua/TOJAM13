@@ -5,6 +5,7 @@ using UnityEngine;
 public class StageManager : MonoBehaviour {
 
 	public enum GameState {Boat, Storm, Iceberg};
+	//public GameManager GM;
 	public GameState state;
 	public int gameDuration = 180;
 
@@ -19,11 +20,14 @@ public class StageManager : MonoBehaviour {
 
 
 	public Animator boat;
+	public GameObject[] platforms;
+	public List<Rigidbody2D> players;
 	public GameObject iceberg;
 
 	// Use this for initialization
 	void Start () {
 		StartCoroutine (Stages ());
+		players = new List<Rigidbody2D> ();
 	}
 	
 	// Update is called once per frame
@@ -54,11 +58,26 @@ public class StageManager : MonoBehaviour {
 	}
 
 	IEnumerator Iceberg() {
+		yield return new WaitForSeconds(1f);
+
+		iceberg.SetActive (true);
+		boat.SetTrigger ("Iceberg");
+
+		yield return new WaitForSeconds(1.15f);
+		//int children = boat.transform.childCount;
+		foreach (GameObject child in platforms) {
+			child.SetActive (false);
+		}
+
+		foreach (Rigidbody2D rb in players) {
+			rb.AddForce (Vector2.up * 5000);
+
 		while (state == GameState.Iceberg) {
 			//do the whole shizzle
-			yield return new WaitForSeconds(1f);
-			iceberg.SetActive (true);
-			boat.SetTrigger ("Iceberg");
+				yield return new WaitForSeconds(1f);
+
+			}
+
 		}
 	}
 
@@ -80,5 +99,17 @@ public class StageManager : MonoBehaviour {
 
 		//gameover
 
+	}
+
+	void OnTriggerEnter2D(Collider2D coll) {
+		if (coll.tag == "Player") {
+			players.Add (coll.gameObject.GetComponent<Rigidbody2D> ());
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D coll) {
+		if (coll.tag == "Player") {
+			players.Remove (coll.gameObject.GetComponent<Rigidbody2D> ());
+		}
 	}
 }
