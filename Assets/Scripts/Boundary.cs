@@ -9,9 +9,11 @@ public class Boundary : MonoBehaviour {
     public bool isWater = false;
 
     GameManager gm;
+    AudioController audioC;
 
     void Start() {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        audioC = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioController>();
 
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
     }
@@ -23,9 +25,10 @@ public class Boundary : MonoBehaviour {
                 foreach (StormCloudBounce s in FindObjectsOfType<StormCloudBounce>()) {
                     s.Flash();
                 }
+                audioC.Play(audioC.thunder, true);
             }
             if (isWater) {
-
+                audioC.Play(audioC.bigSplash, true);
             }
             StartCoroutine(DeathIndicator(collison.gameObject.GetComponentInParent<PlayerMovement>().playerID));
             gm.Respawn(collison.transform);

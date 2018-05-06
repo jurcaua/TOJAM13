@@ -39,7 +39,7 @@ public class AudioController : MonoBehaviour {
         smallSplash = AddAudio(smallSplashClip, false, false, 0.7f);
         menuSelectMetal = AddAudio(menuSelectMetalClip, false, false, 0.7f);
         playerHit = AddAudio(playerHitClips[0], false, false, 0.7f);
-        rain = AddAudio(rainClip, false, false, 0.5f);
+        rain = AddAudio(rainClip, true, false, 0.5f);
         thunder = AddAudio(thunderClips[0], false, false, 0.6f);
         woosh = AddAudio(wooshClip, false, false, 0.7f);
         hookHit = AddAudio(hookHitClip, false, false, 0.7f);

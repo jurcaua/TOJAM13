@@ -1524,6 +1524,91 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8d9b55c97a02bc14bad69d941263d712, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &441546223 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1282628564523956, guid: 8d9b55c97a02bc14bad69d941263d712,
+    type: 2}
+  m_PrefabInternal: {fileID: 441546222}
+--- !u!82 &441546224
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 441546223}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 82970dafb70ba5849965e9472b005718, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1 &458974767
 GameObject:
   m_ObjectHideFlags: 0
@@ -2129,6 +2214,11 @@ Prefab:
     - target: {fileID: 4822747262501984, guid: 15d5049613f35e441999536e93273aa3, type: 2}
       propertyPath: m_LocalScale.x
       value: 184
+      objectReference: {fileID: 0}
+    - target: {fileID: 114051330991829160, guid: 15d5049613f35e441999536e93273aa3,
+        type: 2}
+      propertyPath: isWater
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 15d5049613f35e441999536e93273aa3, type: 2}
@@ -8678,7 +8768,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  gameDuration: 30
+  gameDuration: 150
   seagull: {fileID: 1610648397948304, guid: 0b6b269f2c0574648aadd07c576144a8, type: 2}
   seagull_origin: {fileID: 1806644879}
   iceberg_small: {fileID: 1797879950839538, guid: b6ec7230276ecfa4085fbf8109e0fbda,
@@ -9312,6 +9402,11 @@ Prefab:
       propertyPath: m_LocalScale.x
       value: 182.37
       objectReference: {fileID: 0}
+    - target: {fileID: 114051330991829160, guid: 15d5049613f35e441999536e93273aa3,
+        type: 2}
+      propertyPath: isWater
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 15d5049613f35e441999536e93273aa3, type: 2}
   m_IsPrefabParent: 0
@@ -9716,6 +9811,11 @@ Prefab:
     - target: {fileID: 4822747262501984, guid: 15d5049613f35e441999536e93273aa3, type: 2}
       propertyPath: m_LocalScale.x
       value: 185.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114051330991829160, guid: 15d5049613f35e441999536e93273aa3,
+        type: 2}
+      propertyPath: isWater
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 15d5049613f35e441999536e93273aa3, type: 2}

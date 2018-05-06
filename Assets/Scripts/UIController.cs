@@ -9,6 +9,8 @@ public enum ControlType {Keyboard = 0, Controller = 1};
 
 public class UIController : MonoBehaviour {
 
+    public bool MainMenu = false;
+
     [Header("Player Control Setting Scene")]
     public bool SettingMode = true;
     public Image continueButtonImage;
@@ -20,14 +22,22 @@ public class UIController : MonoBehaviour {
     private List<ControlType> controlSchemes;
     private List<bool> isSet;
 
-    private AudioController audio;
+    private AudioController audioC;
 
     void Start() {
-        audio = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioController>();
+        audioC = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioController>();
 
         if (SettingMode) {
             ResetControls();
             continueButtonImage.color = new Color(1f, 1f, 1f, 0.5f);
+        }
+    }
+
+    void Update() {
+        if (MainMenu) {
+            if (Input.GetKeyDown(KeyCode.Escape) || GamepadInput.GamePad.GetButtonDown(GamepadInput.GamePad.Button.Start, GamepadInput.GamePad.Index.Any)) {
+                Application.Quit();
+            }
         }
     }
 
@@ -36,7 +46,7 @@ public class UIController : MonoBehaviour {
     }
 
     public void GoToWait(string sceneName) {
-        StartCoroutine(WaitLoad(sceneName, audio.PlayBigUIClick()));
+        StartCoroutine(WaitLoad(sceneName, audioC.PlayBigUIClick()));
     }
 
     IEnumerator WaitLoad(string sceneName, float delay) {

@@ -6,7 +6,7 @@ public class SmallIceberg : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		if (transform.position.y >= -8.5) {
+		if (transform.position.y >= -7.47) {
 			GetComponent<SpriteRenderer> ().sortingOrder = 0;
 		}
 

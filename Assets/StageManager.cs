@@ -24,8 +24,12 @@ public class StageManager : MonoBehaviour {
 	public List<Rigidbody2D> players;
 	public GameObject iceberg;
 
+    private AudioController ac;
+
 	// Use this for initialization
 	void Start () {
+        ac = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioController>();
+
 		StartCoroutine (Stages ());
 		players = new List<Rigidbody2D> ();
 	}
@@ -47,6 +51,8 @@ public class StageManager : MonoBehaviour {
 	}
 
 	IEnumerator Storm() {
+        ac.Play(ac.rain);
+
         sky_clear.SetActive (false);
 		sky_stormy.SetActive (true);
 		while (state == GameState.Storm) {
