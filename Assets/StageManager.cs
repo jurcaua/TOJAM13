@@ -47,7 +47,7 @@ public class StageManager : MonoBehaviour {
 	}
 
 	IEnumerator Storm() {
-		sky_clear.SetActive (false);
+        sky_clear.SetActive (false);
 		sky_stormy.SetActive (true);
 		while (state == GameState.Storm) {
 			//send small icebergs
