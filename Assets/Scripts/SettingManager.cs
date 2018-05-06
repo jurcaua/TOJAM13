@@ -9,7 +9,7 @@ public class SettingManager : MonoBehaviour {
     public static int NumberOfPlayers = 1;
     public static List<ControlType> ControlSchemes = new List<ControlType>();
 
-    public static bool DebugMode = true;
+    public static bool DebugMode = false;
 
     // NEW FUNCTIONS --> RETURN BOOL
 
