@@ -81,6 +81,14 @@ public class GameManager : MonoBehaviour {
         GameObject[] foundPlayers = GameObject.FindGameObjectsWithTag("Player");
 
         SettingManager.NumberOfPlayers = foundPlayers.Length;
+        if (SettingManager.NumberOfPlayers >= 1) {
+
+            SettingManager.ControlSchemes.Add(ControlType.Keyboard);
+
+            for (int i = 1; i < SettingManager.NumberOfPlayers; i++) {
+                SettingManager.ControlSchemes.Add(ControlType.Controller);
+            }
+        }
 
         LoadPlayersFromSettings();
     }
@@ -95,7 +103,7 @@ public class GameManager : MonoBehaviour {
             if (tempMovement == null) {
                 Destroy(foundPlayers[i]);
                 players.Add(Instantiate(playerPrefab));
-                players[players.Count - 1].GetComponent<PlayerMovement>().playerID = i - 1;
+                players[players.Count - 1].GetComponent<PlayerMovement>().playerID = i + 1;
             } else {
                 foundPlayers[i].GetComponent<PlayerMovement>().playerID = i + 1;
                 players.Add(foundPlayers[i]);
@@ -106,7 +114,7 @@ public class GameManager : MonoBehaviour {
             // create the rest if there are not enough
             for (int i = foundPlayers.Length; i < SettingManager.NumberOfPlayers; i++) {
                 players.Add(Instantiate(playerPrefab));
-                players[players.Count - 1].GetComponent<PlayerMovement>().playerID = i - 1;
+                players[players.Count - 1].GetComponent<PlayerMovement>().playerID = i + 1;
             }
         } else {
             // destroy the remaining if there are extra

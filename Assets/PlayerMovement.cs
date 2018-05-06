@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour {
         bool moving = false;
 
 		if (!frozen) {
-			if (Input.GetKey (SettingManager.MoveRight(playerID))) {
+			if (SettingManager.Right(playerID)) {
 				if (xAcceleration >= 0) {
 					xAcceleration = Mathf.Min (maxAcceleration, xAcceleration + speed);
 				} else {
@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour {
 				moving = true;
 			}
 
-			if (Input.GetKey (SettingManager.MoveLeft(playerID))) {
+			if (SettingManager.Left(playerID)) {
 				if (xAcceleration <= 0) {
 					xAcceleration = Mathf.Max (-maxAcceleration, xAcceleration - speed);
 				} else {
@@ -91,13 +91,13 @@ public class PlayerMovement : MonoBehaviour {
 			}
 
 			if (grounded & !falling) {
-				if (Input.GetKeyDown (SettingManager.Jump(playerID))) {
+				if (SettingManager.Jump(playerID)) {
 					grounded = false;
 					GetComponent<Rigidbody2D> ().AddForce (Vector2.up * jumpForce);
 				}
 			}
 
-			if (Input.GetKeyDown(SettingManager.Grapple(playerID))) {
+			if (SettingManager.GrappleDown(playerID)) {
 				//StartCoroutine (Shoot (GetComponent<Rigidbody2D> ()));
 				StartCoroutine (ShootImproved (GetComponent<Rigidbody2D> ()));
 			}

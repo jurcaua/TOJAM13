@@ -3328,7 +3328,7 @@ MonoBehaviour:
   - {fileID: 2140867011}
   - {fileID: 1841845769}
   - {fileID: 500749339}
-  playerPrefab: {fileID: 1974200256845638, guid: 36dfeca85f6c1714abcb8117316ad873,
+  playerPrefab: {fileID: 1739100222248586, guid: 166140668c5cc2f4b95333db8cb979ad,
     type: 2}
   cameraTargetGroup: {fileID: 747778910}
   playerTargetRadius: 4

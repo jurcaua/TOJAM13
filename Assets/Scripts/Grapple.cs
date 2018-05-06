@@ -54,21 +54,21 @@ public class Grapple : MonoBehaviour {
         //    UnGrapple();
         //}
 
-        if (!playerMovement.frozen && (Input.GetKeyUp(SettingManager.Grapple(playerMovement.playerID)) || !Input.GetKey(SettingManager.Grapple(playerMovement.playerID)))) {
+        if (!playerMovement.frozen && (SettingManager.GrappleUp(playerMovement.playerID)) || !SettingManager.Grapple(playerMovement.playerID)) {
             UnGrapple();
         }
 
-            if (!playerGrapple && Input.GetKey(SettingManager.Grapple(playerMovement.playerID)) && Input.GetKeyDown(SettingManager.Pull(playerMovement.playerID)) && currentHook != null) {
+            if (!playerGrapple && SettingManager.Grapple(playerMovement.playerID) && SettingManager.PullDown(playerMovement.playerID) && currentHook != null) {
             currentGrapplePull = StartCoroutine(PullTo(currentHook.transform.position));
 
-        } else if (!playerGrapple && Input.GetKeyUp(SettingManager.Pull(playerMovement.playerID)) && currentGrapplePull != null) {
+        } else if (!playerGrapple && SettingManager.PullUp(playerMovement.playerID) && currentGrapplePull != null) {
             StopCoroutine(currentGrapplePull);
             currentGrapplePull = null;
 
             playerR.simulated = true;
         }
 
-        if (playerGrapple && Input.GetKeyUp(SettingManager.Grapple(playerMovement.playerID)) && currentGrapplePull != null) {
+        if (playerGrapple && SettingManager.GrappleUp(playerMovement.playerID) && currentGrapplePull != null) {
             StopCoroutine(currentGrapplePull);
             currentGrapplePull = null;
             playerR.simulated = true;
@@ -82,10 +82,10 @@ public class Grapple : MonoBehaviour {
             grapple.SetPosition(0, playerPosition);
             grapple.SetPosition(1, hookPosition);
 
-            if (Input.GetKey(SettingManager.MoveRight(playerMovement.playerID))) {
+            if (SettingManager.Right(playerMovement.playerID)) {
                 playerR.AddForce(playerR.transform.right * swingForce);
             }
-            if (Input.GetKey(SettingManager.MoveLeft(playerMovement.playerID))) {
+            if (SettingManager.Left(playerMovement.playerID)) {
                 playerR.AddForce(-playerR.transform.right * swingForce);
             }
             float range = 0.1f;
@@ -99,7 +99,7 @@ public class Grapple : MonoBehaviour {
     }
 
     void DirectionArrow() {
-        arrowDirection = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
+        arrowDirection = SettingManager.GetAimVector(playerMovement.playerID, player.position);
         transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(arrowDirection.y, arrowDirection.x) * Mathf.Rad2Deg + 90f);
     }
 

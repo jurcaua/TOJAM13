@@ -11,18 +11,22 @@ public class SettingManager : MonoBehaviour {
 
     public static bool DebugMode = true;
 
-    private static bool[] AxisInUse = { false, false, false, false };
-
     // NEW FUNCTIONS --> RETURN BOOL
 
     public static GamePad.Index GetIndex(int playerID) {
-        if (playerID == 1) {
+        int count = 0;
+        for (int i = 0; i < playerID; i++) {
+            if (ControlSchemes[i] == ControlType.Controller) {
+                count++;
+            }
+        }
+        if (count == 1) {
             return GamePad.Index.One;
 
-        } else if (playerID == 2) {
+        } else if (count == 2) {
             return GamePad.Index.Two;
 
-        } else if (playerID == 3) {
+        } else if (count == 3) {
             return GamePad.Index.Three;
 
         } else {
@@ -56,12 +60,15 @@ public class SettingManager : MonoBehaviour {
         }
     }
 
-    public static bool Jumpp(int playerID) {
+    public static bool Jump(int playerID) {
         if (playerID > 0 && ControlSchemes.Count >= playerID) {
             if (ControlSchemes[playerID - 1] == ControlType.Keyboard) {
                 return Input.GetKey(KeyCode.W);
             } else {
-                return GamePad.GetButtonDown(GamePad.Button.A, GetIndex(playerID));
+                Vector2 leftStickAxis = GamePad.GetAxis(GamePad.Axis.LeftStick, GetIndex(playerID));
+
+                return GamePad.GetButtonDown(GamePad.Button.A, GetIndex(playerID)) || 
+                    (leftStickAxis.y > 0 && Mathf.Abs(leftStickAxis.y) > Mathf.Abs(leftStickAxis.x));
 
                 //For up joystick for jump (below)
                 //Vector2 leftStickAxis = GamePad.GetAxis(GamePad.Axis.LeftStick, GetIndex(playerID));
@@ -69,6 +76,18 @@ public class SettingManager : MonoBehaviour {
             }
         } else {
             return Input.GetKeyDown(KeyCode.W);
+        }
+    }
+
+    public static bool Grapple(int playerID) {
+        if (playerID > 0 && ControlSchemes.Count >= playerID) {
+            if (ControlSchemes[playerID - 1] == ControlType.Keyboard) {
+                return Input.GetKey(KeyCode.Mouse0);
+            } else {
+                return GamePad.GetButton(GamePad.Button.LeftShoulder, GetIndex(playerID));
+            }
+        } else {
+            return Input.GetKey(KeyCode.Mouse0);
         }
     }
 
@@ -134,6 +153,7 @@ public class SettingManager : MonoBehaviour {
 
     // OLD FUNCTIONS --> USING KEYCODES
 
+    /*
     public static KeyCode MoveLeft(int playerID) {
         if (playerID > 0 && ControlSchemes.Count >= playerID && ControlSchemes[playerID - 1] == ControlType.Keyboard) {
             return KeyCode.A;
@@ -173,4 +193,5 @@ public class SettingManager : MonoBehaviour {
             return KeyCode.Mouse1;
         }
     }
+    */
 }

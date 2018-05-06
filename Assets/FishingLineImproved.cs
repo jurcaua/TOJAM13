@@ -29,7 +29,7 @@ public class FishingLineImproved : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.Space) && done) {
-			StartCoroutine (SimulatePath ());
+			//StartCoroutine (SimulatePath ());
 		}
 
 		if (!done) {

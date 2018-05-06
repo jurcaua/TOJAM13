@@ -5,7 +5,7 @@ using UnityEngine;
 public class ControllerInputTester : MonoBehaviour {
 
 	void Update() {
-        if (SettingManager.Jumpp(1)) {
+        if (SettingManager.Jump(1)) {
             Debug.Log("Jump");
         }
         if (SettingManager.Left(1)) {
