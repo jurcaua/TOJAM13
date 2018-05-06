@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour {
 	public KeyCode jumpButton;
 
 	public FishingLine line;
+	public FishingLineImproved newLine;
     public Grapple grapple;
 	[HideInInspector] public bool frozen = false;
     public bool canMove = true;
@@ -97,7 +98,8 @@ public class PlayerMovement : MonoBehaviour {
 			}
 
 			if (Input.GetKeyDown(SettingManager.Grapple(playerID))) {
-				StartCoroutine (Shoot (GetComponent<Rigidbody2D> ()));
+				//StartCoroutine (Shoot (GetComponent<Rigidbody2D> ()));
+				StartCoroutine (ShootImproved (GetComponent<Rigidbody2D> ()));
 			}
 		}
 	}
@@ -119,9 +121,9 @@ public class PlayerMovement : MonoBehaviour {
 		}
 
 		if (hookPoint == null && !frozen) {
-			hook.SetActive (false);
+			//hook.SetActive (false);
 		} else if (hookPoint != null){
-			hook.transform.position = hookPoint.transform.position;
+			//hook.transform.position = hookPoint.transform.position;
 
 		}
 	}
@@ -149,13 +151,70 @@ public class PlayerMovement : MonoBehaviour {
 	//		//yield return new WaitForSeconds (1);
 	//	}
 	//}
+	public IEnumerator ShootImproved(Rigidbody2D player) {
+		
+		canMove = false;
+		frozen = true;
+		player.constraints = RigidbodyConstraints2D.FreezeAll;
+
+
+		previousVel = player.velocity;
+
+		newLine.sightLine.enabled = true;
+		GameObject _hook = Instantiate (hook);
+		newLine.hook = _hook.transform;
+
+		StartCoroutine (newLine.SimulatePath());
+
+		while (!newLine.done) {
+			yield return new WaitForFixedUpdate ();
+		}
+
+		Debug.Log ("done");
+
+		if (newLine.hit) {
+			//Destroy (newLine.hit.collider.gameObject);
+			GameObject contactObject = newLine.hit.collider.gameObject;
+
+
+			int max = newLine.sightLine.positionCount - 1;
+			_hook.transform.position = newLine.sightLine.GetPosition(max);
+			_hook.transform.parent = contactObject.transform;
+			//hook.transform.parent = _hook.transform;
+			
+			for (int i = max; i > 1; i--) {
+				//newLine.sightLine.SetPosition (i - 1, newLine.sightLine.GetPosition (i));
+				newLine.sightLine.SetPosition (i - 1, _hook.transform.position);
+
+				newLine.sightLine.positionCount--;
+				//yield return new WaitForSeconds(1);
+				yield return new WaitForFixedUpdate ();
+			}
+
+			//while (Input.GetKey (KeyCode.Mouse0)) {
+			//	newLine.sightLine.SetPosition (1, _hook.transform.position);
+			//	yield return new WaitForFixedUpdate ();
+
+			//}
+			grapple.SecureHookImproved (_hook);
+		}
+			
+		newLine.sightLine.enabled = false;
+
+		frozen = false;
+		player.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+		player.velocity = previousVel;
+		previousVel = Vector2.zero;
+
+	}
 
 	public IEnumerator Shoot(Rigidbody2D player) {
 
         canMove = false;
         frozen = true;
 		LineRenderer lr = line.GetComponent<LineRenderer> ();
-		hook.SetActive (true);
+		//hook.SetActive (true);
 
 
         previousVel = player.velocity;
@@ -176,7 +235,7 @@ public class PlayerMovement : MonoBehaviour {
 		for (int i = 0; i < k + 1; i++) {
 			lr.positionCount = i + 1;
 			lr.SetPosition (i, segments [i]);
-			hook.transform.position = segments [i];
+			//hook.transform.position = segments [i];
 			yield return new WaitForFixedUpdate();
 		}
 

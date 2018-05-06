@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class Grapple : MonoBehaviour {
 
@@ -88,7 +89,7 @@ public class Grapple : MonoBehaviour {
                 playerR.AddForce(-playerR.transform.right * swingForce);
             }
             float range = 0.1f;
-            if (player.position.y > currentHook.transform.position.y && (Vector2.Dot(playerR.velocity, playerR.transform.up) < range && Vector2.Dot(playerR.velocity, playerR.transform.up) > -range)) {
+			if (player.position.y > currentHook.transform.position.y && (Vector2.Dot(playerR.velocity, playerR.transform.up) < range && Vector2.Dot(playerR.velocity, playerR.transform.up) > -range) && !playerGrapple) {
                 Destroy(currentHook.gameObject);
                 currentHook = null;
             }
@@ -165,6 +166,8 @@ public class Grapple : MonoBehaviour {
         while (currentHook != null && currentHook.distance > 1f) {
 
 
+			Debug.Log (currentHook.distance);
+
 			if (playerGrapple) {
 				grappledObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
 			}
@@ -174,6 +177,8 @@ public class Grapple : MonoBehaviour {
 
             yield return new WaitForSeconds(grapplePullSpeed);
         }
+
+		//Debug.Log (currentHook.distance);
 
         currentGrapplePull = null;
 
@@ -192,6 +197,23 @@ public class Grapple : MonoBehaviour {
         }
         
     }
+	public void SecureHookImproved(GameObject hookPoint) {
+		grapple.enabled = true;
+
+		Rigidbody2D hookPointR = hookPoint.AddComponent<Rigidbody2D>();
+		hookPointR.isKinematic = true;
+		DistanceJoint2D joint = hookPoint.AddComponent<DistanceJoint2D>();
+		joint.maxDistanceOnly = false;
+		joint.connectedBody = playerR;
+
+
+		currentHook = joint;
+
+		//EditorApplication.isPaused = true;
+
+		//add player grapple
+	}
+
 
     public GameObject SecureHook(Vector2 at) {
         grapple.enabled = true;
