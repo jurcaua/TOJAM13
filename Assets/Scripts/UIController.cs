@@ -20,7 +20,11 @@ public class UIController : MonoBehaviour {
     private List<ControlType> controlSchemes;
     private List<bool> isSet;
 
+    private AudioController audio;
+
     void Start() {
+        audio = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioController>();
+
         if (SettingMode) {
             ResetControls();
             continueButtonImage.color = new Color(1f, 1f, 1f, 0.5f);
@@ -29,6 +33,16 @@ public class UIController : MonoBehaviour {
 
 	public void GoTo(string sceneName) {
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void GoToWait(string sceneName) {
+        StartCoroutine(WaitLoad(sceneName, audio.PlayBigUIClick()));
+    }
+
+    IEnumerator WaitLoad(string sceneName, float delay) {
+        yield return new WaitForSeconds(delay);
+
+        GoTo(sceneName);
     }
 
     public void SetNumPlayers(int num) {
@@ -69,7 +83,7 @@ public class UIController : MonoBehaviour {
         debugModeButtonText.text = "Debug Mode: " + (SettingManager.DebugMode ? "ON" : "OFF");
     }
 
-    public void FinalizeSettings(string nextScene) {
+    public void FinalizeSettings() {
         if (canContinue) {
             SettingManager.HasBeenSetUp = true;
             SettingManager.NumberOfPlayers = numPlayers;
@@ -77,7 +91,7 @@ public class UIController : MonoBehaviour {
 
             PrintCurrentSettings();
 
-            GoTo(nextScene);
+            //GoTo(nextScene);
         }
     }
 

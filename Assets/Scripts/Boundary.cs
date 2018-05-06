@@ -6,6 +6,7 @@ using UnityEngine;
 public class Boundary : MonoBehaviour {
 
     public bool isThreshold = false;
+    public bool isWater = false;
 
     GameManager gm;
 
@@ -16,13 +17,29 @@ public class Boundary : MonoBehaviour {
     }
 
 	void OnTriggerEnter2D(Collider2D collison) {
-        if (collison.gameObject.CompareTag("Player")) {
+
+        if (collison.gameObject.GetComponent<PlayerMovement>() != null) {
             if (isThreshold) {
-                print("isThreshold");
-                foreach(StormCloudBounce s in FindObjectsOfType<StormCloudBounce>()) {
-                    print("flashing...");
+                foreach (StormCloudBounce s in FindObjectsOfType<StormCloudBounce>()) {
                     s.Flash();
                 }
+            }
+            if (isWater) {
+
+            }
+            StartCoroutine(DeathIndicator(collison.gameObject.GetComponentInParent<PlayerMovement>().playerID));
+            gm.Respawn(collison.transform);
+        }
+
+        /*
+        if (collison.gameObject.CompareTag("Player")) {
+            if (isThreshold) {
+                foreach(StormCloudBounce s in FindObjectsOfType<StormCloudBounce>()) {
+                    s.Flash();
+                }
+            }
+            if (isWater) {
+
             }
             StartCoroutine(DeathIndicator(collison.gameObject.GetComponentInParent<PlayerMovement>().playerID));
             gm.Respawn(collison.transform);
@@ -36,6 +53,7 @@ public class Boundary : MonoBehaviour {
             StartCoroutine(DeathIndicator(collison.transform.parent.gameObject.GetComponentInParent<PlayerMovement>().playerID));
             gm.Respawn(collison.transform.parent);
         }
+        */
     }
 
     IEnumerator DeathIndicator(int playerID) {
