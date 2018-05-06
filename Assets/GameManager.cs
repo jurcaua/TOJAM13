@@ -35,11 +35,26 @@ public class GameManager : MonoBehaviour {
     public GameObject[] stormBoundaries;
     public GameObject[] icebergBoundaries;
 
+    [Header("Timer and Game Over")]
+    public TextMeshProUGUI timerText;
+    private int currentTime;
+
+    public GameObject winnerTextObject;
+    private Animator winnerTextAnim;
+
     private StageManager stageManager;
+    private UIController uiController;
     
     void Awake() {
         highestPlayerLine = GetComponent<LineRenderer>();
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
+        uiController = GameObject.Find("UIController").GetComponent<UIController>();
+
+        currentTime = stageManager.gameDuration;
+        StartCoroutine(Timer());
+        
+        winnerTextAnim = winnerTextObject.GetComponent<Animator>();
+        winnerTextObject.SetActive(false);
 
         players = new List<GameObject>();
         scores = new List<int>();
@@ -223,7 +238,47 @@ public class GameManager : MonoBehaviour {
             texts[highestPlayerIndex].text = string.Format("P{0}: {1}", highestPlayerIndex + 1, scores[highestPlayerIndex]);
         }
 
+        timerText.text = currentTime.ToString() + "s";
+
         highestPlayerLine.SetPosition(0, new Vector3(-50, players[highestPlayerIndex].transform.position.y, -1f));
         highestPlayerLine.SetPosition(1, new Vector3(50, players[highestPlayerIndex].transform.position.y, -1f));
+    }
+
+    IEnumerator Timer() {
+        while (currentTime > 0) {
+            yield return new WaitForSeconds(1f);
+            currentTime--;
+        }
+        GameOver();
+    }
+
+    void GameOver() {
+        print("Game Over!");
+
+        int highestScore = int.MinValue;
+        int winnerIndex = -1;
+        for (int i = 0; i < SettingManager.NumberOfPlayers; i++) {
+            if (scores[i] > highestScore) {
+                highestScore = scores[i];
+                winnerIndex = i;
+            }
+        }
+        winnerTextObject.GetComponent<TextMeshProUGUI>().text = string.Format("P{0} Wins!", winnerIndex + 1);
+
+        winnerTextObject.SetActive(true);
+        winnerTextAnim.SetTrigger("GameOver");
+        for (int i = 0; i < SettingManager.NumberOfPlayers; i++) {
+            if (i != winnerIndex) {
+                RemoveCameraTarget(players[i].transform);
+            }
+        }
+
+        StartCoroutine(BackToMenu());
+    }
+
+    IEnumerator BackToMenu() {
+        yield return new WaitForSeconds(5f);
+
+        uiController.GoTo("main-menu");
     }
 }
