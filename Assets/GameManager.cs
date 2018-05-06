@@ -7,7 +7,7 @@ using Cinemachine;
 
 public class GameManager : MonoBehaviour {
 
-    private List<GameObject> players;
+    public List<GameObject> players;
     private List<int> scores;
     public List<TextMeshProUGUI> texts;
     public List<Slider> sliders;
@@ -30,6 +30,11 @@ public class GameManager : MonoBehaviour {
     public GameObject[] stormSpawnPoints;
     public GameObject[] icebergSpawnPoints;
 
+    [Header("Level Boundaries")]
+    public GameObject[] boatBoundaries;
+    public GameObject[] stormBoundaries;
+    public GameObject[] icebergBoundaries;
+
     private StageManager stageManager;
     
     void Start() {
@@ -47,6 +52,47 @@ public class GameManager : MonoBehaviour {
         InitSpawnPlayers();
 
         InitCameraFollowing();
+
+        SetBoundaries();
+    }
+
+    public void SetBoundaries() {
+        if (stageManager.state == StageManager.GameState.Boat) {
+            SetActiveBoatBoundaries(true);
+            SetActiveStormBoundaries(false);
+            SetActiveIcebergBoundaries(false);
+
+        } else if (stageManager.state == StageManager.GameState.Storm) {
+            SetActiveBoatBoundaries(false);
+            SetActiveStormBoundaries(true);
+            SetActiveIcebergBoundaries(false);
+
+        } else if (stageManager.state == StageManager.GameState.Iceberg) {
+            SetActiveBoatBoundaries(false);
+            SetActiveStormBoundaries(false);
+            SetActiveIcebergBoundaries(true);
+
+        } else {
+            Debug.Log(string.Format("State with name \"{0}\" found...", stageManager.state.ToString()));
+        }
+    }
+
+    void SetActiveBoatBoundaries(bool active) {
+        for (int i = 0; i < boatBoundaries.Length; i++) {
+            boatBoundaries[i].SetActive(active);
+        }
+    }
+
+    void SetActiveStormBoundaries(bool active) {
+        for (int i = 0; i < stormBoundaries.Length; i++) {
+            stormBoundaries[i].SetActive(active);
+        }
+    }
+
+    void SetActiveIcebergBoundaries(bool active) {
+        for (int i = 0; i < icebergBoundaries.Length; i++) {
+            icebergBoundaries[i].SetActive(active);
+        }
     }
 
     void InitSpawnPlayers() {
