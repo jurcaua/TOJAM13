@@ -119,6 +119,17 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Respawn(Transform playerToRespawn) {
+		playerToRespawn.GetComponent<PlayerMovement> ().grapple.UnGrapple ();
+		playerToRespawn.GetComponent<Rigidbody2D> ().velocity = Vector2.zero;
+
+		scores [playerToRespawn.GetComponent<PlayerMovement> ().playerID - 1] = scores [playerToRespawn.GetComponent<PlayerMovement> ().playerID - 1] - 5;
+
+		if (playerToRespawn.GetComponent<PlayerMovement> ().hit == true) {
+			players [playerToRespawn.GetComponent<PlayerMovement> ().hitBy - 1].GetComponent<PlayerMovement> ().grapple.Reset ();
+			players [playerToRespawn.GetComponent<PlayerMovement> ().hitBy - 1].GetComponent<PlayerMovement> ().grapple.StopAllCoroutines ();
+
+			players [playerToRespawn.GetComponent<PlayerMovement> ().hitBy - 1].GetComponent<PlayerMovement>().grapple.UnGrapple();
+		}
         if (stageManager.state == StageManager.GameState.Boat) {
             playerToRespawn.position = boatSpawnPoints[Random.Range(0, boatSpawnPoints.Length)].transform.position;
         } else if (stageManager.state == StageManager.GameState.Storm) {

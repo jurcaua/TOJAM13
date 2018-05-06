@@ -38,6 +38,8 @@ public class Grapple : MonoBehaviour {
 	private GameManager GM;
 	public Image loading;
 
+	public Transform rod;
+
 	void Start () {
         grapple = GetComponent<LineRenderer>();
         grapple.positionCount = 2;
@@ -46,6 +48,8 @@ public class Grapple : MonoBehaviour {
         playerMovement = GetComponentInParent<PlayerMovement>();
         playerR = GetComponentInParent<Rigidbody2D>();
 		GM = GameObject.Find ("GameManager").GetComponent<GameManager>();
+		rod = playerMovement.rod.transform.GetChild (0);
+		rod.parent.GetComponent<SpriteRenderer> ().enabled = false;
     }
 	
 	void Update () {
@@ -58,8 +62,12 @@ public class Grapple : MonoBehaviour {
         //    grapple.enabled = false;
         //    UnGrapple();
         //}
+		if (SettingManager.GrappleUp(playerMovement.playerID) && grappledObject != null && !playerGrapple) {
+			playerMovement.ac.SetTrigger ("Unhook");
+		}
 
         if (!playerMovement.frozen && (SettingManager.GrappleUp(playerMovement.playerID)) && !playerGrapple || !SettingManager.Grapple(playerMovement.playerID) && !playerGrapple) {
+
             UnGrapple();
         }
 
@@ -70,7 +78,7 @@ public class Grapple : MonoBehaviour {
 			}
 
         } else if (!playerGrapple && SettingManager.PullUp(playerMovement.playerID) && currentGrapplePull != null) {
-            StopCoroutine(currentGrapplePull);
+			StopCoroutine(currentGrapplePull);
             currentGrapplePull = null;
 
             playerR.simulated = true;
@@ -84,10 +92,15 @@ public class Grapple : MonoBehaviour {
 
 		if (isSwinging) {
 
+			if (arrow.gameObject.activeSelf) {
+				arrow.gameObject.SetActive (false);
+				rod.parent.GetComponent<SpriteRenderer> ().enabled = true;
+
+			}
 			Vector3 playerPosition = new Vector3 (player.position.x, player.position.y, -1);
 			Vector3 hookPosition = new Vector3 (currentHook.transform.position.x, currentHook.transform.position.y, -1);
 
-			grapple.SetPosition (0, playerPosition);
+			grapple.SetPosition (0, rod.position);
 			grapple.SetPosition (1, hookPosition);
 
 			if (SettingManager.Right (playerMovement.playerID)) {
@@ -106,6 +119,12 @@ public class Grapple : MonoBehaviour {
 
 			player.GetComponent<SpriteRenderer> ().sortingOrder = 17;
 		} else {
+			if (!arrow.gameObject.activeSelf) {
+				arrow.gameObject.SetActive (true);
+				rod.parent.GetComponent<SpriteRenderer> ().enabled = false;
+
+			}
+
 			player.GetComponent<SpriteRenderer> ().sortingOrder = 14;
 
 		}
@@ -123,7 +142,7 @@ public class Grapple : MonoBehaviour {
 
         RaycastHit2D hit = Physics2D.Raycast(arrow.position, grappleDir, 100, grappleIgnoreLayer);
 
-        grapple.SetPosition(0, transform.position);
+        grapple.SetPosition(0, rod.position);
         grapple.SetPosition(1, hit.point);
 
         UnGrapple();
@@ -140,7 +159,8 @@ public class Grapple : MonoBehaviour {
         playerR.simulated = false;
     }
 
-    void UnGrapple() {
+    public void UnGrapple() {
+
         grapple.enabled = false;
 
         if (currentHook != null) {
@@ -155,6 +175,8 @@ public class Grapple : MonoBehaviour {
 
         playerR.simulated = true;
         playerMovement.canMove = true;
+
+		grappledObject = null;
     }
 
     IEnumerator ThrowGrapple(Vector2 from, Vector2 to) {
@@ -190,7 +212,7 @@ public class Grapple : MonoBehaviour {
 			Vector3 hookPosFixed = new Vector3 (currentHook.transform.position.x, currentHook.transform.position.y, 0);
 			player.position = player.position + (hookPosFixed - player.position).normalized * grapplePullInc * speedMult;
 			//player.position = player.position + (currentHook.transform.position - Vector3.back - player.position).normalized * grapplePullInc * speedMult;
-            grapple.SetPosition(0, player.position);
+            grapple.SetPosition(0, rod.position);
 
             yield return new WaitForSeconds(grapplePullSpeed);
         }
@@ -221,7 +243,6 @@ public class Grapple : MonoBehaviour {
 
 					yield return new WaitForSeconds (playerPushDelay);
 
-					UnGrapple ();
 
 					grappledObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeRotation;
 					grappledObject.GetComponent<PlayerMovement> ().frozen = false;
@@ -235,6 +256,9 @@ public class Grapple : MonoBehaviour {
 					grappledObject.GetComponent<PlayerMovement>().grapple.UnGrapple();
 					LaunchEnemy (SettingManager.GetAimVector(playerMovement.playerID,playerR.position));
 					StartCoroutine (grappledObject.GetComponent<PlayerMovement> ().Disable ());
+
+					UnGrapple ();
+
 				}
 			} else {
 				//only enemy hit
@@ -247,12 +271,11 @@ public class Grapple : MonoBehaviour {
 
 				//yield return new WaitForSeconds (playerPushDelay);
 				while (loading.fillAmount < 1) {
-					loading.fillAmount += 0.1f;
-					yield return new WaitForSeconds (playerPushDelay/10);
+					loading.fillAmount += playerPushDelay / 15;
+					yield return new WaitForFixedUpdate();
 				}
 				loading.fillAmount = 0;
 
-				UnGrapple ();
 
 				grappledObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeRotation;
 				grappledObject.GetComponent<PlayerMovement> ().frozen = false;
@@ -266,6 +289,9 @@ public class Grapple : MonoBehaviour {
 				grappledObject.GetComponent<PlayerMovement>().grapple.UnGrapple();
 				LaunchEnemy (SettingManager.GetAimVector(playerMovement.playerID,playerR.position));
 				StartCoroutine (grappledObject.GetComponent<PlayerMovement> ().Disable ());
+
+				UnGrapple ();
+
 			
 			}
 
@@ -331,6 +357,8 @@ public class Grapple : MonoBehaviour {
     }
 
     void LaunchEnemy(Vector2 dir) {
+		playerMovement.ac.SetTrigger ("Unhook");
+
         Rigidbody2D otherR = grappledObject.GetComponent<Rigidbody2D>();
         if (otherR == null) {
             return;
@@ -349,4 +377,19 @@ public class Grapple : MonoBehaviour {
 		playerR.velocity = playerMovement.previousVel;
 		playerMovement.previousVel = Vector2.zero;
     }
+
+	public void Reset() {
+		playerMovement.ac.SetTrigger ("Unhook");
+
+		Destroy(grappledObject.GetComponentInChildren<HookBehaviour> ().gameObject);
+		playerGrapple = false;
+		playerR.constraints = RigidbodyConstraints2D.FreezeRotation;
+		playerR.velocity = playerMovement.previousVel;
+		playerMovement.previousVel = Vector2.zero;
+		currentHook = null;
+		grappledObject = null;
+		currentGrapplePull = null;
+		playerMovement.canMove = true;
+		playerMovement.frozen = false;
+	}
 }

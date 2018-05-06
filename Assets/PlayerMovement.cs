@@ -37,15 +37,27 @@ public class PlayerMovement : MonoBehaviour {
 
 	public bool disabled = false;
 	public float disabledTime;
+
+	public Animator ac;
+	public bool right = false;
+	public GameObject rod;
+	public Transform fire;
+
 	// Use this for initialization
 	void Start () {
         r = GetComponent<Rigidbody2D>();
 
 		speed = speed / 100;
+		ac = GetComponent<Animator> ();
 	}
 
 	void Update () {
 
+
+		if (true) {
+			rod.transform.rotation = grapple.transform.rotation;
+			//rod.transform.rotation = Quaternion.Euler (rod.transform.rotation.eulerAngles.x, rod.transform.rotation.eulerAngles.y, rod.transform.rotation.eulerAngles.z + 90);
+		}
         // Clamping Vel
         if (r.velocity.x > maxVel) {
             r.velocity = new Vector2(maxVel, r.velocity.y);
@@ -71,6 +83,11 @@ public class PlayerMovement : MonoBehaviour {
 					xAcceleration = Mathf.Min (maxAcceleration, xAcceleration + speed * 2);
 				}
 				moving = true;
+				if (!right) {
+					GetComponent<SpriteRenderer> ().flipX = true;
+					right = true;
+					fire.localPosition = new Vector3(2.69f, 0.18f, 0f);
+				}
 			}
 
 			if (SettingManager.Left(playerID)) {
@@ -80,9 +97,16 @@ public class PlayerMovement : MonoBehaviour {
 					xAcceleration = Mathf.Max (-maxAcceleration, xAcceleration - speed * 2);
 				}
 				moving = true;
+				if (right) {
+					GetComponent<SpriteRenderer> ().flipX = false;
+					right = false;
+					fire.localPosition = new Vector3(-2.69f, 0.18f, 0f);
+
+				}
 			}
 
 			if (!moving) {
+				ac.SetBool ("Moving", false);
 				if (xAcceleration > 0) {
 					xAcceleration -= speed * 2;
 					if (xAcceleration < 0) {
@@ -94,10 +118,15 @@ public class PlayerMovement : MonoBehaviour {
 						xAcceleration = 0;
 					}
 				}
+			} else {
+				ac.SetBool ("Moving", true);
+
 			}
 
 			if (grounded & !falling) {
 				if (SettingManager.Jump(playerID)) {
+					ac.SetTrigger ("Jump");
+					ac.SetBool ("Grounded", false);
 					grounded = false;
 					GetComponent<Rigidbody2D> ().AddForce (Vector2.up * jumpForce);
 				}
@@ -105,9 +134,12 @@ public class PlayerMovement : MonoBehaviour {
 
 			if (SettingManager.GrappleDown(playerID) && !disabled) {
 				//StartCoroutine (Shoot (GetComponent<Rigidbody2D> ()));
+				ac.SetTrigger("Throw");
 				StartCoroutine (ShootImproved (GetComponent<Rigidbody2D> ()));
 			}
 		}
+
+		ac.SetFloat ("YVelocity", r.velocity.y);
 	}
 
 	// Update is called once per frame
@@ -158,33 +190,38 @@ public class PlayerMovement : MonoBehaviour {
 	//	}
 	//}
 	public IEnumerator ShootImproved(Rigidbody2D player) {
-		
+
+
 		canMove = false;
 		frozen = true;
 		player.constraints = RigidbodyConstraints2D.FreezeAll;
 
+		yield return new WaitForSeconds (0.4f);
 
 		previousVel = player.velocity;
 
 		newLine.sightLine.enabled = true;
-		GameObject _hook = Instantiate (hook);
+		GameObject _hook = Instantiate (hook, fire.position, Quaternion.identity);
 		newLine.hook = _hook.transform;
 
 		StartCoroutine (newLine.SimulatePath());
+
 
 		while (!newLine.done) {
 			yield return new WaitForFixedUpdate ();
 		}
 
 		//Debug.Log ("done");
-
+		ac.SetBool("NoHit", true);
 		if (newLine.hit) {
+			ac.SetBool ("NoHit", false);
+
 			//Destroy (newLine.hit.collider.gameObject);
 			GameObject contactObject = newLine.hit.collider.gameObject;
 
 
 			int max = newLine.sightLine.positionCount - 1;
-			_hook.transform.position = newLine.sightLine.GetPosition(max);
+			_hook.transform.position = newLine.sightLine.GetPosition (max);
 			_hook.transform.parent = contactObject.transform;
 			//hook.transform.parent = _hook.transform;
 			
@@ -204,8 +241,9 @@ public class PlayerMovement : MonoBehaviour {
 			//}
 			grapple.grappledObject = contactObject;
 			grapple.SecureHookImproved (_hook);
-		}
-			
+		} 
+		ac.SetTrigger ("ThrowDone");
+
 		newLine.sightLine.enabled = false;
 
 		if (!grapple.playerGrapple) {

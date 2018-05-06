@@ -1,16 +1,14 @@
 fileFormatVersion: 2
-guid: ae4f0ebe67d98644eaac739731c74c99
-timeCreated: 1525642010
+guid: ab35f371504caad46a12b7f7f8ad90aa
+timeCreated: 1525634556
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: white_wave_100x40_0
-    21300002: white_wave_100x40_1
-    21300004: white_wave_100x40_2
-    21300006: white_wave_100x40_3
-    21300008: white_wave_100x40_4
-    21300010: white_wave_100x40_5
-    21300012: white_wave_100x40_6
+    21300000: PLAYER_throw_200x200_0
+    21300002: PLAYER_throw_200x200_1
+    21300004: PLAYER_throw_200x200_2
+    21300006: PLAYER_throw_200x200_3
+    21300008: PLAYER_throw_200x200_4
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -94,99 +92,71 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: white_wave_100x40_0
+      name: PLAYER_throw_200x200_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 100
-        height: 40
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 200
+        height: 200
+      alignment: 9
+      pivot: {x: 0.7, y: 0.28}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: white_wave_100x40_1
+      name: PLAYER_throw_200x200_1
       rect:
         serializedVersion: 2
-        x: 100
+        x: 200
         y: 0
-        width: 100
-        height: 40
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 200
+        height: 200
+      alignment: 9
+      pivot: {x: 0.7, y: 0.28}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: white_wave_100x40_2
-      rect:
-        serializedVersion: 2
-        x: 201
-        y: 0
-        width: 100
-        height: 40
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: white_wave_100x40_3
-      rect:
-        serializedVersion: 2
-        x: 300
-        y: 0
-        width: 100
-        height: 40
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: white_wave_100x40_4
+      name: PLAYER_throw_200x200_2
       rect:
         serializedVersion: 2
         x: 400
         y: 0
-        width: 100
-        height: 40
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 200
+        height: 200
+      alignment: 9
+      pivot: {x: 0.7, y: 0.28}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: white_wave_100x40_5
-      rect:
-        serializedVersion: 2
-        x: 500
-        y: 0
-        width: 100
-        height: 40
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: white_wave_100x40_6
+      name: PLAYER_throw_200x200_3
       rect:
         serializedVersion: 2
         x: 600
         y: 0
-        width: 100
-        height: 40
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 200
+        height: 200
+      alignment: 9
+      pivot: {x: 0.7, y: 0.28}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PLAYER_throw_200x200_4
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 0
+        width: 200
+        height: 200
+      alignment: 9
+      pivot: {x: 0.7, y: 0.28}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
