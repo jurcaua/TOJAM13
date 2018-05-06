@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 61556571224916008}
   - component: {fileID: 114051330991829160}
   - component: {fileID: 50720798081322836}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Boundary
   m_TagString: Ground
   m_Icon: {fileID: 0}
