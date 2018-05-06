@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4115415536656892}
   - component: {fileID: 114458863257449052}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: UIController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,3 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f172c22d37af8cc44ae03976f02a0fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SettingMode: 0
+  continueButtonImage: {fileID: 0}
+  debugModeButtonText: {fileID: 0}
