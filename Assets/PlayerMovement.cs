@@ -43,12 +43,16 @@ public class PlayerMovement : MonoBehaviour {
 	public GameObject rod;
 	public Transform fire;
 
+	public AudioController _audio;
+	public float test;
+
 	// Use this for initialization
 	void Start () {
         r = GetComponent<Rigidbody2D>();
 
 		speed = speed / 100;
 		ac = GetComponent<Animator> ();
+		_audio = GameObject.FindGameObjectWithTag ("Audio").GetComponent<AudioController>();
 	}
 
 	void Update () {
@@ -129,13 +133,30 @@ public class PlayerMovement : MonoBehaviour {
 					ac.SetBool ("Grounded", false);
 					grounded = false;
 					GetComponent<Rigidbody2D> ().AddForce (Vector2.up * jumpForce);
+					_audio.Play (_audio.jump, true);
 				}
 			}
 
 			if (SettingManager.GrappleDown(playerID) && !disabled) {
 				//StartCoroutine (Shoot (GetComponent<Rigidbody2D> ()));
+
+				test = grapple.transform.rotation.eulerAngles.z;
+				if (grapple.transform.rotation.eulerAngles.z < 180) {
+					//right
+					GetComponent<SpriteRenderer> ().flipX = true;
+					right = true;
+					fire.localPosition = new Vector3(2.69f, 0.18f, 0f);
+				} else {
+					//left
+					GetComponent<SpriteRenderer> ().flipX = false;
+					right = false;
+					fire.localPosition = new Vector3(-2.69f, 0.18f, 0f);
+				}
+
 				ac.SetTrigger("Throw");
 				StartCoroutine (ShootImproved (GetComponent<Rigidbody2D> ()));
+				_audio.Play (_audio.grapple, true);
+
 			}
 		}
 
@@ -216,9 +237,15 @@ public class PlayerMovement : MonoBehaviour {
 		if (newLine.hit) {
 			ac.SetBool ("NoHit", false);
 
+
 			//Destroy (newLine.hit.collider.gameObject);
 			GameObject contactObject = newLine.hit.collider.gameObject;
 
+			if (contactObject.GetComponent<Seagull> () != null) {
+				_audio.Play (_audio.seagull, true);
+			} else {
+				_audio.Play (_audio.hookHit, true);
+			}
 
 			int max = newLine.sightLine.positionCount - 1;
 			_hook.transform.position = newLine.sightLine.GetPosition (max);
@@ -247,6 +274,9 @@ public class PlayerMovement : MonoBehaviour {
 		newLine.sightLine.enabled = false;
 
 		if (!grapple.playerGrapple) {
+
+
+
 			frozen = false;
 			player.constraints = RigidbodyConstraints2D.FreezeRotation;
 

@@ -43,6 +43,9 @@ public class FishingLineImproved : MonoBehaviour {
 	public IEnumerator SimulatePath() {
 
 		if (done) {
+
+			player._audio.Play (player._audio.woosh, true);
+
 			done = false;
 
 			sightLine.positionCount = 1;

@@ -12,6 +12,9 @@ public class GroundCheck : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D coll) {
 		if (coll.tag == "Ground") {
+			if (!pm.grounded) {
+				pm._audio.Play (pm._audio.landing, true);
+			}
 			pm.grounded = true;
 			pm.ac.SetBool ("Grounded", true);
         }

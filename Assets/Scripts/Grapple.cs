@@ -300,6 +300,8 @@ public class Grapple : MonoBehaviour {
             UnGrapple();
 
             playerR.AddForce(arrowDirection * launchForce);
+			playerMovement.ac.SetTrigger ("Unhook");
+
         }
         
     }
