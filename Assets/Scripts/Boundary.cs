@@ -14,9 +14,18 @@ public class Boundary : MonoBehaviour {
     }
 
 	void OnTriggerEnter2D(Collider2D collison) {
-        print("collided with: " + collison.gameObject.name);
         if (collison.gameObject.CompareTag("Player")) {
+            StartCoroutine(DeathIndicator(collison.gameObject.GetComponentInParent<PlayerMovement>().playerID));
             gm.Respawn(collison.transform);
+
+        } else if (collison.transform.parent.gameObject.CompareTag("Player")) {
+            StartCoroutine(DeathIndicator(collison.transform.parent.gameObject.GetComponentInParent<PlayerMovement>().playerID));
+            gm.Respawn(collison.transform.parent);
         }
+    }
+
+    IEnumerator DeathIndicator(int playerID) {
+        gm.texts[playerID - 1].text = string.Format("Player {0} PERISHED", playerID);
+        yield return new WaitForSeconds(1f);
     }
 }
