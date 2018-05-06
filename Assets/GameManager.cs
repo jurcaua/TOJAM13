@@ -24,9 +24,17 @@ public class GameManager : MonoBehaviour {
     public float playerTargetWeight = 1f;
     public float hookTargetRadius = 2f;
     public float hookTargetWeight = 0.5f;
+
+    [Header("Spawn Points")]
+    public GameObject[] boatSpawnPoints;
+    public GameObject[] stormSpawnPoints;
+    public GameObject[] icebergSpawnPoints;
+
+    private StageManager stageManager;
     
     void Start() {
         highestPlayerLine = GetComponent<LineRenderer>();
+        stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
 
         players = new List<GameObject>();
         scores = new List<int>();
@@ -36,7 +44,27 @@ public class GameManager : MonoBehaviour {
         } else {
             LoadPlayersFromScene();
         }
+        InitSpawnPlayers();
+
         InitCameraFollowing();
+    }
+
+    void InitSpawnPlayers() {
+        int randomStartIndex = Random.Range(0, boatSpawnPoints.Length);
+        for (int i = 0; i < players.Count; i++) {
+            players[i].transform.position = boatSpawnPoints[randomStartIndex].transform.position;
+            randomStartIndex = (randomStartIndex + 1) % boatSpawnPoints.Length;
+        }
+    }
+
+    public void Respawn(Transform playerToRespawn) {
+        if (stageManager.state == StageManager.GameState.Boat) {
+            playerToRespawn.position = boatSpawnPoints[Random.Range(0, boatSpawnPoints.Length)].transform.position;
+        } else if (stageManager.state == StageManager.GameState.Storm) {
+            playerToRespawn.position = stormSpawnPoints[Random.Range(0, stormSpawnPoints.Length)].transform.position;
+        } else {
+            playerToRespawn.position = icebergSpawnPoints[Random.Range(0, icebergSpawnPoints.Length)].transform.position;
+        }
     }
 
     void InitCameraFollowing() {
@@ -89,7 +117,6 @@ public class GameManager : MonoBehaviour {
                 SettingManager.ControlSchemes.Add(ControlType.Controller);
             }
         }
-
         LoadPlayersFromSettings();
     }
 

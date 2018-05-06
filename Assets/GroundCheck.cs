@@ -4,24 +4,22 @@ using UnityEngine;
 
 public class GroundCheck : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    bool jumped = false;
+    PlayerMovement pm;
 
-	}
-
-	// Update is called once per frame
-	void Update () {
-	}
+    void Start() {
+        pm = GetComponentInParent<PlayerMovement>();
+    }
 
 	void OnTriggerEnter2D(Collider2D coll) {
 		if (coll.tag == "Ground") {
-			GetComponentInParent<PlayerMovement> ().grounded = true;
-		}
+			pm.grounded = true;
+        }
 	}
 
 	void OnTriggerExit2D(Collider2D coll) {
 		if (coll.tag == "Ground") {
-			GetComponentInParent<PlayerMovement> ().grounded = false;
+			pm.grounded = false;
 		}
 	}
 }
