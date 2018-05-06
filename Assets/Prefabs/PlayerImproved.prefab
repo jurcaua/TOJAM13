@@ -542,7 +542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   segmentCount: 50
-  fire: {fileID: 4377548669179804}
+  fire: {fileID: 4622009316445084}
   fireDir: {fileID: 4622009316445084}
   fireStrength: 1700
   segmentScale: 1

@@ -241,6 +241,7 @@ GameObject:
   - component: {fileID: 88964428}
   - component: {fileID: 88964430}
   - component: {fileID: 88964429}
+  - component: {fileID: 88964431}
   m_Layer: 0
   m_Name: ice_water_platform
   m_TagString: Ground
@@ -271,9 +272,9 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0027237236, y: 0.09725724}
+  m_Offset: {x: -0.0027236938, y: 0.21398938}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -284,7 +285,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.9400795, y: 0.34875217}
+  m_Size: {x: 1.9400795, y: 0.115287885}
   m_EdgeRadius: 0
 --- !u!212 &88964430
 SpriteRenderer:
@@ -330,6 +331,24 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!251 &88964431
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 88964427}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &97128425
 GameObject:
   m_ObjectHideFlags: 0
@@ -1803,7 +1822,7 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 10
-  m_LookAt: {fileID: 747778911}
+  m_LookAt: {fileID: 0}
   m_Follow: {fileID: 747778911}
   m_Lens:
     FieldOfView: 40
@@ -1993,8 +2012,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 368, y: -115.99988}
-  m_SizeDelta: {x: 160, y: 20}
+  m_AnchoredPosition: {x: 401, y: -112.5}
+  m_SizeDelta: {x: 225, y: 41.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &500749339
 MonoBehaviour:
@@ -2539,15 +2558,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.66176474, g: 1, b: 0.73407704, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: ecb14d7cee21c1a408c58d075868ad74, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2792,15 +2811,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.04827571, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: ecb14d7cee21c1a408c58d075868ad74, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -4283,15 +4302,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.8308824, b: 0.07449269, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: ecb14d7cee21c1a408c58d075868ad74, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -4313,11 +4332,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4757485970903182, guid: 166140668c5cc2f4b95333db8cb979ad, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 10.62
+      value: 15.42
       objectReference: {fileID: 0}
     - target: {fileID: 4757485970903182, guid: 166140668c5cc2f4b95333db8cb979ad, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 7.03
+      value: -1.19
       objectReference: {fileID: 0}
     - target: {fileID: 4757485970903182, guid: 166140668c5cc2f4b95333db8cb979ad, type: 2}
       propertyPath: m_LocalPosition.z
@@ -8814,6 +8833,7 @@ GameObject:
   - component: {fileID: 1444551103}
   - component: {fileID: 1444551105}
   - component: {fileID: 1444551104}
+  - component: {fileID: 1444551106}
   m_Layer: 0
   m_Name: ice_water_platform (1)
   m_TagString: Ground
@@ -8844,9 +8864,9 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0027237236, y: 0.09725724}
+  m_Offset: {x: -0.0027236938, y: 0.20386845}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -8857,7 +8877,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.9400795, y: 0.34875217}
+  m_Size: {x: 1.9400795, y: 0.13552976}
   m_EdgeRadius: 0
 --- !u!212 &1444551105
 SpriteRenderer:
@@ -8903,6 +8923,24 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!251 &1444551106
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1444551102}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &1458132654
 GameObject:
   m_ObjectHideFlags: 0
@@ -9285,7 +9323,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 15
   m_Sprite: {fileID: 21300000, guid: cbd10236e940ed444964819dc9f726b8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -9324,47 +9362,11 @@ PolygonCollider2D:
       - {x: 3.6, y: -4.42}
       - {x: 3.58, y: -4.2999997}
       - {x: 3.56, y: -4.24}
-      - {x: 3.6599998, y: -4.24}
-      - {x: 3.6999998, y: -4.22}
-      - {x: 3.76, y: -4.2}
-      - {x: 3.8, y: -4.18}
-      - {x: 3.82, y: -4.16}
-      - {x: 3.82, y: -4.0899997}
-      - {x: 3.77, y: -4.0499997}
-      - {x: 3.6399999, y: -4.04}
-      - {x: 3.56, y: -4.04}
-      - {x: 3.54, y: -3.9599998}
-      - {x: 3.52, y: -3.86}
-      - {x: 3.48, y: -3.6999998}
-      - {x: 3.46, y: -3.6}
-      - {x: 3.4399998, y: -3.52}
-      - {x: 3.4199998, y: -3.4199998}
-      - {x: 3.3799999, y: -3.26}
       - {x: 3.36, y: -3.1599998}
-      - {x: 3.34, y: -3.08}
       - {x: 3.32, y: -2.96}
-      - {x: 3.3, y: -2.8999999}
-      - {x: 3.27, y: -2.79}
-      - {x: 3.23, y: -2.6699998}
-      - {x: 3.1799998, y: -2.58}
-      - {x: 3.04, y: -2.19}
-      - {x: 3.01, y: -2.07}
-      - {x: 2.9199998, y: -1.9}
-      - {x: 2.84, y: -1.7099999}
-      - {x: 2.8, y: -1.63}
-      - {x: 2.74, y: -1.49}
-      - {x: 2.6599998, y: -1.3199999}
       - {x: 2.58, y: -1.13}
-      - {x: 2.54, y: -1.05}
-      - {x: 2.46, y: -0.91999996}
-      - {x: 1.9799999, y: -0.08}
-      - {x: 1.88, y: 0.11}
-      - {x: 1.7199999, y: 0.34}
-      - {x: 1.62, y: 0.44}
-      - {x: 1.62, y: 0.48}
+      - {x: 1.629643, y: 0.42214274}
       - {x: 1.54, y: 0.78}
-      - {x: 1.5, y: 0.94}
-      - {x: 1.48, y: 1}
       - {x: 1.42, y: 1.24}
       - {x: 1.4, y: 1.36}
       - {x: 1.38, y: 1.42}
@@ -9376,72 +9378,13 @@ PolygonCollider2D:
       - {x: 1.26, y: 1.8399999}
       - {x: 1.24, y: 1.92}
       - {x: 1.22, y: 1.9799999}
-      - {x: 1.1999999, y: 2.1}
-      - {x: 1.12, y: 2.34}
-      - {x: 1.1, y: 2.44}
-      - {x: 0.98999995, y: 2.77}
-      - {x: 0.91999996, y: 2.8999999}
       - {x: 0.84, y: 3.09}
-      - {x: 0.79999995, y: 3.1699998}
-      - {x: 0.71999997, y: 3.31}
-      - {x: 0.5, y: 3.6399999}
-      - {x: 0.42, y: 3.78}
-      - {x: 0.32, y: 3.9499998}
-      - {x: 0.24, y: 4.0699997}
-      - {x: 0.19999999, y: 4.1}
-      - {x: -0.06, y: 4.1}
-      - {x: -0.08, y: 4.08}
-      - {x: -0.29999998, y: 4.08}
-      - {x: -0.32, y: 4.06}
-      - {x: -0.35999998, y: 4}
-      - {x: -0.42, y: 3.9199998}
-      - {x: -0.45999998, y: 3.86}
-      - {x: -0.58, y: 3.6999998}
-      - {x: -0.68, y: 3.57}
-      - {x: -0.74, y: 3.46}
-      - {x: -1.06, y: 2.98}
-      - {x: -1.0799999, y: 2.9399998}
-      - {x: -1.3199999, y: 2.58}
-      - {x: -1.39, y: 2.49}
-      - {x: -1.4499999, y: 2.3899999}
-      - {x: -1.99, y: 1.5699999}
-      - {x: -2.08, y: 1.38}
-      - {x: -2.1399999, y: 1.29}
-      - {x: -2.2, y: 1.1899999}
-      - {x: -2.33, y: 0.98999995}
-      - {x: -2.46, y: 0.74}
-      - {x: -2.5, y: 0.68}
-      - {x: -2.54, y: 0.59999996}
+      - {x: 0.20359458, y: 4.0797706}
+      - {x: -0.28802425, y: 4.0640817}
+      - {x: -1.9324075, y: 1.6511798}
       - {x: -3.1599998, y: -0.65999997}
-      - {x: -3.1999998, y: -0.78}
-      - {x: -3.5, y: -1.48}
-      - {x: -3.54, y: -1.5799999}
-      - {x: -3.56, y: -1.66}
-      - {x: -3.84, y: -2.36}
-      - {x: -3.8999999, y: -2.52}
-      - {x: -3.9199998, y: -2.62}
-      - {x: -3.98, y: -2.84}
       - {x: -4.06, y: -3.12}
       - {x: -4.08, y: -3.1999998}
-      - {x: -4.12, y: -3.34}
-      - {x: -4.14, y: -3.4199998}
-      - {x: -4.16, y: -3.56}
-      - {x: -4.2, y: -3.74}
-      - {x: -4.24, y: -3.9399998}
-      - {x: -4.24, y: -4.06}
-      - {x: -4.36, y: -4.06}
-      - {x: -4.48, y: -4.08}
-      - {x: -4.61, y: -4.0899997}
-      - {x: -4.62, y: -4.12}
-      - {x: -4.62, y: -4.18}
-      - {x: -4.5499997, y: -4.21}
-      - {x: -4.44, y: -4.22}
-      - {x: -4.24, y: -4.2799997}
-      - {x: -4.2599998, y: -4.2999997}
-      - {x: -4.2799997, y: -4.4}
-      - {x: -4.2999997, y: -4.52}
-      - {x: -4.3399997, y: -4.72}
-      - {x: -4.36, y: -4.8399997}
       - {x: -4.38, y: -4.94}
       - {x: -4.38, y: -5}
       - {x: 3.6999998, y: -5}
@@ -9797,15 +9740,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9705882, g: 0.95188516, b: 0.69939446, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: ecb14d7cee21c1a408c58d075868ad74, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -10013,15 +9956,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9852941, g: 0.8216114, b: 0.1376514, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: ecb14d7cee21c1a408c58d075868ad74, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -10047,7 +9990,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4822747262501984, guid: 15d5049613f35e441999536e93273aa3, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -19.1
+      value: -21.3
       objectReference: {fileID: 0}
     - target: {fileID: 4822747262501984, guid: 15d5049613f35e441999536e93273aa3, type: 2}
       propertyPath: m_LocalPosition.z
@@ -10792,8 +10735,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -375, y: -116}
-  m_SizeDelta: {x: 160, y: 20}
+  m_AnchoredPosition: {x: -401, y: -112.5}
+  m_SizeDelta: {x: 225, y: 41.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1841845769
 MonoBehaviour:
@@ -11541,8 +11484,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 368, y: 122}
-  m_SizeDelta: {x: 160, y: 20}
+  m_AnchoredPosition: {x: 401, y: 112.5}
+  m_SizeDelta: {x: 225, y: 41.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2140867011
 MonoBehaviour:
@@ -11639,15 +11582,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6806289, g: 0.6544118, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: ecb14d7cee21c1a408c58d075868ad74, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

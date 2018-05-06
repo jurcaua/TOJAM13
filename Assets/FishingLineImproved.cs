@@ -88,6 +88,8 @@ public class FishingLineImproved : MonoBehaviour {
 					//yield return new WaitForSeconds (0.5f);
 					yield return new WaitForFixedUpdate ();
 				}
+				segments [0] = fire.position + new Vector3 (0, 0, -1);
+				sightLine.SetPosition (0, segments [0]);
 			}
 
 			if (!hit) {

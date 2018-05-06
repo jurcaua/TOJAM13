@@ -94,7 +94,6 @@ public class Grapple : MonoBehaviour {
 
 			if (arrow.gameObject.activeSelf) {
 				arrow.gameObject.SetActive (false);
-				rod.parent.GetComponent<SpriteRenderer> ().enabled = true;
 
 			}
 			Vector3 playerPosition = new Vector3 (player.position.x, player.position.y, -1);

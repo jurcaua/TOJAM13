@@ -217,9 +217,11 @@ public class PlayerMovement : MonoBehaviour {
 		frozen = true;
 		player.constraints = RigidbodyConstraints2D.FreezeAll;
 
-		yield return new WaitForSeconds (0.4f);
+		yield return new WaitForSeconds (0.2f);
 
 		previousVel = player.velocity;
+		rod.GetComponent<SpriteRenderer> ().enabled = true;
+
 
 		newLine.sightLine.enabled = true;
 		GameObject _hook = Instantiate (hook, fire.position, Quaternion.identity);
@@ -268,7 +270,10 @@ public class PlayerMovement : MonoBehaviour {
 			//}
 			grapple.grappledObject = contactObject;
 			grapple.SecureHookImproved (_hook);
-		} 
+		} else {
+			rod.GetComponent<SpriteRenderer> ().enabled = false;
+
+		}
 		ac.SetTrigger ("ThrowDone");
 
 		newLine.sightLine.enabled = false;
