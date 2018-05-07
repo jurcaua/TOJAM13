@@ -60,7 +60,7 @@ public class Boundary : MonoBehaviour {
     }
 
     IEnumerator DeathIndicator(int playerID) {
-        gm.texts[playerID - 1].text = string.Format("Player {0} PERISHED", playerID);
+        //gm.texts[playerID - 1].text = string.Format("Player {0} PERISHED", playerID);
         yield return new WaitForSeconds(1f);
     }
 }
