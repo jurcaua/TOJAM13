@@ -278,9 +278,12 @@ public class GameManager : MonoBehaviour {
 
         winnerTextObject.SetActive(true);
         winnerTextAnim.SetTrigger("GameOver");
-        for (int i = 0; i < SettingManager.NumberOfPlayers; i++) {
-            if (i != winnerIndex) {
-                RemoveCameraTarget(players[i].transform);
+
+        Transform winnerTransform = players[winnerIndex].transform;
+
+        for (int i = 0; i < cameraTargets.Count; i++) {
+            if (cameraTargets[i].target != winnerTransform) {
+                RemoveCameraTarget(cameraTargets[i].target);
             }
         }
 

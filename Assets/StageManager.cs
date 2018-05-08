@@ -23,11 +23,14 @@ public class StageManager : MonoBehaviour {
 	public GameObject[] platforms;
 	public List<Rigidbody2D> players;
 	public GameObject iceberg;
+    public Transform goat;
 
+    private GameManager gm;
     private AudioController ac;
 
 	// Use this for initialization
 	void Start () {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         ac = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioController>();
 
 		StartCoroutine (Stages ());
@@ -75,9 +78,12 @@ public class StageManager : MonoBehaviour {
 			child.SetActive (false);
 		}
 
+        gm.AddCameraHookTarget(goat);
+
         foreach (Rigidbody2D rb in players) {
             rb.AddForce(Vector2.up * 5000);
         }
+
 		/*
         while (state == GameState.Iceberg) {
 			//do the whole shizzle
