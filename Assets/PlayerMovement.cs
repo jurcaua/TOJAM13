@@ -241,8 +241,12 @@ public class PlayerMovement : MonoBehaviour {
 			yield return new WaitForFixedUpdate ();
 		}
 
-		//Debug.Log ("done");
-		ac.SetBool("NoHit", true);
+        if (cameraFollowsHook) {
+            gameManager.RemoveCameraTarget(_hook.transform);
+        }
+
+        //Debug.Log ("done");
+        ac.SetBool("NoHit", true);
 		if (newLine.hit) {
 			ac.SetBool ("NoHit", false);
 
