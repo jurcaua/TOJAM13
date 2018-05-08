@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour {
     public List<TextMeshProUGUI> texts;
     public List<Slider> sliders;
 
+	public List<Material> colors;
+
     public GameObject playerPrefab;
 
     private int curHighestPlayerIndex = 0;
@@ -121,7 +123,7 @@ public class GameManager : MonoBehaviour {
     public void Respawn(Transform playerToRespawn) {
 		playerToRespawn.GetComponent<PlayerMovement> ().grapple.UnGrapple ();
 		playerToRespawn.GetComponent<Rigidbody2D> ().velocity = Vector2.zero;
-
+		playerToRespawn.GetComponent<PlayerMovement> ().ac.SetTrigger ("Unhook");
 		scores [playerToRespawn.GetComponent<PlayerMovement> ().playerID - 1] = scores [playerToRespawn.GetComponent<PlayerMovement> ().playerID - 1] - 5;
 
 		if (playerToRespawn.GetComponent<PlayerMovement> ().hit == true) {
@@ -206,6 +208,12 @@ public class GameManager : MonoBehaviour {
             GameObject newPlayer = Instantiate(playerPrefab);
             newPlayer.GetComponent<PlayerMovement>().playerID = i + 1;
             players.Add(newPlayer);
+
+			//add colors
+			foreach (LineRenderer lr in newPlayer.GetComponentsInChildren<LineRenderer>()) {
+				lr.material = colors [i];
+			}
+			//newPlayer.GetComponent<SpriteRenderer> ().color = Color.blue;
         }
 
         // set the names and scores

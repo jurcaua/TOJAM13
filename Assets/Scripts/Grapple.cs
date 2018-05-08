@@ -65,10 +65,16 @@ public class Grapple : MonoBehaviour {
 			playerMovement.ac.SetTrigger ("Unhook");
 		}
 
-        if (!playerMovement.frozen && (SettingManager.GrappleUp(playerMovement.playerID)) && !playerGrapple || !SettingManager.Grapple(playerMovement.playerID) && !playerGrapple) {
+		if (!playerMovement.frozen && (SettingManager.GrappleUp(playerMovement.playerID)) && !playerGrapple) { 
 
             UnGrapple();
         }
+
+		if (!SettingManager.Grapple(playerMovement.playerID) && !playerGrapple) { 
+
+			UnGrapple();
+
+		}
 
           //  if (!playerGrapple && SettingManager.Grapple(playerMovement.playerID) && SettingManager.PullDown(playerMovement.playerID) && currentHook != null) {
 		if (!playerGrapple && SettingManager.Grapple(playerMovement.playerID) && SettingManager.Pull(playerMovement.playerID) && currentHook != null) {

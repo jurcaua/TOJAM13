@@ -283,7 +283,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1739100222248586}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.62, y: 7.03, z: -1}
+  m_LocalPosition: {x: 19.01, y: -2.34, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4662918322270724}
@@ -512,8 +512,10 @@ MonoBehaviour:
   right: 0
   rod: {fileID: 1582692595721828}
   fire: {fileID: 4377548669179804}
+  gameManager: {fileID: 0}
   _audio: {fileID: 0}
   test: 0
+  cameraFollowsHook: 1
 --- !u!114 &114487532249248718
 MonoBehaviour:
   m_ObjectHideFlags: 1
