@@ -8,8 +8,25 @@ public class SettingManager : MonoBehaviour {
     public static bool HasBeenSetUp = false;
     public static int NumberOfPlayers = 1;
     public static List<ControlType> ControlSchemes = new List<ControlType>();
+    public static List<GamePad.Index> avaliableControllers = new List<GamePad.Index>();
 
     public static bool DebugMode = false;
+
+    private static GamePad.Index[] controllerIndicies = { GamePad.Index.One, GamePad.Index.Two, GamePad.Index.Three, GamePad.Index.Four };
+
+    public static int FindControllers() {
+        avaliableControllers = new List<GamePad.Index>();
+
+        string[] joysticks = Input.GetJoystickNames();
+        for (int i = 0; i < joysticks.Length; i++) {
+            if (joysticks[i] != string.Empty) {
+                avaliableControllers.Add(controllerIndicies[i]);
+                Debug.Log(controllerIndicies[i]);
+            }
+        }
+        Debug.Log("Found " + avaliableControllers.Count + " controllers!");
+        return avaliableControllers.Count;
+    }
 
     // NEW FUNCTIONS --> RETURN BOOL
 
@@ -20,18 +37,19 @@ public class SettingManager : MonoBehaviour {
                 count++;
             }
         }
-        if (count == 1) {
-            return GamePad.Index.One;
+        return avaliableControllers[count - 1];
+        //if (count == 1) {
+        //    return GamePad.Index.One;
 
-        } else if (count == 2) {
-            return GamePad.Index.Two;
+        //} else if (count == 2) {
+        //    return GamePad.Index.Two;
 
-        } else if (count == 3) {
-            return GamePad.Index.Three;
+        //} else if (count == 3) {
+        //    return GamePad.Index.Three;
 
-        } else {
-            return GamePad.Index.Four;
-        }
+        //} else {
+        //    return GamePad.Index.Four;
+        //}
     }
 
     public static bool Left(int playerID) {

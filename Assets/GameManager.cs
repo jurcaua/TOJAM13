@@ -251,8 +251,8 @@ public class GameManager : MonoBehaviour {
 
         timerText.text = currentTime.ToString() + "s";
 
-        highestPlayerLine.SetPosition(0, new Vector3(-50, players[highestPlayerIndex].transform.position.y, -1f));
-        highestPlayerLine.SetPosition(1, new Vector3(50, players[highestPlayerIndex].transform.position.y, -1f));
+        highestPlayerLine.SetPosition(0, new Vector3(-100, players[highestPlayerIndex].transform.position.y, -1f));
+        highestPlayerLine.SetPosition(1, new Vector3(100, players[highestPlayerIndex].transform.position.y, -1f));
     }
 
     IEnumerator Timer() {

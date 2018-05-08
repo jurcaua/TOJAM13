@@ -15,6 +15,7 @@ public class UIController : MonoBehaviour {
     public bool SettingMode = true;
     public Image continueButtonImage;
     public TextMeshProUGUI debugModeButtonText;
+    public TextMeshProUGUI warningText;
 
     private bool canContinue = false;
 
@@ -61,6 +62,8 @@ public class UIController : MonoBehaviour {
     }
 
     public void SetPlayer(PlayerControl toSet) {
+        canContinue = false;
+
         controlSchemes[toSet.playerNum - 1] = toSet.controlType;
         isSet[toSet.playerNum - 1] = true;
         if (toSet.controlType == ControlType.Keyboard) {
@@ -79,10 +82,27 @@ public class UIController : MonoBehaviour {
                 break;
             }
         }
-        
+
+        int connectedControllers = SettingManager.FindControllers();
+        int selectedControllers = 0;
+        for (int i = 0; i < numPlayers; i++) {
+            if (controlSchemes[i] == ControlType.Controller) {
+                selectedControllers++;
+            }
+        }
+        if (selectedControllers > connectedControllers) {
+            allTrue = false;
+            warningText.text = "Not enough controllers connected!";
+        } else {
+            warningText.text = "Configure Settings";
+        }
+
         if (allTrue) {
             canContinue = true;
             continueButtonImage.color = Color.white;
+        } else {
+            canContinue = false;
+            continueButtonImage.color = new Color(1f, 1f, 1f, 0.5f);
         }
 
         //PrintCurrentSettings();
@@ -93,8 +113,9 @@ public class UIController : MonoBehaviour {
         debugModeButtonText.text = "Debug Mode: " + (SettingManager.DebugMode ? "ON" : "OFF");
     }
 
-    public void FinalizeSettings() {
+    public void FinalizeSettings(string sceneName) {
         if (canContinue) {
+            SettingManager.FindControllers();
             SettingManager.HasBeenSetUp = true;
             SettingManager.NumberOfPlayers = numPlayers;
             SettingManager.ControlSchemes = controlSchemes;
@@ -102,6 +123,7 @@ public class UIController : MonoBehaviour {
             PrintCurrentSettings();
 
             //GoTo(nextScene);
+            GoToWait(sceneName);
         }
     }
 

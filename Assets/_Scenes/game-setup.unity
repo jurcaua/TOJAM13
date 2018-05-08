@@ -1622,6 +1622,11 @@ Prefab:
       propertyPath: debugModeButtonText
       value: 
       objectReference: {fileID: 262484827}
+    - target: {fileID: 114458863257449052, guid: 515e09a53a67e164dabc699673ef8136,
+        type: 2}
+      propertyPath: warningText
+      value: 
+      objectReference: {fileID: 430447250}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 515e09a53a67e164dabc699673ef8136, type: 2}
   m_IsPrefabParent: 0
@@ -2823,7 +2828,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -2845,17 +2850,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 519215658}
         m_MethodName: FinalizeSettings
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: player
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 519215658}
-        m_MethodName: GoToWait
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
