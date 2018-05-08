@@ -75,16 +75,18 @@ public class StageManager : MonoBehaviour {
 			child.SetActive (false);
 		}
 
-		foreach (Rigidbody2D rb in players) {
-			rb.AddForce (Vector2.up * 5000);
-
-		while (state == GameState.Iceberg) {
+        foreach (Rigidbody2D rb in players) {
+            rb.AddForce(Vector2.up * 5000);
+        }
+		/*
+        while (state == GameState.Iceberg) {
 			//do the whole shizzle
 				yield return new WaitForSeconds(1f);
 
 			}
 
 		}
+        */
 	}
 
 

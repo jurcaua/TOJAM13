@@ -162,6 +162,9 @@ public class Grapple : MonoBehaviour {
         grapple.enabled = false;
 
         if (currentHook != null) {
+            if (playerMovement.cameraFollowsHook) {
+                GM.RemoveCameraTarget(currentHook.transform);
+            }
             Destroy(currentHook.gameObject);
             currentHook = null;
         }

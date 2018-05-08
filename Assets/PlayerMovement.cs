@@ -43,8 +43,11 @@ public class PlayerMovement : MonoBehaviour {
 	public GameObject rod;
 	public Transform fire;
 
+    public GameManager gameManager;
 	public AudioController _audio;
 	public float test;
+
+    public bool cameraFollowsHook = true;
 
 	// Use this for initialization
 	void Start () {
@@ -52,7 +55,8 @@ public class PlayerMovement : MonoBehaviour {
 
 		speed = speed / 100;
 		ac = GetComponent<Animator> ();
-		_audio = GameObject.FindGameObjectWithTag ("Audio").GetComponent<AudioController>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _audio = GameObject.FindGameObjectWithTag ("Audio").GetComponent<AudioController>();
 	}
 
 	void Update () {
@@ -225,7 +229,10 @@ public class PlayerMovement : MonoBehaviour {
 
 		newLine.sightLine.enabled = true;
 		GameObject _hook = Instantiate (hook, fire.position, Quaternion.identity);
-		newLine.hook = _hook.transform;
+        if (cameraFollowsHook) {
+            gameManager.AddCameraHookTarget(_hook.transform);
+        }
+        newLine.hook = _hook.transform;
 
 		StartCoroutine (newLine.SimulatePath());
 
