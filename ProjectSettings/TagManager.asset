@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Boat
   - Audio
+  - Boundary
   layers:
   - Default
   - TransparentFX

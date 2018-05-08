@@ -151,21 +151,25 @@ public class GameManager : MonoBehaviour {
     }
 
     public void AddCameraPlayerTarget(Transform toAdd) {
-        CinemachineTargetGroup.Target curTarget = new CinemachineTargetGroup.Target();
-        curTarget.target = toAdd;
-        curTarget.weight = playerTargetWeight;
-        curTarget.radius = playerTargetRadius;
-        cameraTargets.Add(curTarget);
-        cameraTargetGroup.m_Targets = cameraTargets.ToArray();
+        if (!IsTarget(toAdd)) {
+            CinemachineTargetGroup.Target curTarget = new CinemachineTargetGroup.Target();
+            curTarget.target = toAdd;
+            curTarget.weight = playerTargetWeight;
+            curTarget.radius = playerTargetRadius;
+            cameraTargets.Add(curTarget);
+            cameraTargetGroup.m_Targets = cameraTargets.ToArray();
+        }
     }
 
     public void AddCameraHookTarget(Transform toAdd) {
-        CinemachineTargetGroup.Target curTarget = new CinemachineTargetGroup.Target();
-        curTarget.target = toAdd;
-        curTarget.weight = hookTargetWeight;
-        curTarget.radius = hookTargetRadius;
-        cameraTargets.Add(curTarget);
-        cameraTargetGroup.m_Targets = cameraTargets.ToArray();
+        if (!IsTarget(toAdd)) {
+            CinemachineTargetGroup.Target curTarget = new CinemachineTargetGroup.Target();
+            curTarget.target = toAdd;
+            curTarget.weight = hookTargetWeight;
+            curTarget.radius = hookTargetRadius;
+            cameraTargets.Add(curTarget);
+            cameraTargetGroup.m_Targets = cameraTargets.ToArray();
+        }
     }
 
     public void RemoveCameraTarget(Transform toRemove) {
@@ -177,6 +181,15 @@ public class GameManager : MonoBehaviour {
             }
         }
         Debug.Log(string.Format("Object with name \"{0}\" not found in camera targets.", toRemove.name));
+    }
+
+    public bool IsTarget(Transform toCheck) {
+        for (int i = 0; i < cameraTargets.Count; i++) {
+            if (cameraTargets[i].target == toCheck) {
+                return true;
+            }
+        }
+        return false;
     }
 
     void LoadPlayersFromScene() {
