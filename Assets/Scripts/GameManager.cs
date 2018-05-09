@@ -180,7 +180,7 @@ public class GameManager : MonoBehaviour {
                 return;
             }
         }
-        Debug.Log(string.Format("Object with name \"{0}\" not found in camera targets.", toRemove.name));
+        //Debug.Log(string.Format("Object with name \"{0}\" not found in camera targets.", toRemove.name));
     }
 
     public bool IsTarget(Transform toCheck) {

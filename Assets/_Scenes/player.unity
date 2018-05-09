@@ -12417,7 +12417,7 @@ GameObject:
   - component: {fileID: 2019568555}
   m_Layer: 2
   m_Name: Boundaries
-  m_TagString: Untagged
+  m_TagString: Boundary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
