@@ -4,8 +4,21 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using GamepadInput;
 
 public enum ControlType {Keyboard = 0, Controller = 1};
+
+public class ControlSetting {
+    public ControlType controlType;
+    public GamePad.Index controllerIndex;
+    public bool isSet;
+
+    public ControlSetting (ControlType _controlType, bool _isSet = true, GamePad.Index _controllerIndex = GamePad.Index.Any) {
+        controlType = _controlType;
+        controllerIndex = _controllerIndex;
+        isSet = _isSet;
+    }
+}
 
 public class UIController : MonoBehaviour {
 
@@ -19,6 +32,18 @@ public class UIController : MonoBehaviour {
     public TextMeshProUGUI warningText;
 
     private bool canContinue = false;
+
+    [Header("Updated Control Setting UI")]
+    public bool UpdatedSettingMode = false;
+    public GameObject[] playerUIObjects;
+    public Color inGameColor;
+    public Color notInGameColor;
+    public GameObject[] textPrompts;
+
+    private int nextPlayerToInit = 0;
+    private List<ControlSetting> playerControls;
+    private bool keyboardPlayerFound = false;
+    private bool[] controllerIndexFound = { false, false, false, false };
 
     [Header("Game UI")]
     public bool GameMode = false;
@@ -40,6 +65,15 @@ public class UIController : MonoBehaviour {
             continueButtonImage.color = new Color(1f, 1f, 1f, 0.5f);
         }
 
+        if (UpdatedSettingMode) {
+            playerControls = new List<ControlSetting> {
+                new ControlSetting(ControlType.Controller, false),
+                new ControlSetting(ControlType.Controller, false),
+                new ControlSetting(ControlType.Controller, false),
+                new ControlSetting(ControlType.Controller, false)
+            };
+        }
+
         if (GameMode) {
             pauseMenu.SetActive(paused);
         }
@@ -47,8 +81,66 @@ public class UIController : MonoBehaviour {
 
     void Update() {
         if (IsMainMenu) {
-            if (Input.GetKeyDown(KeyCode.Escape) || GamepadInput.GamePad.GetButtonDown(GamepadInput.GamePad.Button.Start, GamepadInput.GamePad.Index.Any)) {
+            if (Input.GetKeyDown(KeyCode.Escape) || GamePad.GetButtonDown(GamepadInput.GamePad.Button.Start, GamepadInput.GamePad.Index.Any)) {
                 Application.Quit();
+            }
+        }
+
+        if (UpdatedSettingMode) {
+            for (int i = 0; i < textPrompts.Length; i++) {
+                if (i == nextPlayerToInit) {
+                    textPrompts[i].SetActive(true);
+                } else {
+                    textPrompts[i].SetActive(false);
+                }
+            }
+
+            if (nextPlayerToInit < 4) {
+
+                if (Input.GetKeyDown(KeyCode.X) && !keyboardPlayerFound) {
+                    Transform currentPlayer = playerUIObjects[nextPlayerToInit].transform;
+                    currentPlayer.Find("PlayerText").GetComponent<TextMeshProUGUI>().color = inGameColor;
+                    currentPlayer.Find("PlayerNotIn").gameObject.SetActive(false);
+                    currentPlayer.Find("PlayerIn").gameObject.SetActive(true);
+                    currentPlayer.Find("ControlType").GetComponent<TextMeshProUGUI>().text = "Keyboard";
+                    playerControls[nextPlayerToInit] = new ControlSetting(ControlType.Keyboard);
+
+                    nextPlayerToInit++;
+
+                    keyboardPlayerFound = true;
+                    canContinue = true;
+                } else if (GamePad.GetButtonDown(GamePad.Button.X, GamePad.Index.Any)) {
+                    ControlSetting newControl = new ControlSetting(ControlType.Controller);
+                    if (GamePad.GetButtonDown(GamePad.Button.X, GamePad.Index.One) && !controllerIndexFound[0]) {
+                        newControl.controllerIndex = GamePad.Index.One;
+                        controllerIndexFound[0] = true;
+
+                    } else if (GamePad.GetButtonDown(GamePad.Button.X, GamePad.Index.Two) && !controllerIndexFound[1]) {
+                        newControl.controllerIndex = GamePad.Index.Two;
+                        controllerIndexFound[1] = true;
+
+                    } else if (GamePad.GetButtonDown(GamePad.Button.X, GamePad.Index.Three) && !controllerIndexFound[2]) {
+                        newControl.controllerIndex = GamePad.Index.Three;
+                        controllerIndexFound[2] = true;
+
+                    } else if (GamePad.GetButtonDown(GamePad.Button.X, GamePad.Index.Four) && !controllerIndexFound[3]) {
+                        newControl.controllerIndex = GamePad.Index.Four;
+                        controllerIndexFound[3] = true;
+                    }
+
+                    if (newControl.controllerIndex != GamePad.Index.Any) {
+                        Transform currentPlayer = playerUIObjects[nextPlayerToInit].transform;
+                        currentPlayer.Find("PlayerText").GetComponent<TextMeshProUGUI>().color = inGameColor;
+                        currentPlayer.Find("PlayerNotIn").gameObject.SetActive(false);
+                        currentPlayer.Find("PlayerIn").gameObject.SetActive(true);
+                        currentPlayer.Find("ControlType").GetComponent<TextMeshProUGUI>().text = "Controller";
+                        playerControls[nextPlayerToInit] = newControl;
+
+                        nextPlayerToInit++;
+
+                        canContinue = true;
+                    }
+                }
             }
         }
 
@@ -60,17 +152,20 @@ public class UIController : MonoBehaviour {
             }
 
             if (paused && GamepadInput.GamePad.GetButtonDown(GamepadInput.GamePad.Button.A, GamepadInput.GamePad.Index.Any)) {
+                paused = false;
+                Time.timeScale = 1 - Time.timeScale;
                 GoTo("main-menu");
             }
         }
     }
 
 	public void GoTo(string sceneName) {
+        Time.timeScale = 1;
         SceneManager.LoadScene(sceneName);
     }
 
     public void GoToWait(string sceneName) {
-        StartCoroutine(WaitLoad(sceneName, audioC.PlayBigUIClick()));
+        StartCoroutine(WaitLoad(sceneName, audioC.PlayBigUIClick() / 3));
     }
 
     IEnumerator WaitLoad(string sceneName, float delay) {
@@ -137,6 +232,18 @@ public class UIController : MonoBehaviour {
     }
 
     public void FinalizeSettings(string sceneName) {
+        if (UpdatedSettingMode & canContinue) {
+            SettingManager.HasBeenSetUp = true;
+            SettingManager.NumberOfPlayers = nextPlayerToInit;
+            SettingManager.PlayerControls = playerControls;
+
+            PrintCurrentSettings();
+
+            //GoTo(nextScene);
+            GoToWait(sceneName);
+        }
+        return;
+        /*
         if (canContinue) {
             SettingManager.FindControllers();
             SettingManager.HasBeenSetUp = true;
@@ -148,6 +255,7 @@ public class UIController : MonoBehaviour {
             //GoTo(nextScene);
             GoToWait(sceneName);
         }
+        */
     }
 
     void ResetControls() {
@@ -160,8 +268,13 @@ public class UIController : MonoBehaviour {
     }
 
     void PrintCurrentSettings() {
+        for (int i = 0; i < nextPlayerToInit; i++) {
+            Debug.Log(string.Format("Player:{0}, Setting={1}", (i + 1).ToString(), playerControls[i].controllerIndex));
+        }
+        /*
         for (int i = 0; i < numPlayers; i++) {
             Debug.Log(string.Format("Player:{0}, Setting={1}", (i + 1).ToString(), controlSchemes[i]));
         }
+        */
     }
 }
