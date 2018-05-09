@@ -174,7 +174,12 @@ public class PlayerMovement : MonoBehaviour {
 
 	// Update is called once per frame
 	void FixedUpdate () {
-		if (!frozen && canMove) {
+
+        if (uiController.paused) {
+            return;
+        }
+
+        if (!frozen && canMove) {
 			transform.position += new Vector3 (xAcceleration, 0, 0);
 
 			Rigidbody2D r = GetComponent<Rigidbody2D> ();
