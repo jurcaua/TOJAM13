@@ -35,9 +35,9 @@ public class AudioController : MonoBehaviour {
 
     void Awake() {
         seagull = AddAudio(seagullClips[0], false, false, 0.65f);
-        bigSplash = AddAudio(bigSplashClip, false, false, 0.7f);
-        smallSplash = AddAudio(smallSplashClip, false, false, 0.7f);
-        menuSelectMetal = AddAudio(menuSelectMetalClip, false, false, 0.7f);
+        bigSplash = AddAudio(bigSplashClip, false, false, 0.8f);
+        smallSplash = AddAudio(smallSplashClip, false, false, 0.75f);
+        menuSelectMetal = AddAudio(menuSelectMetalClip, false, false, 0.65f);
         playerHit = AddAudio(playerHitClips[0], false, false, 0.7f);
         rain = AddAudio(rainClip, true, false, 0.5f);
         thunder = AddAudio(thunderClips[0], false, false, 0.6f);
@@ -46,7 +46,7 @@ public class AudioController : MonoBehaviour {
         grapple = AddAudio(grappleClip, false, false, 0.7f);
         death = AddAudio(deathClip, false, false, 0.7f);
         landing = AddAudio(landingClip, false, false, 0.7f);
-        jump = AddAudio(jumpClip, false, false, 0.7f);
+        jump = AddAudio(jumpClip, false, false, 0.75f);
     }
 
     AudioSource AddAudio(AudioClip clip, bool loop, bool playAwake, float vol) {
