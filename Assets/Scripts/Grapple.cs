@@ -52,6 +52,11 @@ public class Grapple : MonoBehaviour {
     }
 	
 	void Update () {
+
+        if (playerMovement.uiController.paused) {
+            return;
+        }
+
         DirectionArrow();
 
         //if (Input.GetMouseButtonDown(0)) {

@@ -45,6 +45,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public GameManager gameManager;
 	public AudioController _audio;
+    [HideInInspector] public UIController uiController;
 	public float test;
 
     public bool cameraFollowsHook = true;
@@ -57,10 +58,14 @@ public class PlayerMovement : MonoBehaviour {
 		ac = GetComponent<Animator> ();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _audio = GameObject.FindGameObjectWithTag ("Audio").GetComponent<AudioController>();
-	}
+        uiController = GameObject.Find("UIController").GetComponent<UIController>();
+    }
 
 	void Update () {
 
+        if (uiController.paused) {
+            return;
+        }
 
 		if (true) {
 			rod.transform.rotation = grapple.transform.rotation;

@@ -9,15 +9,22 @@ public enum ControlType {Keyboard = 0, Controller = 1};
 
 public class UIController : MonoBehaviour {
 
-    public bool MainMenu = false;
+    [Header("Main Menu UI")]
+    public bool IsMainMenu = false;
 
-    [Header("Player Control Setting Scene")]
+    [Header("Control Setting UI")]
     public bool SettingMode = true;
     public Image continueButtonImage;
     public TextMeshProUGUI debugModeButtonText;
     public TextMeshProUGUI warningText;
 
     private bool canContinue = false;
+
+    [Header("Game UI")]
+    public bool GameMode = false;
+    public GameObject pauseMenu;
+
+    [HideInInspector] public bool paused = false;
 
     private int numPlayers = 1;
     private List<ControlType> controlSchemes;
@@ -32,12 +39,28 @@ public class UIController : MonoBehaviour {
             ResetControls();
             continueButtonImage.color = new Color(1f, 1f, 1f, 0.5f);
         }
+
+        if (GameMode) {
+            pauseMenu.SetActive(paused);
+        }
     }
 
     void Update() {
-        if (MainMenu) {
+        if (IsMainMenu) {
             if (Input.GetKeyDown(KeyCode.Escape) || GamepadInput.GamePad.GetButtonDown(GamepadInput.GamePad.Button.Start, GamepadInput.GamePad.Index.Any)) {
                 Application.Quit();
+            }
+        }
+
+        if (GameMode) {
+            if (Input.GetKeyDown(KeyCode.Escape) || GamepadInput.GamePad.GetButtonDown(GamepadInput.GamePad.Button.Start, GamepadInput.GamePad.Index.Any)) {
+                pauseMenu.SetActive(!paused);
+                paused = !paused;
+                Time.timeScale = 1 - Time.timeScale;
+            }
+
+            if (paused && GamepadInput.GamePad.GetButtonDown(GamepadInput.GamePad.Button.A, GamepadInput.GamePad.Index.Any)) {
+                GoTo("main-menu");
             }
         }
     }
