@@ -168,6 +168,10 @@ public class UIController : MonoBehaviour {
         StartCoroutine(WaitLoad(sceneName, audioC.PlayBigUIClick() / 3));
     }
 
+    public void GoToShortWait(string sceneName) {
+        StartCoroutine(WaitLoad(sceneName, audioC.PlayerSmallUIClick()));
+    }
+
     IEnumerator WaitLoad(string sceneName, float delay) {
         yield return new WaitForSeconds(delay);
 
@@ -256,6 +260,10 @@ public class UIController : MonoBehaviour {
             GoToWait(sceneName);
         }
         */
+    }
+
+    public void RestartScene() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     void ResetControls() {
