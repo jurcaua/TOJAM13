@@ -51,6 +51,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f172c22d37af8cc44ae03976f02a0fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsMainMenu: 0
   SettingMode: 0
   continueButtonImage: {fileID: 0}
   debugModeButtonText: {fileID: 0}
+  warningText: {fileID: 0}
+  UpdatedSettingMode: 1
+  playerUIObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  inGameColor: {r: 0, g: 0.9764706, b: 0.047058824, a: 1}
+  notInGameColor: {r: 0.8156863, g: 0.17254902, b: 0.17254902, a: 1}
+  textPrompts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  GameMode: 0
+  pauseMenu: {fileID: 0}
+  paused: 0
