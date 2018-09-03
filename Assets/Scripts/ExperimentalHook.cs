@@ -143,6 +143,9 @@ public class ExperimentalHook : MonoBehaviour {
 
 
 			if (hooked) {
+
+				handJoint.SetActive (true);
+
 				if (!enemyHit) {
 					Vector2 dir = currentHook.position - player.position; 
 					if (hit = Physics2D.Raycast (player.position, dir, dir.magnitude, lineLayer)) {
@@ -340,6 +343,11 @@ public class ExperimentalHook : MonoBehaviour {
 							} else {
 								GetComponent<Rigidbody2D> ().AddForce (-transform.right * airSpeed);
 							}
+
+							//left 
+							if (ac.GetComponent<SpriteRenderer> ().flipX == true ) {
+								ac.GetComponent<SpriteRenderer> ().flipX = false;
+							}
 						}
 						if (Input.GetKey (KeyCode.D)) {
 							if (grounded) {
@@ -349,7 +357,11 @@ public class ExperimentalHook : MonoBehaviour {
 							} else {
 								GetComponent<Rigidbody2D> ().AddForce (transform.right * airSpeed);
 							}
+							//right
+							if (ac.GetComponent<SpriteRenderer> ().flipX == false) {
+								ac.GetComponent<SpriteRenderer> ().flipX = true;
 
+							}
 						}
 					}
 				} else {
@@ -427,6 +439,8 @@ public class ExperimentalHook : MonoBehaviour {
 
 	void UnHook() {
 		ac.SetTrigger ("Release");
+		handJoint.SetActive (false);
+
 
 		hooked = false;
 		dj.enabled = false;
@@ -629,6 +643,9 @@ public class ExperimentalHook : MonoBehaviour {
 					enemyObject = hit.transform.gameObject;
 					StartCoroutine (EnemyHit ());
 				}
+			} else {
+				ac.SetTrigger ("Release");
+
 			}
 
 			throwLine.enabled = false;
