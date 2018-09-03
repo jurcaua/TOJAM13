@@ -38,6 +38,9 @@ public class ExperimentalHook : MonoBehaviour {
 	public GameObject arrow;
 	public Camera main;
 	//public LayerMask throwMask;
+	public GameObject handJoint;
+	public GameObject endOfHand;
+
 
 	public GameObject target;
 
@@ -87,12 +90,22 @@ public class ExperimentalHook : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		if (Mathf.Abs (GetComponent<Rigidbody2D> ().velocity.x) >= 0.1) {
+		if (!dummy) {
+			if (Mathf.Abs (GetComponent<Rigidbody2D> ().velocity.x) >= 0.1) {
 			
-			ac.SetBool ("Moving", true);
-		} else {
-			ac.SetBool ("Moving", false);
+				ac.SetBool ("Moving", true);
+			} else {
+				ac.SetBool ("Moving", false);
 
+			}
+
+			if (GetComponent<Rigidbody2D> ().velocity.y < 1) {
+				ac.SetBool ("Falling", true);
+
+			} else {
+				ac.SetBool ("Falling", false);
+
+			}
 		}
 
 	}
@@ -106,9 +119,14 @@ public class ExperimentalHook : MonoBehaviour {
 			Vector2 dirArrow = (Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10)) - transform.position).normalized;
 			arrow.transform.rotation = Quaternion.Euler (0f, 0f, Mathf.Atan2 (dirArrow.y, dirArrow.x) * Mathf.Rad2Deg + 90f);
 
+			Vector2 dirHand = (Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10)) - transform.position).normalized;
+			handJoint.transform.rotation = Quaternion.Euler (0f, 0f, Mathf.Atan2 (dirArrow.y, dirArrow.x) * Mathf.Rad2Deg + 90f);
+
 			if (!hooked && Input.GetKeyDown (KeyCode.Mouse0)) {
 				//	Hook ();
 				Throw ();
+				ac.SetTrigger ("Swinging");
+
 			}
 			if (hooked && Input.GetKeyUp (KeyCode.Mouse0) && !enemyHit) {
 				UnHook ();
@@ -156,6 +174,7 @@ public class ExperimentalHook : MonoBehaviour {
 						lr.positionCount = index + 2;
 						lr.SetPosition (index, currentHook.position);
 						lr.SetPosition (index + 1, player.position);
+
 
 
 						//transfers the current hook to mid
@@ -233,7 +252,11 @@ public class ExperimentalHook : MonoBehaviour {
 						lr.positionCount = index + 2;
 						lr.SetPosition (index, currentHook.position);
 						//lr.SetPosition (index + 1, player.position - new Vector3(0,0,1));
-						lr.SetPosition (index + 1, player.position - new Vector3 (0, 0, 1));
+						//lr.SetPosition (index + 1, player.position - new Vector3 (0, 0, 1));
+
+
+						lr.SetPosition (index + 1, endOfHand.transform.position - new Vector3 (0, 0, 1));
+						Debug.Log (endOfHand.transform.position);
 
 						if (target != null) {
 							//player is attached as target
@@ -301,6 +324,9 @@ public class ExperimentalHook : MonoBehaviour {
 						if (Input.GetKeyDown (KeyCode.W)) {
 							if (nJump < 2) {
 								ac.SetTrigger ("Jumping");
+								if (GetComponent<Rigidbody2D> ().velocity.y < 0) {
+									GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, 0);
+								}
 								GetComponent<Rigidbody2D> ().AddForce (transform.up * jumpForce);
 								nJump++;
 							}
@@ -308,14 +334,18 @@ public class ExperimentalHook : MonoBehaviour {
 
 						if (Input.GetKey (KeyCode.A)) {
 							if (grounded) {
-								transform.position -= new Vector3 (speed, 0, 0);
+								//transform.position -= new Vector3 (speed, 0, 0);
+								GetComponent<Rigidbody2D> ().AddForce (-transform.right * airSpeed);
+
 							} else {
 								GetComponent<Rigidbody2D> ().AddForce (-transform.right * airSpeed);
 							}
 						}
 						if (Input.GetKey (KeyCode.D)) {
 							if (grounded) {
-								transform.position += new Vector3 (speed, 0, 0);
+							//	transform.position += new Vector3 (speed, 0, 0);
+								GetComponent<Rigidbody2D> ().AddForce (transform.right * airSpeed);
+
 							} else {
 								GetComponent<Rigidbody2D> ().AddForce (transform.right * airSpeed);
 							}
@@ -325,11 +355,20 @@ public class ExperimentalHook : MonoBehaviour {
 				} else {
 					//during invulnerability
 				}
+				Rigidbody2D rb = GetComponent<Rigidbody2D> ();
+				if (rb.velocity.x >= 20) {
+					rb.velocity = new Vector2 (20, rb.velocity.y);
+				} else if (rb.velocity.x <= -20) {
+					rb.velocity = new Vector2 (-20, rb.velocity.y);
+
+				}
 			
 			}
 
 			LineUpdate ();
 		}
+
+	//	lr.SetPosition (index + 1, endOfHand.transform.position - new Vector3 (0, 0, 1));
 	}
 
 
@@ -387,6 +426,8 @@ public class ExperimentalHook : MonoBehaviour {
 	}
 
 	void UnHook() {
+		ac.SetTrigger ("Release");
+
 		hooked = false;
 		dj.enabled = false;
 		lr.enabled = false;
@@ -583,6 +624,7 @@ public class ExperimentalHook : MonoBehaviour {
 				if (hit.transform.gameObject.tag == "Player") {
 					contact = false;
 					Debug.Log ("Player Hit");
+					Debug.Log (hit.transform.name);
 					//start Reeling
 					enemyObject = hit.transform.gameObject;
 					StartCoroutine (EnemyHit ());
@@ -754,7 +796,8 @@ public class ExperimentalHook : MonoBehaviour {
 			lr.SetPosition (i, hookPoints [i].transform.position);
 		}
 
-		lr.SetPosition (hookPoints.Count, player.position);
+	//	lr.SetPosition (hookPoints.Count, player.position);
+		lr.SetPosition (hookPoints.Count, endOfHand.transform.position - new Vector3 (0, 0, 1));
 
 		if (hookPoints.Count > 0) {
 			currentHook.position = hookPoints [hookPoints.Count - 1].transform.position;
@@ -827,6 +870,8 @@ public class ExperimentalHook : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D coll) {
 //		Debug.Log (coll.gameObject.name);
 		if (coll.gameObject.tag == "Ground") {
+			ac.SetBool ("Grounded", true);
+
 			grounded = true;
 			nJump = 0;
 		} else if (coll.gameObject.tag == "Player") {
@@ -840,6 +885,8 @@ public class ExperimentalHook : MonoBehaviour {
 	void OnCollisionExit2D(Collision2D coll) {
 //		Debug.Log (coll.gameObject.name);
 		if (coll.gameObject.tag == "Ground") {
+			ac.SetBool ("Grounded", false);
+
 			grounded = false;
 			nJump = 1;
 		}
