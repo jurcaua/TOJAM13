@@ -3118,6 +3118,11 @@ Prefab:
       propertyPath: pauseMenu
       value: 
       objectReference: {fileID: 1067132000}
+    - target: {fileID: 114458863257449052, guid: 515e09a53a67e164dabc699673ef8136,
+        type: 2}
+      propertyPath: UpdatedSettingMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 515e09a53a67e164dabc699673ef8136, type: 2}
   m_IsPrefabParent: 0
@@ -10362,10 +10367,10 @@ MonoBehaviour:
   - {fileID: 1841845769}
   - {fileID: 500749339}
   colors:
-  - {fileID: 2100000, guid: ea5fdb54a19488a4c8b17ed1bb8d9b19, type: 2}
-  - {fileID: 2100000, guid: 2e1fc21632881314aa9a3d3d9e2688b0, type: 2}
-  - {fileID: 2100000, guid: 9d7020cf5e2103b4b8471b0601dc17ec, type: 2}
-  - {fileID: 2100000, guid: 8f1cc6cf4cafe1247a9acdf38fe142d5, type: 2}
+  - {fileID: 2100000, guid: a683989cee4fe554a9f3d49c97f8b51c, type: 2}
+  - {fileID: 2100000, guid: 61e1f123e545ec34a8a73efc86398ab3, type: 2}
+  - {fileID: 2100000, guid: d3446dab0f4c5a04592ea13fe084d803, type: 2}
+  - {fileID: 2100000, guid: e2b7e271dd7a3d9428542cf5f1aed8dc, type: 2}
   playerPrefab: {fileID: 1739100222248586, guid: 166140668c5cc2f4b95333db8cb979ad,
     type: 2}
   cameraTargetGroup: {fileID: 747778910}

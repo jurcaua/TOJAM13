@@ -157,6 +157,11 @@ Prefab:
       propertyPath: SettingMode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114458863257449052, guid: 515e09a53a67e164dabc699673ef8136,
+        type: 2}
+      propertyPath: UpdatedSettingMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 515e09a53a67e164dabc699673ef8136, type: 2}
   m_IsPrefabParent: 0

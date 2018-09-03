@@ -70,7 +70,9 @@ public class GameManager : MonoBehaviour {
 
         InitCameraFollowing();
 
-        //SetBoundaries();
+        InitPlayerColors();
+
+        SetBoundaries();
     }
 
     public void SetBoundaries() {
@@ -147,6 +149,20 @@ public class GameManager : MonoBehaviour {
         cameraTargetGroup.m_Targets = new CinemachineTargetGroup.Target[players.Count];
         for (int i = 0; i < players.Count; i++) {
             AddCameraPlayerTarget(players[i].transform);
+        }
+    }
+
+    void InitPlayerColors() {
+        for (int i = 0; i < SettingManager.NumberOfPlayers; i++) {
+            if (SettingManager.PlayerControls[i].selectedColor != Color.white) {
+                colors[i].color = SettingManager.PlayerControls[i].selectedColor;
+
+                Color fadedSelectedColor = SettingManager.PlayerControls[i].selectedColor;
+                fadedSelectedColor.a /= 4;
+                sliders[i].gameObject.transform.Find("Background").GetComponent<Image>().color = fadedSelectedColor;
+
+                sliders[i].gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = SettingManager.PlayerControls[i].selectedColor;
+            }
         }
     }
 
