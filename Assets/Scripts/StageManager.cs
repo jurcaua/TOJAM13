@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour {
 
+    private static StageManager instance = null;
+
 	public enum GameState {Boat, Storm, Iceberg};
 	//public GameManager GM;
 	public GameState state;
 	public int gameDuration = 180;
+    public int numStages = 3;
 
 	public GameObject seagull;
 	public Transform seagull_origin;
@@ -25,93 +28,48 @@ public class StageManager : MonoBehaviour {
 	public GameObject iceberg;
     public Transform goat;
 
-    private GameManager gm;
-    private AudioController ac;
+    [HideInInspector] public GameManager gm;
+    [HideInInspector] public AudioController ac;
+
+    private int currentStage = 0;
+    private List<Stage> stages;
 
 	// Use this for initialization
 	void Start () {
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        ac = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioController>();
 
-		StartCoroutine (Stages ());
-		players = new List<Rigidbody2D> ();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-	IEnumerator Boat() {
-		sky_clear.SetActive (true);
-		sky_stormy.SetActive (false);
-		while (state == GameState.Boat) {
-			//send seaguls
-			yield return new WaitForSeconds(Random.Range(5,10));
-			Instantiate (seagull, seagull_origin.position + new Vector3(0, Random.Range(0,15f), 0), seagull_origin.rotation);
-
-		}
-	}
-
-	IEnumerator Storm() {
-        ac.Play(ac.rain);
-
-        sky_clear.SetActive (false);
-		sky_stormy.SetActive (true);
-		while (state == GameState.Storm) {
-			//send small icebergs
-			yield return new WaitForSeconds(Random.Range(2,5));
-
-			Instantiate (iceberg_small, iceberg_origin.position + new Vector3(0, Random.Range(-2f,2f), 0), iceberg_origin.rotation);
-		}
-	}
-
-	IEnumerator Iceberg() {
-		yield return new WaitForSeconds(1f);
-
-		iceberg.SetActive (true);
-		boat.SetTrigger ("Iceberg");
-
-		yield return new WaitForSeconds(1.15f);
-		//int children = boat.transform.childCount;
-		foreach (GameObject child in platforms) {
-			child.SetActive (false);
-		}
-
-        gm.AddCameraHookTarget(goat);
-
-        foreach (Rigidbody2D rb in players) {
-            rb.AddForce(Vector2.up * 5000);
+        if (instance == null) {
+            instance = this;
+        }
+        else if (instance != null) {
+            Destroy(gameObject);
         }
 
-		/*
-        while (state == GameState.Iceberg) {
-			//do the whole shizzle
-				yield return new WaitForSeconds(1f);
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        ac = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioController>();
+        
+		players = new List<Rigidbody2D> ();
 
-			}
+        stages = new List<Stage> {
+            new BoatStage(gameDuration / numStages),
+            new StormStage(gameDuration / numStages, 0.01f),
+            new IcebergStage(gameDuration / numStages)
+        };
+    }
+	
+    public static StageManager GetInstance() {
+        return instance;
+    }
 
-		}
-        */
+	// Update is called once per frame
+	void Update () {
+        if (currentStage < stages.Count) {
+            stages[currentStage].Update(Time.deltaTime);
+            if (stages[currentStage].IsStageComplete()) {
+                currentStage++;
+            }
+        }
 	}
-
-
-
-	IEnumerator Stages() {
-
-		state = GameState.Boat;
-		StartCoroutine (Boat ());
-		yield return new WaitForSeconds (gameDuration / 3);
-
-		state = GameState.Storm;
-		StartCoroutine (Storm ());
-		yield return new WaitForSeconds (gameDuration / 3);
-
-		state = GameState.Iceberg;
-		StartCoroutine (Iceberg ());
-		yield return new WaitForSeconds (gameDuration / 3);
-	}
-
+    
 	void OnTriggerEnter2D(Collider2D coll) {
 		if (coll.tag == "Player") {
 			players.Add (coll.gameObject.GetComponent<Rigidbody2D> ());
