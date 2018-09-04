@@ -99,7 +99,7 @@ public class ExperimentalHook : MonoBehaviour {
 
 			}
 
-			if (GetComponent<Rigidbody2D> ().velocity.y < 1) {
+			if (GetComponent<Rigidbody2D> ().velocity.y < -1) {
 				ac.SetBool ("Falling", true);
 
 			} else {
@@ -124,8 +124,8 @@ public class ExperimentalHook : MonoBehaviour {
 
 			if (!hooked && Input.GetKeyDown (KeyCode.Mouse0)) {
 				//	Hook ();
+				Debug.Log("not here");
 				Throw ();
-				ac.SetTrigger ("Swinging");
 
 			}
 			if (hooked && Input.GetKeyUp (KeyCode.Mouse0) && !enemyHit) {
@@ -144,7 +144,6 @@ public class ExperimentalHook : MonoBehaviour {
 
 			if (hooked) {
 
-				handJoint.SetActive (true);
 
 				if (!enemyHit) {
 					Vector2 dir = currentHook.position - player.position; 
@@ -259,7 +258,7 @@ public class ExperimentalHook : MonoBehaviour {
 
 
 						lr.SetPosition (index + 1, endOfHand.transform.position - new Vector3 (0, 0, 1));
-						Debug.Log (endOfHand.transform.position);
+//						Debug.Log (endOfHand.transform.position);
 
 						if (target != null) {
 							//player is attached as target
@@ -386,9 +385,23 @@ public class ExperimentalHook : MonoBehaviour {
 
 
 	void Throw() {
+		Debug.Log ("why tho");
 
 		if (true) {
+
+			if (arrow.transform.rotation.eulerAngles.z >= 180) {
+				if (ac.GetComponent<SpriteRenderer> ().flipX) {
+					ac.GetComponent<SpriteRenderer> ().flipX = false;
+				}
+			} else {
+				if (!ac.GetComponent<SpriteRenderer> ().flipX) {
+					ac.GetComponent<SpriteRenderer> ().flipX = true;
+				} 
+			}
+
+
 			StartCoroutine(SimulatePathNew());
+			//StartCoroutine (EnableHand ());
 		} else {
 			//Debug.Log ("Throwing");
 
@@ -557,13 +570,27 @@ public class ExperimentalHook : MonoBehaviour {
 	}
 
 
+	public IEnumerator EnableHand() {
+		yield return new WaitForSeconds (0.4f);
+		if (hooked) {
+			//handJoint.SetActive (true);
+		}
 
+	}
 
 	public IEnumerator SimulatePathNew() {
 		//freeze the player
 
 		if (done) {
+
+			ac.SetTrigger ("Swinging");
+
 			done = false;
+
+			yield return new WaitForSeconds (0.3f);
+
+			handJoint.SetActive (true);
+
 
 			Rigidbody2D rb = GetComponent<Rigidbody2D> ();
 			throwLine.enabled = true;
@@ -574,7 +601,8 @@ public class ExperimentalHook : MonoBehaviour {
 			//throw
 			throwLine.positionCount = 1;
 			Vector3[] segments = new Vector3[segmentCount];
-			segments [0] = fire.position + new Vector3 (0, 0, -1);
+			segments [0] = endOfHand.transform.position + new Vector3 (0, 0, -1);
+		//	segments [0] = fire.position + new Vector3 (0, 0, -1);
 			throwLine.SetPosition (0, segments [0]);
 
 
@@ -615,6 +643,10 @@ public class ExperimentalHook : MonoBehaviour {
 					yield return new WaitForFixedUpdate ();
 				}
 
+				throwLine.SetPosition (0, endOfHand.transform.position + new Vector3 (0, 0, -1));
+
+
+
 			//	Debug.Log (contact);
 			}
 			if (contact) {
@@ -645,6 +677,7 @@ public class ExperimentalHook : MonoBehaviour {
 				}
 			} else {
 				ac.SetTrigger ("Release");
+				handJoint.SetActive (false);
 
 			}
 
@@ -656,6 +689,7 @@ public class ExperimentalHook : MonoBehaviour {
 			done = true;
 
 			if (interrupted && contact) { 
+				Debug.Log ("interrupt");
 				UnHook (); 
 			};
 			interrupted = false;

@@ -1765,6 +1765,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1610648397948304, guid: 0b6b269f2c0574648aadd07c576144a8, type: 2}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0b6b269f2c0574648aadd07c576144a8, type: 2}
   m_IsPrefabParent: 0
@@ -2362,10 +2366,10 @@ MonoBehaviour:
   hookPoint: {fileID: 0}
   lastPlatform: {fileID: 0}
   platformsToPoints: []
-  segmentCount: 40
+  segmentCount: 50
   fire: {fileID: 136679233}
   fireStrength: 1000
-  segmentScale: 2
+  segmentScale: 1
   sightLine: {fileID: 0}
   throwLine: {fileID: 152242239}
   done: 1
@@ -2374,7 +2378,7 @@ MonoBehaviour:
     m_Bits: 512
   contactLayer:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 2816
   interrupted: 0
   ac: {fileID: 105672388}
   cornertest: []
