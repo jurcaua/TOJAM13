@@ -323,7 +323,7 @@ public class ExperimentalHook : MonoBehaviour {
 
 				if (Input.GetKeyDown (KeyCode.Space)) {
 					//StartCoroutine (GetHitCoroutine ());
-					GetComponent<ScoreSystem>().LoosePoints(5);
+					GetComponent<ScoreSystem>().LosePoints(GameManager.instance.GetPlayerIdFromGameObject(gameObject), 5);
 				}
 
 				//TODO better air control
@@ -964,7 +964,7 @@ public class ExperimentalHook : MonoBehaviour {
 
 	public void GetHit() {
 		StartCoroutine (GetHitCoroutine ());
-		GetComponent<ScoreSystem> ().LoosePoints (3);
+		GetComponent<ScoreSystem> ().LosePoints (GameManager.instance.GetPlayerIdFromGameObject(gameObject), 3);
 	}
 
 	IEnumerator GetHitCoroutine() {
@@ -982,7 +982,7 @@ public class ExperimentalHook : MonoBehaviour {
 	public IEnumerator Die() {
 		_audio.Play (_audio.death, true);
 
-		GetComponent<ScoreSystem> ().LoosePoints (10);
+		GetComponent<ScoreSystem> ().LosePoints (GameManager.instance.GetPlayerIdFromGameObject(gameObject), 10);
 
 		dead = true;
 
