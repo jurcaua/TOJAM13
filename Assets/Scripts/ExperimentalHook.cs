@@ -21,6 +21,7 @@ public class ExperimentalHook : MonoBehaviour {
 	public Transform currentHook;
 	public bool hooked = false;
 	public DistanceJoint2D dj;
+	public GameObject hookboi;
 
 	[Header("Movement")]
 
@@ -84,7 +85,8 @@ public class ExperimentalHook : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//lr.positionCount = 2;
-
+		currentHook = Instantiate(hookboi, Vector3.zero, Quaternion.identity).transform;
+		//currentHook.parent = null;
 		//currentHook.position = hook.position;
 		dj = GetComponent<DistanceJoint2D> ();
 		dj.connectedBody = currentHook.GetComponent<Rigidbody2D> ();
