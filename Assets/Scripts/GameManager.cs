@@ -247,7 +247,7 @@ public class GameManager : MonoBehaviour {
         // create the amount we need
         for (int i = 0; i < SettingManager.NumberOfPlayers; i++) {
             GameObject newPlayer = Instantiate(playerPrefab);
-            newPlayer.GetComponent<PlayerMovement>().playerID = i + 1;
+            newPlayer.GetComponent<ExperimentalHook>().PlayerID = i + 1;
             players.Add(newPlayer);
 
 			//add colors

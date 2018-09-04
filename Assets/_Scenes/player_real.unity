@@ -629,7 +629,7 @@ GameObject:
   - component: {fileID: 97128428}
   - component: {fileID: 97128427}
   - component: {fileID: 97128426}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Platform (7)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -2390,7 +2390,7 @@ GameObject:
   - component: {fileID: 499157601}
   - component: {fileID: 499157600}
   - component: {fileID: 499157603}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Platform (1)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -2957,7 +2957,7 @@ GameObject:
   - component: {fileID: 585517829}
   - component: {fileID: 585517828}
   - component: {fileID: 585517827}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Platform (3)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -3946,48 +3946,6 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0fb85242fe06637428888e171a1f470c, type: 2}
-  m_IsPrefabParent: 0
---- !u!1001 &805794508
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4758584606327448, guid: 0d43ef1acf79a634b862528fc2e503ef, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -4.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4758584606327448, guid: 0d43ef1acf79a634b862528fc2e503ef, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 3.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 4758584606327448, guid: 0d43ef1acf79a634b862528fc2e503ef, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4758584606327448, guid: 0d43ef1acf79a634b862528fc2e503ef, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4758584606327448, guid: 0d43ef1acf79a634b862528fc2e503ef, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4758584606327448, guid: 0d43ef1acf79a634b862528fc2e503ef, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4758584606327448, guid: 0d43ef1acf79a634b862528fc2e503ef, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4758584606327448, guid: 0d43ef1acf79a634b862528fc2e503ef, type: 2}
-      propertyPath: m_RootOrder
-      value: 21
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 0d43ef1acf79a634b862528fc2e503ef, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &825235666
 GameObject:
@@ -5336,7 +5294,7 @@ GameObject:
   - component: {fileID: 1057063896}
   - component: {fileID: 1057063895}
   - component: {fileID: 1057063894}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Platform (5)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -5823,10 +5781,6 @@ Prefab:
         type: 2}
       propertyPath: m_AnchorMax.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1739100222248586, guid: 166140668c5cc2f4b95333db8cb979ad, type: 2}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 166140668c5cc2f4b95333db8cb979ad, type: 2}
@@ -9545,7 +9499,7 @@ GameObject:
   - component: {fileID: 1238241973}
   - component: {fileID: 1238241972}
   - component: {fileID: 1238241971}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Platform (2)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -10382,7 +10336,6 @@ GameObject:
   - component: {fileID: 1421329360}
   - component: {fileID: 1421329359}
   - component: {fileID: 1421329361}
-  - component: {fileID: 1421329362}
   m_Layer: 2
   m_Name: GameManager
   m_TagString: Untagged
@@ -10396,7 +10349,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1421329358}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b61b606cfabfc0b4992cc7e5bf51e77e, type: 3}
   m_Name: 
@@ -10418,7 +10371,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 61e1f123e545ec34a8a73efc86398ab3, type: 2}
   - {fileID: 2100000, guid: d3446dab0f4c5a04592ea13fe084d803, type: 2}
   - {fileID: 2100000, guid: e2b7e271dd7a3d9428542cf5f1aed8dc, type: 2}
-  playerPrefab: {fileID: 1834669958060984, guid: 0d43ef1acf79a634b862528fc2e503ef,
+  playerPrefab: {fileID: 1739100222248586, guid: 166140668c5cc2f4b95333db8cb979ad,
     type: 2}
   cameraTargetGroup: {fileID: 747778910}
   playerTargetRadius: 6
@@ -10557,41 +10510,6 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &1421329362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1421329358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8671840f41afeda4e90460eea266be90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  players: []
-  scores: 
-  texts: []
-  sliders: []
-  colors:
-  - {fileID: 2100000, guid: a683989cee4fe554a9f3d49c97f8b51c, type: 2}
-  - {fileID: 2100000, guid: 61e1f123e545ec34a8a73efc86398ab3, type: 2}
-  - {fileID: 2100000, guid: d3446dab0f4c5a04592ea13fe084d803, type: 2}
-  - {fileID: 2100000, guid: e2b7e271dd7a3d9428542cf5f1aed8dc, type: 2}
-  playerPrefab: {fileID: 1834669958060984, guid: 0d43ef1acf79a634b862528fc2e503ef,
-    type: 2}
-  cameraTargetGroup: {fileID: 0}
-  playerTargetRadius: 4
-  playerTargetWeight: 1
-  hookTargetRadius: 2
-  hookTargetWeight: 0.5
-  boatSpawnPoints: []
-  stormSpawnPoints: []
-  icebergSpawnPoints: []
-  boatBoundaries: []
-  stormBoundaries: []
-  icebergBoundaries: []
-  timerText: {fileID: 0}
-  winnerTextObject: {fileID: 0}
 --- !u!1 &1432604936
 GameObject:
   m_ObjectHideFlags: 0
@@ -10847,7 +10765,6 @@ MonoBehaviour:
   iceberg: {fileID: 204699781}
   goat: {fileID: 224910876}
   gm: {fileID: 0}
-  ac: {fileID: 0}
 --- !u!61 &1458132657
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12573,7 +12490,7 @@ GameObject:
   - component: {fileID: 1806700149}
   - component: {fileID: 1806700148}
   - component: {fileID: 1806700147}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Platform (6)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -13474,7 +13391,7 @@ GameObject:
   - component: {fileID: 1996928847}
   - component: {fileID: 1996928846}
   - component: {fileID: 1996928845}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Platform (4)
   m_TagString: Ground
   m_Icon: {fileID: 0}
