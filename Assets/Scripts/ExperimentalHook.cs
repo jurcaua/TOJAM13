@@ -151,8 +151,10 @@ public class ExperimentalHook : MonoBehaviour {
 
 
 				if (!enemyHit) {
-					Vector2 dir = currentHook.position - player.position; 
-					if (hit = Physics2D.Raycast (player.position, dir, dir.magnitude, lineLayer)) {
+					Vector2 dir = currentHook.position - endOfHand.transform.position; 
+					//Vector2 dir = currentHook.position - player.position; 
+					if (hit = Physics2D.Raycast (endOfHand.transform.position, dir, dir.magnitude, lineLayer)) {
+					//if (hit = Physics2D.Raycast (player.position, dir, dir.magnitude, lineLayer)) {
 						//conflict with current hook
 
 						//Debug.Log ("folding");
@@ -180,7 +182,9 @@ public class ExperimentalHook : MonoBehaviour {
 
 						lr.positionCount = index + 2;
 						lr.SetPosition (index, currentHook.position);
-						lr.SetPosition (index + 1, player.position);
+						//lr.SetPosition (index + 1, player.position);
+						lr.SetPosition (index + 1, endOfHand.transform.position);
+
 
 
 
@@ -193,8 +197,10 @@ public class ExperimentalHook : MonoBehaviour {
 
 						//TODO FIX THE GO BACK
 						if (index > 0) {
-							dir = lr.GetPosition (index - 1) - player.position; 
-							hit = Physics2D.Raycast (player.position, dir, dir.magnitude, lineLayer);
+							dir = lr.GetPosition (index - 1) - endOfHand.transform.position; 
+							hit = Physics2D.Raycast (endOfHand.transform.position, dir, dir.magnitude, lineLayer);
+							//dir = lr.GetPosition (index - 1) - player.position; 
+							//hit = Physics2D.Raycast (player.position, dir, dir.magnitude, lineLayer);
 							if (!hit) {
 
 								//TODO Find A Better Logic For Knowing If Detach is needed or not
