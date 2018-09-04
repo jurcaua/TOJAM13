@@ -22,7 +22,7 @@ public class FishScript : MonoBehaviour {
 	//	Debug.Log (coll.tag);
 		if (colliding) {
 			if (coll.tag == "Player") {  
-				coll.GetComponent<ScoreSystem> ().GetPoint ();
+				coll.GetComponent<ScoreSystem> ().GetPoint (GameManager.instance.GetPlayerIdFromGameObject(coll.gameObject));
 				Destroy (transform.parent.gameObject);
 
 			}

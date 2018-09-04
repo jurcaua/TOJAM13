@@ -6,6 +6,9 @@ using TMPro;
 using Cinemachine;
 
 public class GameManager : MonoBehaviour {
+
+    public static GameManager instance = null;
+
     public List<GameObject> players;
 	public List<int> scores;
     public List<TextMeshProUGUI> texts;
@@ -47,6 +50,14 @@ public class GameManager : MonoBehaviour {
     private UIController uiController;
     
     void Awake() {
+
+        if (instance == null) {
+            instance = this;
+        }
+        else if (instance != this) {
+            Destroy(gameObject);
+        }
+
         highestPlayerLine = GetComponent<LineRenderer>();
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
         uiController = GameObject.Find("UIController").GetComponent<UIController>();
@@ -286,9 +297,8 @@ public class GameManager : MonoBehaviour {
 
         sliders[highestPlayerIndex].value++;
         if (sliders[highestPlayerIndex].value >= sliders[highestPlayerIndex].maxValue) {
-            scores[highestPlayerIndex]++;
+            AddScore(highestPlayerIndex, 1);
             sliders[highestPlayerIndex].value = 0;
-            texts[highestPlayerIndex].text = string.Format("P{0}: {1}", highestPlayerIndex + 1, scores[highestPlayerIndex]);
         }
 
         timerText.text = currentTime.ToString() + "s";
@@ -336,5 +346,28 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSeconds(5f);
 
         uiController.GoTo("main-menu");
+    }
+
+    public void AddScore(int playerId, int scoreInc) {
+        scores[playerId] += scoreInc;
+        UpdateScoreText(playerId);
+    }
+
+    public void SubtractScore(int playerId, int scoreInc) {
+        scores[playerId] -= scoreInc;
+        UpdateScoreText(playerId);
+    }
+
+    void UpdateScoreText(int playerId) {
+        texts[playerId].text = string.Format("P{0}: {1}", playerId + 1, scores[playerId]);
+    }
+
+    public int GetPlayerIdFromGameObject(GameObject toCheck) {
+        for (int i = 0; i < players.Count; i++) {
+            if (players[i] == toCheck) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
