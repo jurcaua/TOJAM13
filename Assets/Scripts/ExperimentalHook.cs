@@ -9,7 +9,9 @@ public class ExperimentalHook : MonoBehaviour {
 
 	//public Transform hook;
 	public Transform player;
+	public int PlayerID = -1;
 	public bool dummy = false;
+	public bool dead = false;
 
 	[Header("Line Renderer")]
 
@@ -68,12 +70,13 @@ public class ExperimentalHook : MonoBehaviour {
 
 	[Header("Animation")]
 	public Animator ac;
+	public AudioController _audio;
 
 
 	[Header("Enemy Stuff")]
 	bool enemyHit = false;
 	bool immobile = false;
-	GameObject enemyObject;
+	public GameObject enemyObject;
 
 	public List<Vector3> cornertest;
 	public BoxCollider2D test;
@@ -260,41 +263,44 @@ public class ExperimentalHook : MonoBehaviour {
 						lr.SetPosition (index + 1, endOfHand.transform.position - new Vector3 (0, 0, 1));
 //						Debug.Log (endOfHand.transform.position);
 
-						if (target != null) {
-							//player is attached as target
-							lr.SetPosition (0, target.transform.position);
-
-							if (lr.positionCount > 2) {
-								dir = lr.GetPosition (1) - target.transform.position; 
-								if (hit = Physics2D.Raycast (target.transform.position, dir, dir.magnitude)) {
-									//conflict with current hook
-
-
-									//TODO Add the new platform correctly in the same way as the position
-									//
-									lastPlatform = hit.transform.GetComponent<BoxCollider2D> ();
-									Vector3 newPosition = GetClosestCorner (lastPlatform, hit.point);
-									platformsToPoints.Add (lastPlatform);
-									//
-
-									lr.positionCount++;
-									index++;
-
-									Vector3[] positions = new Vector3[lr.positionCount];
-									lr.GetPositions (positions);
-									lr.SetPositions (AddAtIndex (positions, newPosition, 1));
-
-								} else {
-									//TODO add removing the fold
-									dir = lr.GetPosition (2) - target.transform.position; 
-									hit = Physics2D.Raycast (target.transform.position, dir, dir.magnitude);
-
-									//TODO add the checking logic to that
-									if (!hit) {
-										DetachSingleHookAtIndex (1);
-									}
-								}
+						if (enemyObject != null) {
+							if (target.GetComponent<ExperimentalHook> ().dead) {
+								UnHook ();
 							}
+//							//player is attached as target
+//							lr.SetPosition (0, target.transform.position);
+//
+//							if (lr.positionCount > 2) {
+//								dir = lr.GetPosition (1) - target.transform.position; 
+//								if (hit = Physics2D.Raycast (target.transform.position, dir, dir.magnitude)) {
+//									//conflict with current hook
+//
+//
+//									//TODO Add the new platform correctly in the same way as the position
+//									//
+//									lastPlatform = hit.transform.GetComponent<BoxCollider2D> ();
+//									Vector3 newPosition = GetClosestCorner (lastPlatform, hit.point);
+//									platformsToPoints.Add (lastPlatform);
+//									//
+//
+//									lr.positionCount++;
+//									index++;
+//
+//									Vector3[] positions = new Vector3[lr.positionCount];
+//									lr.GetPositions (positions);
+//									lr.SetPositions (AddAtIndex (positions, newPosition, 1));
+//
+//								} else {
+//									//TODO add removing the fold
+//									dir = lr.GetPosition (2) - target.transform.position; 
+//									hit = Physics2D.Raycast (target.transform.position, dir, dir.magnitude);
+//
+//									//TODO add the checking logic to that
+//									if (!hit) {
+//										DetachSingleHookAtIndex (1);
+//									}
+//								}
+//							}
 						}
 					}
 
@@ -325,6 +331,7 @@ public class ExperimentalHook : MonoBehaviour {
 					if (done && !immobile) {
 						if (Input.GetKeyDown (KeyCode.W)) {
 							if (nJump < 2) {
+								_audio.Play (_audio.jump, true);
 								ac.SetTrigger ("Jumping");
 								if (GetComponent<Rigidbody2D> ().velocity.y < 0) {
 									GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, 0);
@@ -444,7 +451,7 @@ public class ExperimentalHook : MonoBehaviour {
 
 		} else if (coll.tag == "Player") {
 			Debug.Log ("Player Collided");
-			if (enemyHit) {
+			if (enemyHit && coll.gameObject == enemyObject) {
 				enemyHit = false;
 			}
 		}
@@ -583,6 +590,8 @@ public class ExperimentalHook : MonoBehaviour {
 
 		if (done) {
 
+			_audio.Play (_audio.woosh, true);
+
 			ac.SetTrigger ("Swinging");
 
 			done = false;
@@ -650,6 +659,9 @@ public class ExperimentalHook : MonoBehaviour {
 			//	Debug.Log (contact);
 			}
 			if (contact) {
+
+				_audio.Play (_audio.hookHit, true);
+
 				Vector2 dir = segments [i] - transform.position;
 
 				currentHook.position = hit.point - dir.normalized * 0.1f;
@@ -668,16 +680,20 @@ public class ExperimentalHook : MonoBehaviour {
 				Hook ();
 
 				if (hit.transform.gameObject.tag == "Player") {
+
 					contact = false;
 					Debug.Log ("Player Hit");
 					Debug.Log (hit.transform.name);
 					//start Reeling
 					enemyObject = hit.transform.gameObject;
 					StartCoroutine (EnemyHit ());
+				} else {
+					done = true;
 				}
 			} else {
 				ac.SetTrigger ("Release");
 				handJoint.SetActive (false);
+				done = true;
 
 			}
 
@@ -686,7 +702,7 @@ public class ExperimentalHook : MonoBehaviour {
 
 			GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeRotation;
 			rb.velocity = previousVelocity;
-			done = true;
+			//done = true;
 
 			if (interrupted && contact) { 
 				Debug.Log ("interrupt");
@@ -907,13 +923,16 @@ public class ExperimentalHook : MonoBehaviour {
 			enemyObject.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeRotation;
 			enemyObject.GetComponent<BoxCollider2D> ().isTrigger = true;
 			Vector2 dir = arrow.transform.GetChild (0).position - transform.position;
-			enemyObject.GetComponent<Rigidbody2D> ().AddForce (dir * 500);
+			enemyObject.GetComponent<Rigidbody2D> ().AddForce (dir * 600);
 			enemyObject.GetComponent<ExperimentalHook> ().GetHit ();
 
 			yield return new WaitForSeconds (0.2f);
 			enemyObject.GetComponent<BoxCollider2D> ().isTrigger = false;
 			GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeRotation;
 		}
+
+		enemyObject = null;
+		done = true;
 
 
 	}
@@ -949,11 +968,29 @@ public class ExperimentalHook : MonoBehaviour {
 	}
 
 	IEnumerator GetHitCoroutine() {
+
+		_audio.Play (_audio.death, true);
+
 		invulnerable = true;
-		GetComponent<SpriteRenderer> ().color = Color.red;
+		ac.GetComponent<SpriteRenderer> ().color = Color.red;
 		yield return new WaitForSeconds (2f);
 		invulnerable = false;
-		GetComponent<SpriteRenderer> ().color = Color.white;
+		ac.GetComponent<SpriteRenderer> ().color = Color.white;
 
+	}
+
+	public IEnumerator Die() {
+		_audio.Play (_audio.death, true);
+
+		GetComponent<ScoreSystem> ().LoosePoints (10);
+
+		dead = true;
+
+		//respawn
+		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+		//respawn from game manager
+
+		yield return new WaitForSeconds (2);
+		dead = false;
 	}
 }
